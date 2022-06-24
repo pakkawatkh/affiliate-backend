@@ -24,7 +24,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final String[] PUBLIC = {
             "/user/user-login",
             "/user/user-register",
-            "/user/getAll-user"
+            "/user/getAll-user",
+            "/customer/customer-register",
+            "/customer/customer-login"
 
     };
 
