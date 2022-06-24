@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 @EnableWebSecurity
@@ -41,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors(config -> {
                     CorsConfiguration cors = new CorsConfiguration();
                     cors.setAllowCredentials(true);
-                    cors.setAllowedOriginPatterns(Collections.singletonList("http://*"));
+                    cors.setAllowedOriginPatterns(Arrays.asList("https://*","http://*"));
                     cors.addAllowedHeader("*");
                     cors.addAllowedMethod("GET");
                     cors.addAllowedMethod("POST");
