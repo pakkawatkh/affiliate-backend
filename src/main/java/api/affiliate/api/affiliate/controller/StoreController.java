@@ -20,7 +20,7 @@ public class StoreController {
     }
 
     //    GET
-    @GetMapping("getAll-store")
+    @GetMapping("/getAll-store")
     public List<StoreTable> getAllStore() {
         List<StoreTable> store = storeBisiness.findAllStore();
         return store;

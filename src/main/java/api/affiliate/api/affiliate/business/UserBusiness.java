@@ -40,7 +40,7 @@ public class UserBusiness {
 
         String tokenize = tokenService.tokenizeUser(user);
 
-        return new Response().ok("USER","token",tokenize);
+        return new Response().ok(user.getRole().toString(),"token",tokenize);
     }
 
     public UserTable checkLogin(UserLoginRequest request) throws BaseException {

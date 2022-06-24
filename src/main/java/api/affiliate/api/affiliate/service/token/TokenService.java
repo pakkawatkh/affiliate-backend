@@ -1,11 +1,12 @@
 package api.affiliate.api.affiliate.service.token;
 
+import api.affiliate.api.affiliate.entity.CustomerTable;
 import api.affiliate.api.affiliate.entity.StoreTable;
 import api.affiliate.api.affiliate.entity.UserTable;
 import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.CustomerException;
 import api.affiliate.api.affiliate.exception.UserException;
-import api.affiliate.api.affiliate.repository.StoreRepository;
+import api.affiliate.api.affiliate.repository.CustomerRepository;
 import api.affiliate.api.affiliate.repository.UserRepository;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -25,7 +26,7 @@ import java.util.Optional;
 public class TokenService {
 
     private final UserRepository userRepository;
-    private final StoreRepository storeRepository;
+    private final CustomerRepository customerRepository;
 
     @Value("${app.token.secret}")
     private String secret;
@@ -33,9 +34,9 @@ public class TokenService {
     @Value("${app.token.issuer}")
     private String issuer;
 
-    public TokenService(UserRepository userRepository, StoreRepository storeRepository) {
+    public TokenService(UserRepository userRepository, CustomerRepository customerRepository) {
         this.userRepository = userRepository;
-        this.storeRepository = storeRepository;
+        this.customerRepository = customerRepository;
     }
 
     public String tokenizeUser(UserTable user) {
@@ -47,7 +48,20 @@ public class TokenService {
         return JWT.create()
                 .withIssuer(issuer)
                 .withClaim("principal", user.getUserId())
-                .withClaim("role", "USER")
+                .withClaim("role", user.getRole().toString())
+                .withExpiresAt(expiresAt).sign(algorithm());
+    }
+
+    public String tokenizeCustomer(CustomerTable customer) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MINUTE, 60);
+        Date expiresAt = calendar.getTime();
+
+        return JWT.create()
+                .withIssuer(issuer)
+                .withClaim("principal", customer.getCustomerId())
+                .withClaim("role", customer.getRole().toString())
                 .withExpiresAt(expiresAt).sign(algorithm());
     }
 
@@ -80,17 +94,17 @@ public class TokenService {
     }
 
 
-    //generate token for user
-//    public StoreTable getStoreByToken() throws BaseException {
-//        String storeId = this.userId();  // id from token
-//
-//        Optional<StoreTable> store = storeRepository.findById(storeId);
-//        if (store.isEmpty()) {
-//            throw CustomerException.customerNameNull();
-//        }
-//
-//        return store.get();
-//    }
+//    generate token for customer
+    public CustomerTable getCustomerByToken() throws BaseException {
+        String customerId = this.userId();  // id from token
+
+        Optional<CustomerTable> customer = customerRepository.findById(customerId);
+        if (customer.isEmpty()) {
+            throw CustomerException.customerNameNull();
+        }
+
+        return customer.get();
+    }
 
 
     public String userId() {

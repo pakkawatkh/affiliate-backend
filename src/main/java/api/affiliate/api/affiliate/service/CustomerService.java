@@ -1,20 +1,26 @@
 package api.affiliate.api.affiliate.service;
 
+import api.affiliate.api.affiliate.entity.CustomerTable;
 import api.affiliate.api.affiliate.entity.UserTable;
+import api.affiliate.api.affiliate.exception.BaseException;
+import api.affiliate.api.affiliate.exception.CustomerException;
 import api.affiliate.api.affiliate.exception.UserException;
-import api.affiliate.api.affiliate.repository.UserRepository;
+import api.affiliate.api.affiliate.repository.CustomerRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class CustomerService {
 
-    public final UserRepository userRepository;
+    public final CustomerRepository customerRepository;
+
     public final PasswordEncoder passwordEncoder;
 
 
-    public CustomerService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
+    public CustomerService(CustomerRepository customerRepository, PasswordEncoder passwordEncoder) {
+        this.customerRepository = customerRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -24,28 +30,42 @@ public class CustomerService {
     }
 
 
-    public void register(String userName, String passWord, String fullName, String email, String tel, String address, String sub
-            , String district, String province, String postalCode) throws UserException {
-        UserTable user = new UserTable();
-        user.setUserName(userName);
-        user.setPassWord(passwordEncoder.encode(passWord));
-        user.setFullName(fullName);
-        user.setEmail(email);
-        user.setTel(tel);
-        user.setAddress(address);
-        user.setSub(sub);
-        user.setDistrict(district);
-        user.setProvince(province);
-        user.setPostalCode(postalCode);
-        if (userRepository.existsByUserName(user.getUserName())) {
-            throw UserException.createUserNameDuplicated();
+    public void register(String customerName, String passWord, String fullName, String email, String tel, String address, String sub
+            , String district, String province, String postalCode) throws BaseException {
+        CustomerTable customer = new CustomerTable();
+        customer.setCustomerName(customerName);
+        customer.setPassWord(passwordEncoder.encode(passWord));
+        customer.setFullName(fullName);
+        customer.setEmail(email);
+        customer.setTel(tel);
+        customer.setAddress(address);
+        customer.setSub(sub);
+        customer.setDistrict(district);
+        customer.setProvince(province);
+        customer.setPostalCode(postalCode);
+        if (customerRepository.existsByCustomerName(customer.getCustomerName())) {
+            throw CustomerException.createCustomerDuplicated();
         }
         try {
-            userRepository.save(user);
+            customerRepository.save(customer);
 
         }catch (Exception e){
-            throw UserException.userRequestInvalid();
+            throw CustomerException.customerRequestInvalid();
         }
+    }
+
+    public CustomerTable findByCustomerName(String customerName) throws BaseException {
+        Optional<CustomerTable> customer = customerRepository.findByCustomerName(customerName);
+        if (customer.isEmpty()) {
+            throw CustomerException.customerNameNull();
+        }
+        return customer.get();
+    }
+
+
+    public void updateRole(CustomerTable customerTable, UserTable.Role role){
+        customerTable.setRole(role);
+        customerRepository.save(customerTable);
     }
 
 }
