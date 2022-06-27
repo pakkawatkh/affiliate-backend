@@ -19,17 +19,29 @@ public class CustomerController {
         this.customerBusiness = customerBusiness;
     }
 
-//    POST
+
+
+    //    POST
     @PostMapping("/customer-register")
     public ResponseEntity<Object> register(@RequestBody CustomerRegisterRequest request) throws BaseException {
         Object register = customerBusiness.register(request);
         return ResponseEntity.ok(register);
     }
 
+
     @PostMapping("/customer-login")
     public ResponseEntity<Object> login(@RequestBody CustomerLoginRequest request) throws BaseException {
         Object login = customerBusiness.login(request);
         return ResponseEntity.ok(login);
+    }
+
+
+
+    //    GET
+    @GetMapping("/getProfile")
+    public ResponseEntity<Object> profile() throws BaseException{
+        Object profile = customerBusiness.getProfile();
+        return ResponseEntity.ok(profile);
     }
 
 

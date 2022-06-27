@@ -1,7 +1,6 @@
 package api.affiliate.api.affiliate.service.token;
 
 import api.affiliate.api.affiliate.entity.CustomerTable;
-import api.affiliate.api.affiliate.entity.StoreTable;
 import api.affiliate.api.affiliate.entity.UserTable;
 import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.CustomerException;

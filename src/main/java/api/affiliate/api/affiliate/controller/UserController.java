@@ -21,17 +21,21 @@ public class UserController {
     }
 
 
+    //    POST
     @PostMapping("/user-register")
     public ResponseEntity<Object> register(@RequestBody UserRegisterRequest request) throws BaseException {
         Object register = userBusiness.register(request);
         return ResponseEntity.ok(register);
     }
 
+
     @PostMapping("/user-login")
     public ResponseEntity<Object> login(@RequestBody UserLoginRequest request) throws BaseException {
         Object login = userBusiness.login(request);
         return ResponseEntity.ok(login);
     }
+
+
 
 
     //    GET
@@ -41,11 +45,13 @@ public class UserController {
         return ResponseEntity.ok(login);
     }
 
+
     @GetMapping("/getAll-user")
     public List<UserTable> getAllUser() {
         List<UserTable> user = userBusiness.findAllUser();
         return user;
     }
+
 
     @GetMapping("/getProfile")
     public ResponseEntity<Object> profile() throws BaseException {

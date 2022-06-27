@@ -18,7 +18,6 @@ public class CustomerBusiness {
 
 
     private final TokenService tokenService;
-
     public final CustomerService customerService;
 
     public CustomerBusiness(TokenService tokenService, CustomerService customerService) {
@@ -35,15 +34,23 @@ public class CustomerBusiness {
     }
 
 
+
+
     public Object login(CustomerLoginRequest request) throws BaseException {
         request.valid();
         CustomerTable customer = customerService.findByCustomerName(request.getCustomerName());
-
         if (!customerService.matchPassword(request.getPassWord(), customer.getPassWord())) {
             throw CustomerException.passWordInvalid();
         }
         String tokenize = tokenService.tokenizeCustomer(customer);
-
         return new Response().ok(customer.getRole().toString(),"token",tokenize);
+    }
+
+
+
+
+    public Object getProfile() throws  BaseException {
+        CustomerTable customer = tokenService.getCustomerByToken();
+        return new Response().ok("","profile", customer);
     }
 }

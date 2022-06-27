@@ -4,7 +4,6 @@ import api.affiliate.api.affiliate.entity.CustomerTable;
 import api.affiliate.api.affiliate.entity.UserTable;
 import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.CustomerException;
-import api.affiliate.api.affiliate.exception.UserException;
 import api.affiliate.api.affiliate.repository.CustomerRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,19 +14,22 @@ import java.util.Optional;
 public class CustomerService {
 
     public final CustomerRepository customerRepository;
-
     public final PasswordEncoder passwordEncoder;
-
 
     public CustomerService(CustomerRepository customerRepository, PasswordEncoder passwordEncoder) {
         this.customerRepository = customerRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
+
+
+
     //check password : return boolean
     public boolean matchPassword(String rawPassword, String encodedPassword) {
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
+
+
 
 
     public void register(String customerName, String passWord, String fullName, String email, String tel, String address, String sub
@@ -54,6 +56,9 @@ public class CustomerService {
         }
     }
 
+
+
+
     public CustomerTable findByCustomerName(String customerName) throws BaseException {
         Optional<CustomerTable> customer = customerRepository.findByCustomerName(customerName);
         if (customer.isEmpty()) {
@@ -61,6 +66,8 @@ public class CustomerService {
         }
         return customer.get();
     }
+
+
 
 
     public void updateRole(CustomerTable customerTable, UserTable.Role role){

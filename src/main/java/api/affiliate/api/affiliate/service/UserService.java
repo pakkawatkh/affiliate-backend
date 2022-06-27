@@ -17,17 +17,20 @@ public class UserService {
     public final UserRepository userRepository;
     public final PasswordEncoder passwordEncoder;
 
-
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
 
+
+
     //check password : return boolean
     public boolean matchPassword(String rawPassword, String encodedPassword) {
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
+
+
 
 
     public void register(String userName, String passWord, String fullName, String email, String tel, String address, String sub
@@ -55,6 +58,9 @@ public class UserService {
     }
 
 
+
+
+
     public UserTable findByUserName(String userName) throws BaseException {
         Optional<UserTable> user = userRepository.findByUserName(userName);
         if (user.isEmpty()) {
@@ -64,10 +70,17 @@ public class UserService {
     }
 
 
+
+
+
     public List<UserTable> findAllUser() {
         List<UserTable> user = userRepository.findAll();
         return user;
     }
+
+
+
+
 
     public UserTable findById(String id) throws BaseException {
         Optional<UserTable> opt = userRepository.findById(id);
@@ -77,6 +90,9 @@ public class UserService {
 
         return opt.get();
     }
+
+
+
 
 
     public void updateRole(UserTable userTable, UserTable.Role role){

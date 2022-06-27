@@ -18,11 +18,12 @@ public class UserBusiness {
     private final TokenService tokenService;
     private final UserService userService;
 
-
     public UserBusiness(TokenService tokenService, UserService userService) {
         this.tokenService = tokenService;
         this.userService = userService;
     }
+
+
 
     public Object register(UserRegisterRequest request) throws BaseException {
         request.valid();
@@ -30,18 +31,19 @@ public class UserBusiness {
         return new Response().success("register success");
     }
 
+
+
     public Object login(UserLoginRequest request) throws BaseException {
         request.valid();
         UserTable user = userService.findByUserName(request.getUserName());
-
         if (!userService.matchPassword(request.getPassWord(), user.getPassWord())) {
             throw UserException.passWordInvalid();
         }
-
         String tokenize = tokenService.tokenizeUser(user);
-
         return new Response().ok(user.getRole().toString(),"token",tokenize);
     }
+
+
 
     public UserTable checkLogin(UserLoginRequest request) throws BaseException {
         request.valid();
@@ -52,16 +54,31 @@ public class UserBusiness {
         return user;
     }
 
+
+
+
     public List<UserTable> findAllUser() {
         List<UserTable> store = userService.findAllUser();
         return store;
     }
+
+
+
 
     public Object getProfile() throws BaseException {
         UserTable user = tokenService.getUserByToken();
 
         return new Response().ok("","profile",user);
     }
+
+
+
+
+
+
+
+
+
 
 
 //    public String uploadProfilePicture(MultipartFile file) throws FileException {
