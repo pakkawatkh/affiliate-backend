@@ -33,10 +33,22 @@ public class StoreBisiness {
 
     public Object register(StoreRegisterRequest request) throws BaseException {
         UserTable user = tokenService.getUserByToken();
+
+        UserTable.Role role = user.getRole();
+        if (role.equals(UserTable.Role.ADMIN)||role.equals(UserTable.Role.ST_CTM)) {
+            //TODO: Throw error
+        }
+
         request.valid();
         System.out.println(request);
         storeService.register(user.getUserId(), request.getStore(), request.getBankNameAccount(), request.getBankName(), request.getBankNumber());
-        userService.updateRole(user, UserTable.Role.STORE);
+
+        if (role.equals(UserTable.Role.USER)) {
+            role = UserTable.Role.STORE;
+        } else {
+            role = UserTable.Role.ST_CTM;
+        }
+        userService.updateRole(user, role);
         return new Response().success("register success");
     }
 

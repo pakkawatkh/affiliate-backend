@@ -1,12 +1,14 @@
 package api.affiliate.api.affiliate.service;
 
 import api.affiliate.api.affiliate.entity.StoreTable;
+import api.affiliate.api.affiliate.entity.UserTable;
 import api.affiliate.api.affiliate.exception.StoreException;
 import api.affiliate.api.affiliate.repository.StoreRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StoreService {
@@ -40,5 +42,10 @@ public class StoreService {
         }catch (Exception e) {
             throw StoreException.storeRequestInvalid();
         }
+    }
+
+    public StoreTable findByUser(UserTable user){
+        Optional<StoreTable> store = storeRepository.findByUserId(user.getUserId());
+        return store.get();
     }
 }

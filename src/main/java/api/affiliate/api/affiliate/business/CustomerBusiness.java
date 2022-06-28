@@ -3,13 +3,10 @@ package api.affiliate.api.affiliate.business;
 import api.affiliate.api.affiliate.entity.CustomerTable;
 import api.affiliate.api.affiliate.entity.UserTable;
 import api.affiliate.api.affiliate.exception.BaseException;
-import api.affiliate.api.affiliate.exception.CustomerException;
-import api.affiliate.api.affiliate.exception.UserException;
 import api.affiliate.api.affiliate.model.Response;
-import api.affiliate.api.affiliate.model.customer.CustomerLoginRequest;
 import api.affiliate.api.affiliate.model.customer.CustomerRegisterRequest;
-import api.affiliate.api.affiliate.model.user.UserLoginRequest;
 import api.affiliate.api.affiliate.service.CustomerService;
+import api.affiliate.api.affiliate.service.UserService;
 import api.affiliate.api.affiliate.service.token.TokenService;
 import org.springframework.stereotype.Service;
 
@@ -17,40 +14,40 @@ import org.springframework.stereotype.Service;
 public class CustomerBusiness {
 
 
-    private final TokenService tokenService;
     public final CustomerService customerService;
+    public final UserService userService;
+    private final TokenService tokenService;
 
-    public CustomerBusiness(TokenService tokenService, CustomerService customerService) {
+    public CustomerBusiness(TokenService tokenService, CustomerService customerService, UserService userService) {
         this.tokenService = tokenService;
         this.customerService = customerService;
+        this.userService = userService;
     }
 
 
     public Object register(CustomerRegisterRequest request) throws BaseException {
+        UserTable user = tokenService.getUserByToken();
+
+        UserTable.Role role = user.getRole();
+        if (role.equals(UserTable.Role.ADMIN)||role.equals(UserTable.Role.ST_CTM)) {
+            //TODO: Throw error
+        }
         request.valid();
-        customerService.register(request.getCustomerName(), request.getPassWord(), request.getFullName(), request.getEmail(),
-                request.getTel(), request.getAddress(), request.getSub(), request.getDistrict(), request.getProvince(), request.getPostalCode());
+
+        customerService.register(user.getUserId(), request.getBankNameAccount(), request.getBankName(), request.getBankNumber());
+
+        if (role.equals(UserTable.Role.USER)) {
+            role = UserTable.Role.CUSTOMER;
+        } else {
+            role = UserTable.Role.ST_CTM;
+        }
+        userService.updateRole(user, role);
         return new Response().success("register success");
     }
 
 
-
-
-    public Object login(CustomerLoginRequest request) throws BaseException {
-        request.valid();
-        CustomerTable customer = customerService.findByCustomerName(request.getCustomerName());
-        if (!customerService.matchPassword(request.getPassWord(), customer.getPassWord())) {
-            throw CustomerException.passWordInvalid();
-        }
-        String tokenize = tokenService.tokenizeCustomer(customer);
-        return new Response().ok(customer.getRole().toString(),"token",tokenize);
-    }
-
-
-
-
-    public Object getProfile() throws  BaseException {
-        CustomerTable customer = tokenService.getCustomerByToken();
-        return new Response().ok("","profile", customer);
-    }
+//    public Object getProfile() throws BaseException {
+//        CustomerTable customer = tokenService.getCustomerByToken();
+//        return new Response().ok("", "profile", customer);
+//    }
 }

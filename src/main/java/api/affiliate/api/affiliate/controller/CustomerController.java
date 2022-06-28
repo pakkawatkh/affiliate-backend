@@ -29,20 +29,20 @@ public class CustomerController {
     }
 
 
-    @PostMapping("/customer-login")
-    public ResponseEntity<Object> login(@RequestBody CustomerLoginRequest request) throws BaseException {
-        Object login = customerBusiness.login(request);
-        return ResponseEntity.ok(login);
-    }
+//    @PostMapping("/customer-login")
+//    public ResponseEntity<Object> login(@RequestBody CustomerLoginRequest request) throws BaseException {
+//        Object login = customerBusiness.login(request);
+//        return ResponseEntity.ok(login);
+//    }
 
 
 
     //    GET
-    @GetMapping("/getProfile")
-    public ResponseEntity<Object> profile() throws BaseException{
-        Object profile = customerBusiness.getProfile();
-        return ResponseEntity.ok(profile);
-    }
+//    @GetMapping("/getProfile")
+//    public ResponseEntity<Object> profile() throws BaseException{
+//        Object profile = customerBusiness.getProfile();
+//        return ResponseEntity.ok(profile);
+//    }
 
 
 

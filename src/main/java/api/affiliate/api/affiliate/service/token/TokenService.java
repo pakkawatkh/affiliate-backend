@@ -51,19 +51,6 @@ public class TokenService {
                 .withExpiresAt(expiresAt).sign(algorithm());
     }
 
-    public String tokenizeCustomer(CustomerTable customer) {
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE, 60);
-        Date expiresAt = calendar.getTime();
-
-        return JWT.create()
-                .withIssuer(issuer)
-                .withClaim("principal", customer.getCustomerId())
-                .withClaim("role", customer.getRole().toString())
-                .withExpiresAt(expiresAt).sign(algorithm());
-    }
-
 
     public DecodedJWT verify(String token) {
         try {
@@ -92,18 +79,6 @@ public class TokenService {
         return user.get();
     }
 
-
-//    generate token for customer
-    public CustomerTable getCustomerByToken() throws BaseException {
-        String customerId = this.userId();  // id from token
-
-        Optional<CustomerTable> customer = customerRepository.findById(customerId);
-        if (customer.isEmpty()) {
-            throw CustomerException.customerNameNull();
-        }
-
-        return customer.get();
-    }
 
 
     public String userId() {

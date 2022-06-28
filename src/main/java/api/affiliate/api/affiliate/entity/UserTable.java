@@ -55,7 +55,7 @@ public class UserTable {
     private String postalCode;
 
 
-    public enum Role {USER, CUSTOMER, STORE, ADMIN}
+    public enum Role {USER, CUSTOMER, STORE, ST_CTM, ADMIN}
 
 
 

@@ -7,34 +7,21 @@ import lombok.Data;
 @Data
 public class CustomerRegisterRequest {
 
-    private String customerName;
 
-    private String passWord;
+    private String bankNameAccount;
 
-    private  String fullName;
+    private String bankName;
 
-    private String email;
-
-    private String tel;
-
-    private String address;
-
-    private String sub;
-
-    private String district;
-
-    private String province;
-
-    private String postalCode;
+    private  String bankNumber;
 
     public void valid() throws BaseException {
 
-        if (customerName == null || passWord == null) {
-            throw UserException.userRequestInvalid();
-        }
-
-        if (customerName.isBlank() || passWord.isBlank()) {
-            throw UserException.userRequestInvalid();
-        }
+//        if (customerName == null || passWord == null) {
+//            throw UserException.userRequestInvalid();
+//        }
+//
+//        if (customerName.isBlank() || passWord.isBlank()) {
+//            throw UserException.userRequestInvalid();
+//        }
     }
 }
