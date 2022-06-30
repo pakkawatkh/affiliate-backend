@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Data
 public class UserProfileResponse {
+
     private UserTable.Role role = UserTable.Role.USER;
 
     private String userName;

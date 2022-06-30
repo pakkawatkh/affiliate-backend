@@ -83,13 +83,13 @@ public class UserBusiness {
 
         UserTable.Role role = user.getRole();
         if (role.equals(UserTable.Role.STORE)){
-            StoreTable store = storeService.findByUser(user);
+            StoreTable store = storeService.findByUserId(user);
             response.setStore(store);
         }else if(role.equals(UserTable.Role.CUSTOMER)){
             CustomerTable customer = customerService.findByUser(user);
             response.setCustomer(customer);
         }else if(role.equals(UserTable.Role.ST_CTM)){
-            StoreTable store = storeService.findByUser(user);
+            StoreTable store = storeService.findByUserId(user);
             response.setStore(store);
 
             CustomerTable customer = customerService.findByUser(user);

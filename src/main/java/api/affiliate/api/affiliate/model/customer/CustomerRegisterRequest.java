@@ -7,7 +7,6 @@ import lombok.Data;
 @Data
 public class CustomerRegisterRequest {
 
-
     private String bankNameAccount;
 
     private String bankName;

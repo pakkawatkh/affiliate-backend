@@ -1,5 +1,7 @@
 package api.affiliate.api.affiliate.model.product;
 
+import api.affiliate.api.affiliate.exception.BaseException;
+import api.affiliate.api.affiliate.exception.ProductException;
 import lombok.Data;
 
 
@@ -12,12 +14,12 @@ public class ProductCreateRequest {
 
     private String productDetail;
 
-//    public void valid() throws BaseException {
-//        if (customerName == null || passWord == null) {
-//            throw CustomerException.customerRequestInvalid();
-//        }
-//        if (customerName.isBlank() || passWord.isBlank()) {
-//            throw CustomerException.customerRequestInvalid();
-//        }
-//    }
+    public void valid() throws BaseException {
+        if (productName == null || productPrice == null) {
+            throw ProductException.productRequestInvalid();
+        }
+        if (productName.isBlank() || productPrice.isBlank()) {
+            throw ProductException.productRequestInvalid();
+        }
+    }
 }

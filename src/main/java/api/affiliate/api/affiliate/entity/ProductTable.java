@@ -3,6 +3,7 @@ package api.affiliate.api.affiliate.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Data
@@ -23,8 +24,17 @@ public class ProductTable {
     @Column(name = "product_detail", nullable = false, length = 120)
     private String productDetail;
 
+    @Column(name = "status", nullable = false)
+    private Boolean status = true;
+
+    @Column(name = "created", nullable = false)
+    private Date created = new Date();
+
+    @Column(name = "updated", nullable = false)
+    private Date updated = new Date();
+
     @Column(name = "fk_store_id", nullable = false)
     private Integer storeId;
 
-
+//nullable = false ห้ามว่าง
 }

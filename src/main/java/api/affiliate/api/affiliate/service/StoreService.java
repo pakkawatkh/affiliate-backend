@@ -2,6 +2,7 @@ package api.affiliate.api.affiliate.service;
 
 import api.affiliate.api.affiliate.entity.StoreTable;
 import api.affiliate.api.affiliate.entity.UserTable;
+import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.StoreException;
 import api.affiliate.api.affiliate.repository.StoreRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,8 +45,17 @@ public class StoreService {
         }
     }
 
-    public StoreTable findByUser(UserTable user){
+    public StoreTable findByUserId(UserTable user) throws BaseException {
         Optional<StoreTable> store = storeRepository.findByUserId(user.getUserId());
+        return store.get();
+    }
+
+
+    public StoreTable findByUserId2(UserTable user) throws BaseException {
+        Optional<StoreTable> store = storeRepository.findByUserId(user.getUserId());
+        if (store.isEmpty()) {
+            throw StoreException.storeNameNull();
+        }
         return store.get();
     }
 }

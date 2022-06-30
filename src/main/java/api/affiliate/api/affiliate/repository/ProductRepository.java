@@ -9,12 +9,18 @@ import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<ProductTable, Integer> {
 
+
     @Override
     List<ProductTable> findAll();
 
+    List<ProductTable> findAllByStatusIsTrue();
+
     Optional<ProductTable> findByProductName(String productName);
 
-    Optional<ProductTable> findById(Integer id);
+    Optional<ProductTable> findByProductIdAndStoreId(Integer productId, Integer storeId);
+
+    boolean existsByProductName(String productName);
+
 
 
 }

@@ -27,7 +27,6 @@ public class CustomerBusiness {
 
     public Object register(CustomerRegisterRequest request) throws BaseException {
         UserTable user = tokenService.getUserByToken();
-
         UserTable.Role role = user.getRole();
         if (role.equals(UserTable.Role.ADMIN)||role.equals(UserTable.Role.ST_CTM)) {
             //TODO: Throw error
