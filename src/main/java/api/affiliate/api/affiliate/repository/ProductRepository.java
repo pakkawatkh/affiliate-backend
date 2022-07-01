@@ -13,9 +13,11 @@ public interface ProductRepository extends JpaRepository<ProductTable, Integer> 
     @Override
     List<ProductTable> findAll();
 
+    List<ProductTable> findAllProductByStoreId(Integer storeId);
+
     List<ProductTable> findAllByStatusIsTrue();
 
-    Optional<ProductTable> findByProductName(String productName);
+    Optional<ProductTable> findByProductId(Integer productId);
 
     Optional<ProductTable> findByProductIdAndStoreId(Integer productId, Integer storeId);
 

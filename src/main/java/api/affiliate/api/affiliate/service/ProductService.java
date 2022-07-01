@@ -4,7 +4,6 @@ import api.affiliate.api.affiliate.entity.ProductTable;
 import api.affiliate.api.affiliate.entity.StoreTable;
 import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.ProductException;
-import api.affiliate.api.affiliate.exception.StoreException;
 import api.affiliate.api.affiliate.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +27,30 @@ public class ProductService {
         return product;
     }
 
+
+    public List<ProductTable> findAllProductByStoreId(Integer storeId) {
+        List<ProductTable> product = productRepository.findAllProductByStoreId(storeId);
+        return product;
+    }
+
+
     public List<ProductTable> findAllByStatusIsTrue() {
         List<ProductTable> product = productRepository.findAll();
+        return product;
+    }
+
+
+    public ProductTable getByProductIdAndStore(StoreTable store, Integer id) throws BaseException {
+        Optional <ProductTable> product = productRepository.findByProductIdAndStoreId(id, store.getStoreId());
+        if (product.isEmpty()){
+            throw ProductException.productNull();
+        }
+        return product.get();
+    }
+
+
+    public Optional<ProductTable> findByProductId(Integer productId) {
+        Optional <ProductTable> product = productRepository.findByProductId(productId);
         return product;
     }
 
@@ -66,13 +87,7 @@ public class ProductService {
 
 
 
-    public ProductTable getByProductIdAndStore(StoreTable store, Integer id) throws BaseException {
-        Optional <ProductTable> product = productRepository.findByProductIdAndStoreId(id, store.getStoreId());
-        if (product.isEmpty()){
-            throw ProductException.productNull();
-        }
-        return product.get();
-    }
+
 
 
 

@@ -25,6 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/user/user-login",
             "/user/user-register",
             "/user/getAll-user",
+            "/product/getAll-product"
 
     };
 

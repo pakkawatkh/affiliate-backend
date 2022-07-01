@@ -14,6 +14,7 @@ import api.affiliate.api.affiliate.service.token.TokenService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductBusiness {
@@ -36,9 +37,26 @@ public class ProductBusiness {
         return product;
     }
 
+
+    public List<ProductTable> findAllProductByStoreId(Integer id) throws BaseException {
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsStore(user);
+        List<ProductTable> product = productService.findAllProductByStoreId(id);
+        return product;
+    }
+
+
     public List<ProductTable> findAllByStatusIsTrue() {
         List<ProductTable> product = productService.findAllByStatusIsTrue();
         return product;
+    }
+
+    public Object findByProductById(Integer productId) throws BaseException{
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsStore(user);
+        Optional<ProductTable> product = productService.findByProductId(productId);
+        System.out.println(product);
+       return product;
     }
 
 

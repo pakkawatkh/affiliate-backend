@@ -30,10 +30,23 @@ public class ProductController {
         return product;
     }
 
+    @GetMapping("/getAll-productByStoreId/{id}")
+    public ResponseEntity<Object> getProductByStoreId(@PathVariable Integer id) throws BaseException {
+        List<ProductTable> product = productBusiness.findAllProductByStoreId(id);
+        return ResponseEntity.ok(product);
+    }
+
     @GetMapping("/getAllByStatusIsTrue-product")
     public List<ProductTable> findAllByStatusIsTrue() {
         List<ProductTable> product = productBusiness.findAllByStatusIsTrue();
         return product;
+    }
+
+
+    @GetMapping("/getProductById/{id}")
+    public ResponseEntity<Object> getProductById(@PathVariable Integer id) throws BaseException{
+        Object product = productBusiness.findByProductById(id);
+        return ResponseEntity.ok(product);
     }
 
 
