@@ -57,12 +57,8 @@ public class UserBusiness {
 
 
 
-    public UserTable checkLogin(UserLoginRequest request) throws BaseException {
-        request.valid();
-        UserTable user = userService.findByUserName(request.getUserName());
-        if (!user.getPassWord().equals(request.getPassWord())) {
-            throw UserException.passWordInvalid();
-        }
+    public UserTable checkLogin() throws BaseException {
+        UserTable user = tokenService.getUserByToken();
         return user;
     }
 
@@ -73,7 +69,6 @@ public class UserBusiness {
         List<UserTable> store = userService.findAllUser();
         return store;
     }
-
 
 
 
@@ -91,14 +86,13 @@ public class UserBusiness {
         }else if(role.equals(UserTable.Role.ST_CTM)){
             StoreTable store = storeService.findByUserId(user);
             response.setStore(store);
-
             CustomerTable customer = customerService.findByUser(user);
             response.setCustomer(customer);
         }
-
-
         return new Response().ok("","profile",response);
     }
+
+
 
 
 

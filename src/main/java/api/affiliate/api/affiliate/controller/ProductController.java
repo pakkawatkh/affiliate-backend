@@ -5,12 +5,10 @@ import api.affiliate.api.affiliate.business.ProductBusiness;
 import api.affiliate.api.affiliate.entity.ProductTable;
 import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.model.product.ProductCreateRequest;
-import api.affiliate.api.affiliate.repository.ProductRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/product")
@@ -23,11 +21,10 @@ public class ProductController {
     }
 
 
-    //    GET
-    @GetMapping("/getAll-product")
-    public List<ProductTable> getAllProduct() {
-        List<ProductTable> product = productBusiness.finAllProduct();
-        return product;
+    @GetMapping("/getAll-productByStore")
+    public ResponseEntity<Object> getProductByStore() throws BaseException {
+        List<ProductTable> product = productBusiness.findAllProductByStore();
+        return ResponseEntity.ok(product);
     }
 
     @GetMapping("/getAll-productByStoreId/{id}")
@@ -37,15 +34,8 @@ public class ProductController {
     }
 
     @GetMapping("/getAllByStatusIsTrue-product")
-    public List<ProductTable> findAllByStatusIsTrue() {
+    public ResponseEntity<List<ProductTable>> findAllByStatusIsTrue() {
         List<ProductTable> product = productBusiness.findAllByStatusIsTrue();
-        return product;
-    }
-
-
-    @GetMapping("/getProductById/{id}")
-    public ResponseEntity<Object> getProductById(@PathVariable Integer id) throws BaseException{
-        Object product = productBusiness.findByProductById(id);
         return ResponseEntity.ok(product);
     }
 

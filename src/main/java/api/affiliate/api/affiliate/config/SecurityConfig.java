@@ -22,10 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     //api no token
     private final String[] PUBLIC = {
-            "/user/user-login",
-            "/user/user-register",
-            "/user/getAll-user",
-            "/product/getAll-product"
+            "/auth/**"
 
     };
 

@@ -21,25 +21,6 @@ public class ProductException extends BaseException {
         return new ProductException("ไม่อนุญาต");
     }
 
+    public static ProductException productNull() { return new ProductException("ไม่พบข้อมูล product"); }
 
-
-
-    // update
-    public static ProductException updateProductFail() {
-        return new ProductException("update product fail");
-    }
-
-
-    // login
-    public static ProductException productNull() {
-        return new ProductException("ไม่พบ product Name");
-    }
-
-    public static ProductException passWordInvalid() {
-        return new ProductException("passWord ไม่ถูกต้อง");
-    }
-
-    public static ProductException loginFail() {
-        return new ProductException("login ไม่สำเร็จ");
-    }
 }

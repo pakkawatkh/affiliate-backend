@@ -13,10 +13,10 @@ public class UserLoginRequest {
 
     public void valid() throws BaseException {
         if (userName == null || passWord == null) {
-            throw UserException.userRequestInvalid();
+            throw UserException.userNameNull();
         }
         if (userName.isBlank() || passWord.isBlank()) {
-            throw UserException.userRequestInvalid();
+            throw UserException.userNameNull();
         }
     }
 }
