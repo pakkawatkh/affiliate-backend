@@ -75,4 +75,11 @@ class AuthProductController {
         List<ProductTable> product = productBusiness.findAllProductByStoreId(id);
         return ResponseEntity.ok(product);
     }
+
+    
+    @GetMapping("/getAll-byStatusIsTrue-product")
+    public ResponseEntity<List<ProductTable>> findAllByStatusIsTrue() {
+        List<ProductTable> product = productBusiness.findAllByStatusIsTrue();
+        return ResponseEntity.ok(product);
+    }
 }

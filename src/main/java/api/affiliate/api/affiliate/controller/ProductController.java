@@ -37,11 +37,6 @@ public class ProductController {
 
 
 
-    @GetMapping("/getAll-byStatusIsTrue-product")
-    public ResponseEntity<List<ProductTable>> findAllByStatusIsTrue() {
-        List<ProductTable> product = productBusiness.findAllByStatusIsTrue();
-        return ResponseEntity.ok(product);
-    }
 
 
 
