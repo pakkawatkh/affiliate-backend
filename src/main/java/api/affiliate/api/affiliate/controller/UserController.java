@@ -21,11 +21,6 @@ public class UserController {
     }
 
 
-
-
-
-
-
     //    GET
     @GetMapping("/user-checkLogin")
     public ResponseEntity<Object> checkLogin() throws BaseException {
@@ -33,15 +28,18 @@ public class UserController {
         return ResponseEntity.ok(login);
     }
 
-
-
-
-
     @GetMapping("/getProfile")
     public ResponseEntity<Object> profile() throws BaseException {
         Object profile = userBusiness.getProfile();
         return ResponseEntity.ok(profile);
     }
+
+
+
+
+
+
+
 
 
 //    @PostMapping

@@ -27,17 +27,23 @@ public class ProductController {
         return ResponseEntity.ok(product);
     }
 
-    @GetMapping("/getAll-productByStoreId/{id}")
-    public ResponseEntity<Object> getProductByStoreId(@PathVariable Integer id) throws BaseException {
-        List<ProductTable> product = productBusiness.findAllProductByStoreId(id);
+
+    @GetMapping("/getMy-productByStoreIsTrue")
+    public ResponseEntity<Object> getMyProductByStoreIsTrue() throws BaseException {
+//        List<ProductTable> product = productBusiness.findAllProductByStatusIsTrue();
+        List<ProductTable> product = productBusiness.findMyProductByStatusIsTrue();
         return ResponseEntity.ok(product);
     }
 
-    @GetMapping("/getAllByStatusIsTrue-product")
+
+
+    @GetMapping("/getAll-byStatusIsTrue-product")
     public ResponseEntity<List<ProductTable>> findAllByStatusIsTrue() {
         List<ProductTable> product = productBusiness.findAllByStatusIsTrue();
         return ResponseEntity.ok(product);
     }
+
+
 
 
     //      POST
@@ -48,9 +54,18 @@ public class ProductController {
     }
 
 
+
+
+    //    PUT
     @PutMapping("/update-product/{id}")
     public ResponseEntity<Object> updateProduct(@PathVariable Integer id, @RequestBody ProductCreateRequest request) throws BaseException {
         Object update = productBusiness.updateProduct(request, id);
+        return ResponseEntity.ok(update);
+    }
+
+    @PutMapping("/update-productByStatus/{id}")
+    public ResponseEntity<Object> updateProductByStatus(@PathVariable Integer id) throws BaseException {
+        Object update = productBusiness.updateProductByStatus(id);
         return ResponseEntity.ok(update);
     }
 

@@ -54,16 +54,40 @@ public class ProductBusiness {
     }
 
 
-    public List<ProductTable> findAllProductByStoreId(Integer id){
-        List<ProductTable> product = productService.findAllProductByStoreId(id);
+//    public List<ProductTable> findAllProductByStatusIsTrue() throws BaseException {
+//        UserTable user = tokenService.getUserByToken();
+//        checkRoleIsStore(user);
+//        StoreTable store = storeService.findByUserId2(user);
+//        System.out.println(store);
+//        List<ProductTable> product = productService.findAllProductByStoreId(store.getStoreId());
+//        return product;
+//    }
+
+
+    public List<ProductTable> findMyProductByStatusIsTrue() throws BaseException {
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsStore(user);
+        StoreTable store = storeService.findByUserId2(user);
+        System.out.println(store);
+        List<ProductTable> product = productService.findByStatusIsTrueAndStoreId(store.getStoreId());
         return product;
+
     }
+
+
 
 
     public List<ProductTable> findAllByStatusIsTrue() {
         List<ProductTable> product = productService.findAllByStatusIsTrue();
         return product;
     }
+
+    public List<ProductTable> findAllProductByStoreId(Integer id){
+        List<ProductTable> product = productService.findAllProductByStoreId(id);
+        return product;
+    }
+
+
 
     public Object findByProductById(Integer productId) throws BaseException{
         Optional<ProductTable> product = productService.findByProductId(productId);
@@ -79,7 +103,6 @@ public class ProductBusiness {
         return product;
     }
 
-//    public List<ProductTable>
 
 
 
@@ -102,6 +125,15 @@ public class ProductBusiness {
         ProductTable product = productService.getByProductIdAndStore(store, productId);
         productService.updateProduct(product, request.getProductName(), request.getProductDetail(), request.getProductPrice());
         return new Response().success("update product success");
+    }
+
+    public Object updateProductByStatus(Integer productId) throws BaseException {
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsStore(user);
+        StoreTable store = storeService.findByUserId2(user);
+        ProductTable product = productService.getByProductIdAndStore(store, productId);
+        productService.updateProductByStatus(product);
+        return new Response().success("delete product success");
     }
 
 

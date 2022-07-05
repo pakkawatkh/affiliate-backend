@@ -68,4 +68,11 @@ class AuthProductController {
         Object product = productBusiness.findByProductById(id);
         return ResponseEntity.ok(product);
     }
+
+
+    @GetMapping("/getAll-productByStoreId/{id}")
+    public ResponseEntity<Object> getProductByStoreId(@PathVariable Integer id) throws BaseException {
+        List<ProductTable> product = productBusiness.findAllProductByStoreId(id);
+        return ResponseEntity.ok(product);
+    }
 }

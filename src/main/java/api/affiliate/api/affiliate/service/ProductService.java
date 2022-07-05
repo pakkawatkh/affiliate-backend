@@ -5,6 +5,7 @@ import api.affiliate.api.affiliate.entity.StoreTable;
 import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.ProductException;
 import api.affiliate.api.affiliate.repository.ProductRepository;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -34,10 +35,21 @@ public class ProductService {
     }
 
 
+
+
     public List<ProductTable> findAllByStatusIsTrue() {
-        List<ProductTable> product = productRepository.findAll();
+        List<ProductTable> product = productRepository.findAllByStatusIsTrue();
         return product;
     }
+
+
+    public List<ProductTable> findByStatusIsTrueAndStoreId(Integer storeId) {
+        List<ProductTable> product = productRepository.findByStatusIsTrueAndStoreId(storeId);
+        return product;
+    }
+
+
+
 
 
     public ProductTable getByProductIdAndStore(StoreTable store, Integer id) throws BaseException {
@@ -53,6 +65,9 @@ public class ProductService {
         Optional <ProductTable> product = productRepository.findByProductId(productId);
         return product;
     }
+
+
+
 
 
     public void createProduct(Integer store, String productName, String productDetail, String productPrice) throws BaseException{
@@ -87,8 +102,14 @@ public class ProductService {
 
 
 
-
-
-
+    public void updateProductByStatus(ProductTable product) throws BaseException{
+        product.setStatus(false);
+        product.setUpdated(new Date());
+        try {
+            productRepository.save(product);
+        }catch (Exception e){
+            throw ProductException.productNull();
+        }
+    }
 
 }
