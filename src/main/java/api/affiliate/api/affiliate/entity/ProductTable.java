@@ -36,5 +36,9 @@ public class ProductTable {
     @Column(name = "fk_store_id", nullable = false)
     private Integer storeId;
 
+
+    @Column(name = "image")
+    private String image;
+
 //nullable = false ห้ามว่าง
 }

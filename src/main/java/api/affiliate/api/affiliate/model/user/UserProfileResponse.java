@@ -1,6 +1,6 @@
 package api.affiliate.api.affiliate.model.user;
 
-import api.affiliate.api.affiliate.entity.CustomerTable;
+import api.affiliate.api.affiliate.entity.AffiliateTable;
 import api.affiliate.api.affiliate.entity.StoreTable;
 import api.affiliate.api.affiliate.entity.UserTable;
 import lombok.Data;
@@ -28,7 +28,9 @@ public class UserProfileResponse {
 
     private String postalCode;
 
-    private CustomerTable customer;
+    private String image;
+
+    private AffiliateTable affiliate;
 
     private StoreTable store;
 }

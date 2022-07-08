@@ -1,20 +1,23 @@
 package api.affiliate.api.affiliate.business;
 
-import api.affiliate.api.affiliate.entity.CustomerTable;
+import api.affiliate.api.affiliate.entity.AffiliateTable;
 import api.affiliate.api.affiliate.entity.StoreTable;
 import api.affiliate.api.affiliate.entity.UserTable;
 import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.UserException;
+import api.affiliate.api.affiliate.model.MapObject;
 import api.affiliate.api.affiliate.mapper.UserMapper;
 import api.affiliate.api.affiliate.model.Response;
 import api.affiliate.api.affiliate.model.user.UserLoginRequest;
 import api.affiliate.api.affiliate.model.user.UserProfileResponse;
 import api.affiliate.api.affiliate.model.user.UserRegisterRequest;
-import api.affiliate.api.affiliate.service.CustomerService;
+import api.affiliate.api.affiliate.service.AffiliateService;
+import api.affiliate.api.affiliate.service.FileService;
 import api.affiliate.api.affiliate.service.StoreService;
 import api.affiliate.api.affiliate.service.UserService;
 import api.affiliate.api.affiliate.service.token.TokenService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -25,21 +28,28 @@ public class UserBusiness {
     private final UserService userService;
     private final UserMapper userMapper;
     private final StoreService storeService;
-    private final CustomerService customerService;
+    private final AffiliateService affiliateService;
 
-    public UserBusiness(TokenService tokenService, UserService userService, UserMapper userMapper, StoreService storeService, CustomerService customerService) {
+    private final FileService fileService;
+
+    public UserBusiness(TokenService tokenService, UserService userService, UserMapper userMapper, StoreService storeService, AffiliateService affiliateService, FileService fileService) {
         this.tokenService = tokenService;
         this.userService = userService;
         this.userMapper = userMapper;
         this.storeService = storeService;
-        this.customerService = customerService;
+        this.affiliateService = affiliateService;
+        this.fileService = fileService;
     }
 
 
-
-    public Object register(UserRegisterRequest request) throws BaseException {
+//file = img , profile = data profile
+    public Object register(MultipartFile file, Object profile) throws BaseException {
+        MapObject object = new MapObject();
+        UserRegisterRequest request = object.toRegister(profile);
+        System.out.printf(request.toString());
         request.valid();
-        userService.register(request.getUserName(), request.getPassWord(), request.getFullName(), request.getEmail(), request.getTel(), request.getAddress(), request.getSub(), request.getDistrict(), request.getProvince(), request.getPostalCode());
+        String img = fileService.saveImg(file, "/uploads/profile");
+        userService.register(request.getUserName(), request.getPassWord(), request.getFullName(), request.getEmail(), request.getTel(), request.getAddress(), request.getSub(), request.getDistrict(), request.getProvince(), request.getPostalCode(), img);
         return new Response().success("register success");
     }
 
@@ -80,25 +90,17 @@ public class UserBusiness {
         if (role.equals(UserTable.Role.STORE)){
             StoreTable store = storeService.findByUserId(user);
             response.setStore(store);
-        }else if(role.equals(UserTable.Role.CUSTOMER)){
-            CustomerTable customer = customerService.findByUser(user);
-            response.setCustomer(customer);
-        }else if(role.equals(UserTable.Role.ST_CTM)){
+        }else if(role.equals(UserTable.Role.AFFILIATE)){
+            AffiliateTable affiliate = affiliateService.findByUser(user);
+            response.setAffiliate(affiliate);
+        }else if(role.equals(UserTable.Role.ST_AF)){
             StoreTable store = storeService.findByUserId(user);
             response.setStore(store);
-            CustomerTable customer = customerService.findByUser(user);
-            response.setCustomer(customer);
+            AffiliateTable affiliate = affiliateService.findByUser(user);
+            response.setAffiliate(affiliate);
         }
         return new Response().ok("","profile",response);
     }
-
-
-
-
-
-
-
-
 
 
 

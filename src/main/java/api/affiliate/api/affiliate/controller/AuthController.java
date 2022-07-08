@@ -10,6 +10,7 @@ import api.affiliate.api.affiliate.model.user.UserLoginRequest;
 import api.affiliate.api.affiliate.model.user.UserRegisterRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -29,8 +30,10 @@ class AuthUserController {
     }
 
     @PostMapping("/user-register")
-    public ResponseEntity<Object> register(@RequestBody UserRegisterRequest request) throws BaseException {
-        Object register = userBusiness.register(request);
+    public ResponseEntity<Object> register(@RequestParam(value = "file")MultipartFile file,
+                                           @RequestParam(value = "profile")Object profile) throws BaseException {
+        System.out.printf(profile.toString());
+        Object register = userBusiness.register(file, profile);
         return ResponseEntity.ok(register);
     }
 

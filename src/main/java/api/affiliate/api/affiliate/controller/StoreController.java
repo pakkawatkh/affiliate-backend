@@ -6,6 +6,7 @@ import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.model.store.StoreRegisterRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -29,9 +30,10 @@ public class StoreController {
 
 //    POST
     @PostMapping("/store-register")
-    public ResponseEntity<Object> register(@RequestBody StoreRegisterRequest request) throws BaseException {
-        System.out.println(request);
-        Object register = storeBisiness.register(request);
+    public ResponseEntity<Object> register(@RequestParam(value = "file") MultipartFile file,
+                                           @RequestParam(value = "profile")Object profile) throws BaseException {
+        System.out.println(profile);
+        Object register = storeBisiness.register(file, profile);
         return ResponseEntity.ok(register);
     }
 

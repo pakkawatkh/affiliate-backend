@@ -31,6 +31,10 @@ public class StoreTable {
     @Column(name = "bank_number", nullable = false, length = 20)
     private String bankNumber;
 
+
+    @Column(name = "image")
+    private String image;
+
     @JsonIgnore
     @Column(name = "fk_user_id", nullable = false, unique = true)
     private String userId;

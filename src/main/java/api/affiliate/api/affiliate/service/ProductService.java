@@ -70,12 +70,13 @@ public class ProductService {
 
 
 
-    public void createProduct(Integer store, String productName, String productDetail, String productPrice) throws BaseException{
+    public void createProduct(Integer store, String productName, String productDetail, String productPrice, String img) throws BaseException{
         ProductTable product = new ProductTable();
         product.setStoreId(store);
         product.setProductName(productName);
         product.setProductDetail(productDetail);
         product.setProductPrice(productPrice);
+        product.setImage(img);
         if (productRepository.existsByProductName(product.getProductName())){
             throw ProductException.createProductNameDuplicated();
         }

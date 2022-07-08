@@ -7,6 +7,7 @@ import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.model.product.ProductCreateRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -30,21 +31,24 @@ public class ProductController {
 
     @GetMapping("/getMy-productByStoreIsTrue")
     public ResponseEntity<Object> getMyProductByStoreIsTrue() throws BaseException {
-//        List<ProductTable> product = productBusiness.findAllProductByStatusIsTrue();
         List<ProductTable> product = productBusiness.findMyProductByStatusIsTrue();
         return ResponseEntity.ok(product);
     }
 
 
 
-
-
-
-
     //      POST
+//    @PostMapping("/create-product")
+//    public ResponseEntity<Object> createProduct(@RequestBody ProductCreateRequest request) throws BaseException {
+//        Object create = productBusiness.createProduct(request);
+//        return ResponseEntity.ok(create);
+//    }
+
+
     @PostMapping("/create-product")
-    public ResponseEntity<Object> createProduct(@RequestBody ProductCreateRequest request) throws BaseException {
-        Object create = productBusiness.createProduct(request);
+    public ResponseEntity<Object> createProduct(@RequestParam(value = "file") MultipartFile file,
+                                                @RequestParam(value = "product")Object product) throws BaseException {
+        Object create = productBusiness.createProduct(file, product);
         return ResponseEntity.ok(create);
     }
 

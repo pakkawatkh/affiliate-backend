@@ -35,13 +35,6 @@ public class UserController {
     }
 
 
-
-
-
-
-
-
-
 //    @PostMapping
 //    public ResponseEntity<String> uploadProfilePicture (@RequestPart MultipartFile file) throws FileException {
 //        String response = userBusiness.uploadProfilePicture(file);

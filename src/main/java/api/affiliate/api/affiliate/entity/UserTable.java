@@ -54,8 +54,10 @@ public class UserTable {
     @Column(name = "postal_code", nullable = false, length = 10)
     private String postalCode;
 
+    @Column(name = "image")
+    private String image;
 
-    public enum Role {USER, CUSTOMER, STORE, ST_CTM, ADMIN}
+    public enum Role {USER, AFFILIATE, STORE, ST_AF, ADMIN}
 
 
 

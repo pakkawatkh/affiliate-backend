@@ -8,13 +8,13 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name = "customer")
-public class CustomerTable {
+@Table(name = "affiliate")
+public class AffiliateTable {
 
     @Id
-    @Column(name = "customer_id" )
+    @Column(name = "affiliate_id" )
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer customerId;
+    private Integer affiliateId;
 
     //      ชื่อบัญชี
     @Column(name = "bank_nameAccount", nullable = false, length = 120)
@@ -27,6 +27,10 @@ public class CustomerTable {
     //      เลขบัญชี
     @Column(name = "bank_number", nullable = false, length = 20)
     private String bankNumber;
+
+
+    @Column(name = "image")
+    private String image;
 
     @JsonIgnore
     @Column(name = "fk_user_id", nullable = false, unique = true)

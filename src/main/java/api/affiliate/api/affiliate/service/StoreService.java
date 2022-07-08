@@ -28,13 +28,14 @@ public class StoreService {
         return store;
     }
 
-    public void register(String user, String store, String bankNameAccount, String bankName, String bankNumber) throws StoreException {
+    public void register(String user, String store, String bankNameAccount, String bankName, String bankNumber, String img) throws StoreException {
         StoreTable st = new StoreTable();
         st.setUserId(user);
         st.setStore(store);
         st.setBankNameAccount(bankNameAccount);
         st.setBankName(bankName);
         st.setBankNumber(bankNumber);
+        st.setImage(img);
         if (storeRepository.existsByStore((st.getStore()))) {
             throw StoreException.createStoreNameDuplicated();
         }

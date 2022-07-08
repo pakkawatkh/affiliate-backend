@@ -34,7 +34,7 @@ public class UserService {
 
 
     public void register(String userName, String passWord, String fullName, String email, String tel, String address, String sub
-            , String district, String province, String postalCode) throws UserException {
+            , String district, String province, String postalCode, String img) throws UserException {
         UserTable user = new UserTable();
         user.setUserName(userName);
         user.setPassWord(passwordEncoder.encode(passWord));
@@ -46,6 +46,7 @@ public class UserService {
         user.setDistrict(district);
         user.setProvince(province);
         user.setPostalCode(postalCode);
+        user.setImage(img);
         if (userRepository.existsByUserName(user.getUserName())) {
             throw UserException.createUserNameDuplicated();
         }

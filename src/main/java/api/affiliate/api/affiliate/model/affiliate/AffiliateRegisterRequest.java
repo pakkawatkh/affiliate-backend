@@ -1,11 +1,10 @@
-package api.affiliate.api.affiliate.model.customer;
+package api.affiliate.api.affiliate.model.affiliate;
 
 import api.affiliate.api.affiliate.exception.BaseException;
-import api.affiliate.api.affiliate.exception.UserException;
 import lombok.Data;
 
 @Data
-public class CustomerRegisterRequest {
+public class AffiliateRegisterRequest {
 
     private String bankNameAccount;
 

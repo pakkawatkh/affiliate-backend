@@ -1,11 +1,9 @@
 package api.affiliate.api.affiliate.service.token;
 
-import api.affiliate.api.affiliate.entity.CustomerTable;
 import api.affiliate.api.affiliate.entity.UserTable;
 import api.affiliate.api.affiliate.exception.BaseException;
-import api.affiliate.api.affiliate.exception.CustomerException;
 import api.affiliate.api.affiliate.exception.UserException;
-import api.affiliate.api.affiliate.repository.CustomerRepository;
+import api.affiliate.api.affiliate.repository.AffiliateRepository;
 import api.affiliate.api.affiliate.repository.UserRepository;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -25,7 +23,7 @@ import java.util.Optional;
 public class TokenService {
 
     private final UserRepository userRepository;
-    private final CustomerRepository customerRepository;
+    private final AffiliateRepository customerRepository;
 
     @Value("${app.token.secret}")
     private String secret;
@@ -33,7 +31,7 @@ public class TokenService {
     @Value("${app.token.issuer}")
     private String issuer;
 
-    public TokenService(UserRepository userRepository, CustomerRepository customerRepository) {
+    public TokenService(UserRepository userRepository, AffiliateRepository customerRepository) {
         this.userRepository = userRepository;
         this.customerRepository = customerRepository;
     }
