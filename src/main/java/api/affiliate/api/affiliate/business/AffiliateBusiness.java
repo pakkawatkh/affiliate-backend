@@ -1,11 +1,13 @@
 package api.affiliate.api.affiliate.business;
 
+import api.affiliate.api.affiliate.entity.AffiliateTable;
 import api.affiliate.api.affiliate.entity.UserTable;
 import api.affiliate.api.affiliate.exception.AffiliateException;
 import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.model.MapObject;
 import api.affiliate.api.affiliate.model.Response;
 import api.affiliate.api.affiliate.model.affiliate.AffiliateRegisterRequest;
+import api.affiliate.api.affiliate.model.store.StoreRegisterRequest;
 import api.affiliate.api.affiliate.service.AffiliateService;
 import api.affiliate.api.affiliate.service.FileService;
 import api.affiliate.api.affiliate.service.UserService;
@@ -50,4 +52,21 @@ public class AffiliateBusiness {
         userService.updateRole(user, role);
         return new Response().success("register success");
     }
+
+
+    public Object updateProfile(MultipartFile file, Object profile) throws BaseException {
+        UserTable user = tokenService.getUserByToken();
+        UserTable.Role role = user.getRole();
+        if (role.equals(UserTable.Role.ADMIN) || role.equals(UserTable.Role.STORE) || role.equals(UserTable.Role.USER))  {
+            throw AffiliateException.roleUserNotAllowed();
+        }
+        AffiliateTable affiliate = affiliateService.findByUser(user);
+        MapObject object = new MapObject();
+        AffiliateRegisterRequest request = object.toRegisterAffiliate(profile);
+        request.valid();
+        String img = fileService.saveImg(file, "/uploads/profile");
+        affiliateService.updateProfile(affiliate, request.getBankNameAccount(), request.getBankName(), request.getBankNumber(), img);
+        return new Response().success("update success");
+    }
+
 }

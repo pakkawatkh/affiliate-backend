@@ -6,6 +6,7 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Data
@@ -56,6 +57,10 @@ public class UserTable {
 
     @Column(name = "image")
     private String image;
+
+    @Column(name = "date", nullable = false)
+    private Date date = new Date();
+
 
     public enum Role {USER, AFFILIATE, STORE, ST_AF, ADMIN}
 

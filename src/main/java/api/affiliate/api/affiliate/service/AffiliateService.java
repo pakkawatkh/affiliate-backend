@@ -47,6 +47,19 @@ public class AffiliateService {
     }
 
 
+    public void updateProfile(AffiliateTable affiliate,String bankNameAccount, String bankName, String bankNumber, String img) throws BaseException {
+        affiliate.setBankNameAccount(bankNameAccount);
+        affiliate.setBankName(bankName);
+        affiliate.setBankNumber(bankNumber);
+        affiliate.setImage(img);
+        try {
+            affiliateRepository.save(affiliate);
+        }catch (Exception e) {
+            throw AffiliateException.affiliateRequestInvalid();
+        }
+    }
+
+
 
 public AffiliateTable findByUser(UserTable user){
     Optional<AffiliateTable> affiliate = affiliateRepository.findByUserId(user.getUserId());

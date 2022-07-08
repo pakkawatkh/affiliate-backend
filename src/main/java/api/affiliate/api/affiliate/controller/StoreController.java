@@ -38,6 +38,15 @@ public class StoreController {
     }
 
 
+    @PutMapping("/store-update")
+    public ResponseEntity<Object> updateStore(@RequestParam(value = "file")MultipartFile file,
+                                              @RequestParam(value = "profile")Object profile) throws BaseException {
+        Object update = storeBisiness.updateStore(file, profile);
+        return ResponseEntity.ok(update);
+
+    }
+
+
 
 
 }

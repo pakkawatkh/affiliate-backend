@@ -60,5 +60,21 @@ public class StoreBisiness {
     }
 
 
+    public  Object updateStore(MultipartFile file, Object profile) throws BaseException {
+        UserTable user = tokenService.getUserByToken();
+        UserTable.Role role = user.getRole();
+        if (role.equals(UserTable.Role.ADMIN) || role.equals(UserTable.Role.USER) || role.equals(UserTable.Role.AFFILIATE)) {
+            throw StoreException.roleUserNotAllowed();
+        }
+        StoreTable store = storeService.findByUserId2(user);
+        MapObject object = new MapObject();
+        StoreRegisterRequest request = object.toRegisterStore(profile);
+        request.valid();
+        String img = fileService.saveImg(file, "/uploads/profile");
+        storeService.updateStore(store, request.getStore(), request.getBankNameAccount(), request.getBankName(), request.getBankNumber(), img);
+        return new Response().success("update store success");
+    }
+
+
 
 }

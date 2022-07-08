@@ -8,6 +8,7 @@ import api.affiliate.api.affiliate.exception.UserException;
 import api.affiliate.api.affiliate.model.MapObject;
 import api.affiliate.api.affiliate.mapper.UserMapper;
 import api.affiliate.api.affiliate.model.Response;
+import api.affiliate.api.affiliate.model.product.ProductCreateRequest;
 import api.affiliate.api.affiliate.model.user.UserLoginRequest;
 import api.affiliate.api.affiliate.model.user.UserProfileResponse;
 import api.affiliate.api.affiliate.model.user.UserRegisterRequest;
@@ -105,31 +106,15 @@ public class UserBusiness {
 
 
 
+    public  Object updateProfile(MultipartFile file, Object profile)throws BaseException{
+        UserTable user = tokenService.getUserByToken();
+        MapObject object = new MapObject();
+        UserRegisterRequest request = object.toRegister(profile);
+        String img = fileService.saveImg(file, "/uploads/profile");
+        userService.updateProfile(user,request.getFullName(), request.getEmail(),
+                request.getTel(), request.getAddress(), request.getSub(), request.getDistrict(),
+                request.getProvince(), request.getPostalCode(), img);
+        return new Response().success("update profile success");
+    }
 
-//    public String uploadProfilePicture(MultipartFile file) throws FileException {
-//        if ( file == null) {
-//            throw FileException.fileNull();
-//        }
-//        if ( file.getSize() > 1048576 * 2) {
-//            // throw error
-//        }
-//
-//        String contentType = file.getContentType();
-//        if ( contentType == null ) {
-//            throw FileException.fileMaxSize();
-//        }
-//
-//        List<String> supportTypes = Arrays.asList("image/jpeg", "image/png");
-//        if ( !supportTypes.contains(contentType)) {
-//            throw FileException.unsupported();
-//        }
-//
-//        try {
-//            byte[] pytes = file.getBytes();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return "";
-//    }
 }

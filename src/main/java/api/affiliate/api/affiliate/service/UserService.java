@@ -8,6 +8,7 @@ import api.affiliate.api.affiliate.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -94,12 +95,29 @@ public class UserService {
 
 
 
-
-
     public void updateRole(UserTable userTable, UserTable.Role role){
         userTable.setRole(role);
         userRepository.save(userTable);
     }
 
+
+    public void updateProfile(UserTable user, String fullName, String email, String tel, String address, String sub
+            , String district, String province, String postalCode, String img) throws UserException {
+        user.setFullName(fullName);
+        user.setEmail(email);
+        user.setTel(tel);
+        user.setAddress(address);
+        user.setSub(sub);
+        user.setDistrict(district);
+        user.setProvince(province);
+        user.setPostalCode(postalCode);
+        user.setImage(img);
+
+        try {
+            userRepository.save(user);
+        } catch (Exception e) {
+            throw UserException.userNameNull();
+        }
+    }
 
 }

@@ -46,6 +46,21 @@ public class StoreService {
         }
     }
 
+
+
+    public void updateStore(StoreTable st, String store, String  bankNameAccount, String bankName, String bankNumber, String img ){
+        st.setStore(store);
+        st.setBankNameAccount(bankNameAccount);
+        st.setBankName(bankName);
+        st.setBankNumber(bankNumber);
+        st.setImage(img);
+        try {
+            storeRepository.save(st);
+        }catch (Exception e){
+            StoreException.storeRequestInvalid();
+        }
+    }
+
     public StoreTable findByUserId(UserTable user) throws BaseException {
         Optional<StoreTable> store = storeRepository.findByUserId(user.getUserId());
         return store.get();

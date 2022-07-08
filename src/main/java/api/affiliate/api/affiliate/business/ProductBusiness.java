@@ -107,12 +107,15 @@ public class ProductBusiness {
 
 
 
-    public Object updateProduct(ProductCreateRequest request, Integer productId) throws BaseException {
+    public Object updateProduct(MultipartFile file, Object product, Integer productId) throws BaseException {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsStore(user);
         StoreTable store = storeService.findByUserId2(user);
-        ProductTable product = productService.getByProductIdAndStore(store, productId);
-        productService.updateProduct(product, request.getProductName(), request.getProductDetail(), request.getProductPrice());
+        MapObject object = new MapObject();
+        ProductCreateRequest request = object.toCreateProduct(product);
+        ProductTable pd = productService.getByProductIdAndStore(store, productId);
+        String img = fileService.saveImg(file, "/uploads/products");
+        productService.updateProduct(pd, request.getProductName(), request.getProductDetail(), request.getProductPrice(), img);
         return new Response().success("update product success");
     }
 

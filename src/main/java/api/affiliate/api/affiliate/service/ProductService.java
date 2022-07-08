@@ -89,10 +89,11 @@ public class ProductService {
     }
 
 
-    public void updateProduct(ProductTable product, String productName, String productDetail, String productPrice) throws BaseException{
+    public void updateProduct(ProductTable product, String productName, String productDetail, String productPrice, String img) throws BaseException{
         product.setProductName(productName);
         product.setProductDetail(productDetail);
         product.setProductPrice(productPrice);
+        product.setImage(img);
         product.setUpdated(new Date());
         try {
             productRepository.save(product);

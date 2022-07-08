@@ -7,7 +7,6 @@ public class AffiliateException extends BaseException {
     }
 
 
-    //create
     public static AffiliateException affiliateRequestInvalid() {
         return new AffiliateException("กรุณากรอกข้อมูลให้ถูกต้อง");
     }
@@ -17,9 +16,12 @@ public class AffiliateException extends BaseException {
     }
 
 
-    //login
     public static AffiliateException affiliateNameNull() {
         return new AffiliateException("ไม่พบ affiliateName");
+    }
+
+    public static AffiliateException roleUserNotAllowed() {
+        return new AffiliateException("ไม่อนุญาต");
     }
 
 }

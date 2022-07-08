@@ -7,6 +7,7 @@ import api.affiliate.api.affiliate.model.user.UserLoginRequest;
 import api.affiliate.api.affiliate.model.user.UserRegisterRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -35,10 +36,11 @@ public class UserController {
     }
 
 
-//    @PostMapping
-//    public ResponseEntity<String> uploadProfilePicture (@RequestPart MultipartFile file) throws FileException {
-//        String response = userBusiness.uploadProfilePicture(file);
-//        return  ResponseEntity.ok(response);
-//    }
+    @PutMapping("/update-profile")
+    public ResponseEntity<Object> updateProfile(@RequestParam(value = "file")MultipartFile file,
+                                                @RequestParam(value = "profile")Object profile) throws BaseException{
+        Object update = userBusiness.updateProfile(file, profile);
+        return ResponseEntity.ok(update);
+    }
 
 }

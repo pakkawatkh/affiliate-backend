@@ -30,20 +30,11 @@ public class UserException extends BaseException {
         return new UserException("login ไม่สำเร็จ");
     }
 
-    //  create
-//    public static UserException createUserNameNull() {
-//        return new UserException("create.userName.null");
-//    }
-//
-//
-//    public static UserException createUserNameDuplicated() {
-//        return new UserException("create.userName.duplicate");
-//    }
-//
-//
-//    public static UserException createPassWordNull(String userName) {
-//        return new UserException("create.passWord.null");
-//    }
+
+    public static UserException roleUserNotAllowed() {
+        return new UserException("ไม่อนุญาต");
+    }
+
 
 
 }

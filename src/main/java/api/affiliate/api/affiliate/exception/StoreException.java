@@ -26,4 +26,9 @@ public class StoreException extends BaseException {
     public static StoreException loginFail() {
         return new StoreException("login ไม่สำเร็จ");
     }
+
+
+    public static StoreException roleUserNotAllowed() {
+        return new StoreException("ไม่อนุญาต");
+    }
 }

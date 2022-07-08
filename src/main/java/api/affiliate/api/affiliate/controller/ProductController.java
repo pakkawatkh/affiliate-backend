@@ -36,15 +36,6 @@ public class ProductController {
     }
 
 
-
-    //      POST
-//    @PostMapping("/create-product")
-//    public ResponseEntity<Object> createProduct(@RequestBody ProductCreateRequest request) throws BaseException {
-//        Object create = productBusiness.createProduct(request);
-//        return ResponseEntity.ok(create);
-//    }
-
-
     @PostMapping("/create-product")
     public ResponseEntity<Object> createProduct(@RequestParam(value = "file") MultipartFile file,
                                                 @RequestParam(value = "product")Object product) throws BaseException {
@@ -56,11 +47,15 @@ public class ProductController {
 
 
     //    PUT
+
     @PutMapping("/update-product/{id}")
-    public ResponseEntity<Object> updateProduct(@PathVariable Integer id, @RequestBody ProductCreateRequest request) throws BaseException {
-        Object update = productBusiness.updateProduct(request, id);
+    public ResponseEntity<Object> updateProduct(@PathVariable Integer id,
+                                                @RequestParam(value = "file") MultipartFile file,
+                                                @RequestParam(value = "product")Object product) throws BaseException {
+        Object update = productBusiness.updateProduct(file, product, id);
         return ResponseEntity.ok(update);
     }
+
 
     @PutMapping("/update-productByStatus/{id}")
     public ResponseEntity<Object> updateProductByStatus(@PathVariable Integer id) throws BaseException {

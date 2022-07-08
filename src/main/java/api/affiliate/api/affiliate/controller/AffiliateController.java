@@ -28,6 +28,13 @@ public class AffiliateController {
         return ResponseEntity.ok(register);
     }
 
+    @PutMapping("/affiliate-update")
+    public ResponseEntity<Object> updateProfile(@RequestParam(value = "file") MultipartFile file,
+                                                  @RequestParam(value = "profile") Object profile) throws BaseException{
+        Object update = affiliateBusiness.updateProfile(file, profile);
+        return ResponseEntity.ok(update);
+    }
+
 
 
 
