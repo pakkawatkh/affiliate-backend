@@ -55,6 +55,9 @@ public class UserTable {
     @Column(name = "postal_code", nullable = false, length = 10)
     private String postalCode;
 
+    @Column(name = "status", nullable = false)
+    private Boolean status = true;
+
     @Column(name = "image")
     private String image;
 

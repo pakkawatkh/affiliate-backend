@@ -59,12 +59,23 @@ public class AffiliateService {
         }
     }
 
+    public void updateMyStatusAffiliate(AffiliateTable affiliate) throws BaseException {
+        affiliate.setStatus(false);
+        try {
+            affiliateRepository.save(affiliate);
+        }catch (Exception e) {
+            throw AffiliateException.affiliateRequestInvalid();
+        }
+    }
 
 
-public AffiliateTable findByUser(UserTable user){
-    Optional<AffiliateTable> affiliate = affiliateRepository.findByUserId(user.getUserId());
-   return affiliate.get();
-}
+
+    public AffiliateTable findByUser(UserTable user){
+        Optional<AffiliateTable> affiliate = affiliateRepository.findByUserId(user.getUserId());
+       return affiliate.get();
+    }
+
+
 
 
 

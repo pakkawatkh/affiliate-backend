@@ -33,6 +33,19 @@ public class AffiliateBusiness {
     }
 
 
+    public Object getMyAffiliate()throws BaseException{
+        UserTable user = tokenService.getUserByToken();
+        UserTable.Role role = user.getRole();
+        if ((role.equals(UserTable.Role.STORE) || (role.equals(UserTable.Role.USER)
+                || (role.equals(UserTable.Role.ADMIN))))){
+            throw AffiliateException.roleUserNotAllowed();
+        }
+
+        AffiliateTable affiliate = affiliateService.findByUser(user);
+        return affiliate;
+    }
+
+
     public Object register(MultipartFile file, Object profile) throws BaseException {
         UserTable user = tokenService.getUserByToken();
         UserTable.Role role = user.getRole();
@@ -67,6 +80,16 @@ public class AffiliateBusiness {
         String img = fileService.saveImg(file, "/uploads/profile");
         affiliateService.updateProfile(affiliate, request.getBankNameAccount(), request.getBankName(), request.getBankNumber(), img);
         return new Response().success("update success");
+    }
+
+
+
+    public Object updateMyStatusAffiliate() throws BaseException {
+        UserTable user = tokenService.getUserByToken();
+        UserTable.Role role = user.getRole();
+        AffiliateTable affiliate = affiliateService.findByUser(user);
+        affiliateService.updateMyStatusAffiliate(affiliate);
+        return new Response().success("delete affiliate success");
     }
 
 }

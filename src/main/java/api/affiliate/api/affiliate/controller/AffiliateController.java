@@ -20,6 +20,14 @@ public class AffiliateController {
 
 
 
+    //    GET
+    @GetMapping("/getMyProfile-affiliate")
+    public ResponseEntity<Object> getMyProfile()throws BaseException{
+        Object profile = affiliateBusiness.getMyAffiliate();
+        return ResponseEntity.ok(profile);
+    }
+
+
     //    POST
     @PostMapping("/affiliate-register")
     public ResponseEntity<Object> register(@RequestParam(value = "file") MultipartFile file,
@@ -28,11 +36,20 @@ public class AffiliateController {
         return ResponseEntity.ok(register);
     }
 
+
+    //    PUT
     @PutMapping("/affiliate-update")
     public ResponseEntity<Object> updateProfile(@RequestParam(value = "file") MultipartFile file,
                                                   @RequestParam(value = "profile") Object profile) throws BaseException{
         Object update = affiliateBusiness.updateProfile(file, profile);
         return ResponseEntity.ok(update);
+    }
+
+
+    @PutMapping("/delete-myAffiliate")
+    public ResponseEntity<Object> updateMyStatusAffiliate() throws BaseException {
+        Object affiliate = affiliateBusiness.updateMyStatusAffiliate();
+        return ResponseEntity.ok(affiliate);
     }
 
 

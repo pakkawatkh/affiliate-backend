@@ -41,14 +41,13 @@ public class StoreService {
         }
         try {
             storeRepository.save(st);
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw StoreException.storeRequestInvalid();
         }
     }
 
 
-
-    public void updateStore(StoreTable st, String store, String  bankNameAccount, String bankName, String bankNumber, String img ){
+    public void updateStore(StoreTable st, String store, String bankNameAccount, String bankName, String bankNumber, String img) {
         st.setStore(store);
         st.setBankNameAccount(bankNameAccount);
         st.setBankName(bankName);
@@ -56,10 +55,23 @@ public class StoreService {
         st.setImage(img);
         try {
             storeRepository.save(st);
-        }catch (Exception e){
+        } catch (Exception e) {
             StoreException.storeRequestInvalid();
         }
     }
+
+
+    public void updateStatusStore(StoreTable store) throws BaseException {
+        store.setStatus(false);
+        try {
+            storeRepository.save(store);
+        } catch (
+                Exception e) {
+            StoreException.storeRequestInvalid();
+        }
+
+    }
+
 
     public StoreTable findByUserId(UserTable user) throws BaseException {
         Optional<StoreTable> store = storeRepository.findByUserId(user.getUserId());

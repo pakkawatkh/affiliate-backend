@@ -32,6 +32,9 @@ public class StoreTable {
     private String bankNumber;
 
 
+    @Column(name = "status", nullable = false)
+    private Boolean status = true;
+
     @Column(name = "image")
     private String image;
 

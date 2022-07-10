@@ -3,7 +3,6 @@ package api.affiliate.api.affiliate.controller;
 import api.affiliate.api.affiliate.business.StoreBisiness;
 import api.affiliate.api.affiliate.entity.StoreTable;
 import api.affiliate.api.affiliate.exception.BaseException;
-import api.affiliate.api.affiliate.model.store.StoreRegisterRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,8 +23,16 @@ public class StoreController {
     @GetMapping("/getAll-store")
     public List<StoreTable> getAllStore() {
         List<StoreTable> store = storeBisiness.findAllStore();
-        return store;
+         return store;
     }
+
+
+    @GetMapping("/getMyProfile-store")
+    public Object getMyProfileStore() throws BaseException{
+        Object store = storeBisiness.getMyProfileStore();
+        return ResponseEntity.ok(store);
+    }
+
 
 
 //    POST
@@ -46,6 +53,11 @@ public class StoreController {
 
     }
 
+    @PutMapping("/delete-myStore")
+    public Object updateStatusStore() throws BaseException {
+        Object store = storeBisiness.updateStatusStore();
+        return ResponseEntity.ok(store);
+    }
 
 
 
