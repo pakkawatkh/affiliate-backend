@@ -114,7 +114,8 @@ public class ProductBusiness {
         MapObject object = new MapObject();
         ProductCreateRequest request = object.toCreateProduct(product);
         ProductTable pd = productService.getByProductIdAndStore(store, productId);
-        String img = fileService.saveImg(file, "/uploads/products");
+        String img ;
+        img = file != null?  fileService.saveImg(file, "/uploads/products") : pd.getImage();
         productService.updateProduct(pd, request.getProductName(), request.getProductDetail(), request.getProductPrice(), img);
         return new Response().success("update product success");
     }

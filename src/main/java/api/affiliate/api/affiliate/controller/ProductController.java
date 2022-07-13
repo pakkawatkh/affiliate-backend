@@ -50,10 +50,11 @@ public class ProductController {
 
     @PutMapping("/update-product/{id}")
     public ResponseEntity<Object> updateProduct(@PathVariable Integer id,
-                                                @RequestParam(value = "file") MultipartFile file,
+                                                @RequestParam(value = "file",required = false) MultipartFile file,
                                                 @RequestParam(value = "product")Object product) throws BaseException {
         Object update = productBusiness.updateProduct(file, product, id);
         return ResponseEntity.ok(update);
+
     }
 
 
