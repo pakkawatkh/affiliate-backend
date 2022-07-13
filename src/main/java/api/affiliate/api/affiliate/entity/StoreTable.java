@@ -34,9 +34,9 @@ public class StoreTable {
 
     @Column(name = "status", nullable = false)
     private Boolean status = true;
-
-    @Column(name = "image")
-    private String image;
+//
+//    @Column(name = "image")
+//    private String image;
 
     @JsonIgnore
     @Column(name = "fk_user_id", nullable = false, unique = true)

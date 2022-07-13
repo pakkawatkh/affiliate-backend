@@ -30,18 +30,16 @@ public class AffiliateController {
 
     //    POST
     @PostMapping("/affiliate-register")
-    public ResponseEntity<Object> register(@RequestParam(value = "file") MultipartFile file,
-                                           @RequestParam(value = "profile")Object profile) throws BaseException {
-        Object register = affiliateBusiness.register(file, profile);
+    public ResponseEntity<Object> register(@RequestBody AffiliateRegisterRequest request) throws BaseException {
+        Object register = affiliateBusiness.register(request);
         return ResponseEntity.ok(register);
     }
 
 
     //    PUT
     @PutMapping("/affiliate-update")
-    public ResponseEntity<Object> updateProfile(@RequestParam(value = "file") MultipartFile file,
-                                                  @RequestParam(value = "profile") Object profile) throws BaseException{
-        Object update = affiliateBusiness.updateProfile(file, profile);
+    public ResponseEntity<Object> updateProfile(@RequestBody AffiliateRegisterRequest request) throws BaseException{
+        Object update = affiliateBusiness.updateProfile(request);
         return ResponseEntity.ok(update);
     }
 

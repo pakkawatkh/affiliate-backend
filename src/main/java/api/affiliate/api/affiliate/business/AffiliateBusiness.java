@@ -46,17 +46,14 @@ public class AffiliateBusiness {
     }
 
 
-    public Object register(MultipartFile file, Object profile) throws BaseException {
+    public Object register(AffiliateRegisterRequest request) throws BaseException {
         UserTable user = tokenService.getUserByToken();
         UserTable.Role role = user.getRole();
         if (role.equals(UserTable.Role.ADMIN) || role.equals(UserTable.Role.ST_AF)) {
             throw AffiliateException.affiliateRequestInvalid();
         }
-        MapObject object = new MapObject();
-        AffiliateRegisterRequest request = object.toRegisterAffiliate(profile);
         request.valid();
-        String img = fileService.saveImg(file, "/uploads/profile");
-        affiliateService.register(user.getUserId(), request.getBankNameAccount(), request.getBankName(), request.getBankNumber(), img);
+        affiliateService.register(user.getUserId(), request.getBankNameAccount(), request.getBankName(), request.getBankNumber());
         if (role.equals(UserTable.Role.USER)) {
             role = UserTable.Role.AFFILIATE;
         } else {
@@ -67,18 +64,15 @@ public class AffiliateBusiness {
     }
 
 
-    public Object updateProfile(MultipartFile file, Object profile) throws BaseException {
+    public Object updateProfile(AffiliateRegisterRequest request) throws BaseException {
         UserTable user = tokenService.getUserByToken();
         UserTable.Role role = user.getRole();
         if (role.equals(UserTable.Role.ADMIN) || role.equals(UserTable.Role.STORE) || role.equals(UserTable.Role.USER))  {
             throw AffiliateException.roleUserNotAllowed();
         }
         AffiliateTable affiliate = affiliateService.findByUser(user);
-        MapObject object = new MapObject();
-        AffiliateRegisterRequest request = object.toRegisterAffiliate(profile);
         request.valid();
-        String img = fileService.saveImg(file, "/uploads/profile");
-        affiliateService.updateProfile(affiliate, request.getBankNameAccount(), request.getBankName(), request.getBankNumber(), img);
+        affiliateService.updateProfile(affiliate, request.getBankNameAccount(), request.getBankName(), request.getBankNumber());
         return new Response().success("update success");
     }
 

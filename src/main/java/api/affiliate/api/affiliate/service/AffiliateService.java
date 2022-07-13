@@ -32,13 +32,12 @@ public class AffiliateService {
 
 
 
-    public void register(String user,String bankNameAccount, String bankName, String bankNumber, String img) throws BaseException {
+    public void register(String user,String bankNameAccount, String bankName, String bankNumber) throws BaseException {
     AffiliateTable affiliate = new AffiliateTable();
         affiliate.setUserId(user);
         affiliate.setBankNameAccount(bankNameAccount);
         affiliate.setBankName(bankName);
         affiliate.setBankNumber(bankNumber);
-        affiliate.setImage(img);
         try {
             affiliateRepository.save(affiliate);
         }catch (Exception e) {
@@ -47,11 +46,10 @@ public class AffiliateService {
     }
 
 
-    public void updateProfile(AffiliateTable affiliate,String bankNameAccount, String bankName, String bankNumber, String img) throws BaseException {
+    public void updateProfile(AffiliateTable affiliate,String bankNameAccount, String bankName, String bankNumber) throws BaseException {
         affiliate.setBankNameAccount(bankNameAccount);
         affiliate.setBankName(bankName);
         affiliate.setBankNumber(bankNumber);
-        affiliate.setImage(img);
         try {
             affiliateRepository.save(affiliate);
         }catch (Exception e) {

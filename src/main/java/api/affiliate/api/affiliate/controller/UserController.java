@@ -1,15 +1,10 @@
 package api.affiliate.api.affiliate.controller;
 
 import api.affiliate.api.affiliate.business.UserBusiness;
-import api.affiliate.api.affiliate.entity.UserTable;
 import api.affiliate.api.affiliate.exception.BaseException;
-import api.affiliate.api.affiliate.model.user.UserLoginRequest;
-import api.affiliate.api.affiliate.model.user.UserRegisterRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -37,8 +32,7 @@ public class UserController {
 
 
     @PutMapping("/update-profile")
-    public ResponseEntity<Object> updateProfile(@RequestParam(value = "file")MultipartFile file,
-                                                @RequestParam(value = "profile")Object profile) throws BaseException{
+    public ResponseEntity<Object> updateProfile(@RequestParam(value = "file") MultipartFile file, @RequestParam(value = "profile") Object profile) throws BaseException {
         Object update = userBusiness.updateProfile(file, profile);
         return ResponseEntity.ok(update);
     }

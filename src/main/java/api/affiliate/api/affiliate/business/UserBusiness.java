@@ -8,7 +8,6 @@ import api.affiliate.api.affiliate.exception.UserException;
 import api.affiliate.api.affiliate.model.MapObject;
 import api.affiliate.api.affiliate.mapper.UserMapper;
 import api.affiliate.api.affiliate.model.Response;
-import api.affiliate.api.affiliate.model.product.ProductCreateRequest;
 import api.affiliate.api.affiliate.model.user.UserLoginRequest;
 import api.affiliate.api.affiliate.model.user.UserProfileResponse;
 import api.affiliate.api.affiliate.model.user.UserRegisterRequest;
@@ -44,13 +43,11 @@ public class UserBusiness {
 
 
 //file = img , profile = data profile
-    public Object register(MultipartFile file, Object profile) throws BaseException {
-        MapObject object = new MapObject();
-        UserRegisterRequest request = object.toRegister(profile);
-        System.out.printf(request.toString());
+    public Object register(UserRegisterRequest request) throws BaseException {
+        System.out.println(request);
         request.valid();
-        String img = fileService.saveImg(file, "/uploads/profile");
-        userService.register(request.getUserName(), request.getPassWord(), request.getFullName(), request.getEmail(), request.getTel(), request.getAddress(), request.getSub(), request.getDistrict(), request.getProvince(), request.getPostalCode(), img);
+        userService.register(request.getUserName(), request.getPassWord(), request.getFullName(), request.getEmail(), request.getTel(), request.getAddress(),
+                request.getSub(), request.getDistrict(), request.getProvince(), request.getPostalCode());
         return new Response().success("register success");
     }
 
@@ -108,6 +105,7 @@ public class UserBusiness {
 
     public  Object updateProfile(MultipartFile file, Object profile)throws BaseException{
         UserTable user = tokenService.getUserByToken();
+        System.out.println(user.getImage());
         MapObject object = new MapObject();
         UserRegisterRequest request = object.toRegister(profile);
         String img = fileService.saveImg(file, "/uploads/profile");

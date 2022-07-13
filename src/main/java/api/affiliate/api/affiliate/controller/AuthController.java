@@ -30,10 +30,8 @@ class AuthUserController {
     }
 
     @PostMapping("/user-register")
-    public ResponseEntity<Object> register(@RequestParam(value = "file")MultipartFile file,
-                                           @RequestParam(value = "profile")Object profile) throws BaseException {
-        System.out.printf(profile.toString());
-        Object register = userBusiness.register(file, profile);
+    public ResponseEntity<Object> register(@RequestBody UserRegisterRequest request) throws BaseException {
+        Object register = userBusiness.register(request);
         return ResponseEntity.ok(register);
     }
 

@@ -31,9 +31,9 @@ public class AffiliateTable {
     @Column(name = "status", nullable = false)
     private Boolean status = true;
 
-
-    @Column(name = "image")
-    private String image;
+//
+//    @Column(name = "image")
+//    private String image;
 
 
     @JsonIgnore

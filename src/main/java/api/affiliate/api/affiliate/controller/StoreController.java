@@ -3,6 +3,7 @@ package api.affiliate.api.affiliate.controller;
 import api.affiliate.api.affiliate.business.StoreBisiness;
 import api.affiliate.api.affiliate.entity.StoreTable;
 import api.affiliate.api.affiliate.exception.BaseException;
+import api.affiliate.api.affiliate.model.store.StoreRegisterRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,18 +38,16 @@ public class StoreController {
 
 //    POST
     @PostMapping("/store-register")
-    public ResponseEntity<Object> register(@RequestParam(value = "file") MultipartFile file,
-                                           @RequestParam(value = "profile")Object profile) throws BaseException {
-        System.out.println(profile);
-        Object register = storeBisiness.register(file, profile);
+    public ResponseEntity<Object> register(@RequestBody StoreRegisterRequest request) throws BaseException {
+        System.out.println(request);
+        Object register = storeBisiness.register(request);
         return ResponseEntity.ok(register);
     }
 
 
     @PutMapping("/store-update")
-    public ResponseEntity<Object> updateStore(@RequestParam(value = "file")MultipartFile file,
-                                              @RequestParam(value = "profile")Object profile) throws BaseException {
-        Object update = storeBisiness.updateStore(file, profile);
+    public ResponseEntity<Object> updateStore(@RequestBody StoreRegisterRequest request) throws BaseException {
+        Object update = storeBisiness.updateStore(request);
         return ResponseEntity.ok(update);
 
     }

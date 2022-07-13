@@ -50,18 +50,15 @@ public class StoreBisiness {
         return store;
     }
 
-    public Object register(MultipartFile file, Object profile) throws BaseException {
+    public Object register(StoreRegisterRequest request) throws BaseException {
         UserTable user = tokenService.getUserByToken();
         UserTable.Role role = user.getRole();
         if (role.equals(UserTable.Role.ADMIN)||role.equals(UserTable.Role.ST_AF)) {
             throw StoreException.storeRequestInvalid();
         }
-        MapObject object = new MapObject();
-        StoreRegisterRequest request = object.toRegisterStore(profile);
         request.valid();
         System.out.println(request);
-        String img = fileService.saveImg(file, "/uploads/profile");
-        storeService.register(user.getUserId(), request.getStore(), request.getBankNameAccount(), request.getBankName(), request.getBankNumber(), img);
+        storeService.register(user.getUserId(), request.getStore(), request.getBankNameAccount(), request.getBankName(), request.getBankNumber());
         if (role.equals(UserTable.Role.USER)) {
             role = UserTable.Role.STORE;
         } else {
@@ -72,18 +69,15 @@ public class StoreBisiness {
     }
 
 
-    public  Object updateStore(MultipartFile file, Object profile) throws BaseException {
+    public  Object updateStore(StoreRegisterRequest request) throws BaseException {
         UserTable user = tokenService.getUserByToken();
         UserTable.Role role = user.getRole();
         if (role.equals(UserTable.Role.ADMIN) || role.equals(UserTable.Role.USER) || role.equals(UserTable.Role.AFFILIATE)) {
             throw StoreException.roleUserNotAllowed();
         }
         StoreTable store = storeService.findByUserId2(user);
-        MapObject object = new MapObject();
-        StoreRegisterRequest request = object.toRegisterStore(profile);
         request.valid();
-        String img = fileService.saveImg(file, "/uploads/profile");
-        storeService.updateStore(store, request.getStore(), request.getBankNameAccount(), request.getBankName(), request.getBankNumber(), img);
+        storeService.updateStore(store, request.getStore(), request.getBankNameAccount(), request.getBankName(), request.getBankNumber());
         return new Response().success("update store success");
     }
 
