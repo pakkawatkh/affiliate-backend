@@ -54,6 +54,7 @@ public class ProductService {
 
     public ProductTable getByProductIdAndStore(StoreTable store, Integer id) throws BaseException {
         Optional <ProductTable> product = productRepository.findByProductIdAndStoreId(id, store.getStoreId());
+        System.out.println(product.get());
         if (product.isEmpty()){
             throw ProductException.productNull();
         }

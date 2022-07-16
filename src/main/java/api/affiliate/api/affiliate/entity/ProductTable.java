@@ -22,7 +22,7 @@ public class ProductTable {
     @Column(name = "product_price", nullable = false, length = 10)
     private String  productPrice;
 
-    @Column(name = "product_detail", nullable = false, length = 120)
+    @Column(name = "product_detail", nullable = false, length = 5000)
     private String productDetail;
 
     @Column(name = "status", nullable = false)
