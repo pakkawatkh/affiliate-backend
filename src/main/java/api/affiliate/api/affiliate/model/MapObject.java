@@ -1,5 +1,6 @@
 package api.affiliate.api.affiliate.model;
 
+import api.affiliate.api.affiliate.entity.OrderListTable;
 import api.affiliate.api.affiliate.exception.*;
 import api.affiliate.api.affiliate.model.affiliate.AffiliateRegisterRequest;
 import api.affiliate.api.affiliate.model.product.ProductCreateRequest;
@@ -28,6 +29,19 @@ public class MapObject {
             map = mapper.readValue((String) result, ProductCreateRequest.class);
         } catch (JsonProcessingException e) {
             throw ProductException.productNull();
+        }
+        return map;
+    }
+
+
+
+    public OrderListTable toCreateOrder(Object result) throws BaseException {
+        ObjectMapper mapper = new ObjectMapper();
+        OrderListTable map;
+        try {
+            map = mapper.readValue((String) result, OrderListTable.class);
+        } catch (JsonProcessingException e) {
+            throw UserException.userRequestInvalid();
         }
         return map;
     }
