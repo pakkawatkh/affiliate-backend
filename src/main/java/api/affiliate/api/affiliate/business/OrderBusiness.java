@@ -65,7 +65,7 @@ public class OrderBusiness {
         MapObject object = new MapObject();
         OrderListTable request = object.toCreateOrder(order);
         String img = fileService.saveImg(file, "/uploads/orders");
-        orderService.createOrder(user.getUserId(),request.getDay(), request.getTime(), img);
+        orderService.createOrder(user.getUserId(),request.getPrice(), request.getDay(), request.getTime(), img);
         return new Response().success("create order success");
     }
 

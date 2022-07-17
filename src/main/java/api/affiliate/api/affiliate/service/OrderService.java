@@ -45,12 +45,13 @@ public class OrderService {
 
 
 
-    public void createOrder(String user, String day, String time, String img) throws BaseException {
+    public void createOrder(String user,String price, String day, String time, String img) throws BaseException {
     OrderListTable order = new OrderListTable();
         order.setUserId(user);
-        order.setImage(img);
+        order.setPrice(price);
         order.setDay(day);
         order.setTime(time);
+        order.setImage(img);
         try {
             orderRepository.save(order);
         }catch (Exception e) {

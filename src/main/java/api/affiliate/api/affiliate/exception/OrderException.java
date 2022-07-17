@@ -8,7 +8,7 @@ public class OrderException extends BaseException {
 
 
     public static OrderException orderRequestInvalid() {
-        return new OrderException("กรุณาแนบหลักฐานการชำระเงิน");
+        return new OrderException("Failed to create order");
     }
 
     public static OrderException createOrderDuplicated() {

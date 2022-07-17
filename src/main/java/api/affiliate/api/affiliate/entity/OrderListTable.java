@@ -16,9 +16,8 @@ public class OrderListTable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer orderId;
 
-    @Column(name = "status", nullable = false)
-    private Boolean status = true;
-
+    @Column(name = "price", nullable = false, length = 10)
+    private String  price;
 
     @Column(name = "day", nullable = false, length = 10)
     private String  day;
@@ -32,7 +31,10 @@ public class OrderListTable {
     @Column(name = "image")
     private String image;
 
-    @Column(name = "fk_user_id", nullable = false, unique = true)
+    @Column(name = "status", nullable = false)
+    private Boolean status = true;
+
+    @Column(name = "fk_user_id", nullable = false)
     private String userId;
 
 //nullable = false ห้ามว่าง
