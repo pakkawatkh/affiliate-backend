@@ -31,11 +31,21 @@ public class OrderController {
         return ResponseEntity.ok(order);
     }
 
+
+    @GetMapping("/getMyOrder")
+    public ResponseEntity<Object> getMyOrder() throws BaseException {
+        List<OrderListTable> order = orderBusiness.getMyOrder();
+        return ResponseEntity.ok(order);
+    }
+
+
+
     //    POST
     @PostMapping("/create-order")
-    public ResponseEntity<Object> createOrder(@RequestParam(value = "file") MultipartFile file) throws BaseException {
-        Object order = orderBusiness.createOrder(file);
-        return ResponseEntity.ok(order);
+    public ResponseEntity<Object> createOrder(@RequestParam(value = "file") MultipartFile file,
+                                              @RequestParam(value = "order")Object order) throws BaseException {
+        Object create = orderBusiness.createOrder(file, order);
+        return ResponseEntity.ok(create);
     }
 
 

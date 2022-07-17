@@ -36,13 +36,21 @@ public class OrderService {
     }
 
 
+    public List<OrderListTable> findMyOrder(String userId) {
+        List<OrderListTable> order = orderRepository.findAllOrderByUserId(userId);
+        return order;
+    }
 
 
 
-    public void createOrder(String user, String img) throws BaseException {
+
+
+    public void createOrder(String user, String day, String time, String img) throws BaseException {
     OrderListTable order = new OrderListTable();
         order.setUserId(user);
         order.setImage(img);
+        order.setDay(day);
+        order.setTime(time);
         try {
             orderRepository.save(order);
         }catch (Exception e) {

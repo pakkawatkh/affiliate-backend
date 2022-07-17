@@ -13,5 +13,6 @@ public interface OrderRepository extends JpaRepository<OrderListTable, Integer> 
     @Override
     List<OrderListTable> findAll();
 
+    List<OrderListTable>  findAllOrderByUserId(String userId);
     Optional<OrderListTable> findByUserId(String userId);
 }

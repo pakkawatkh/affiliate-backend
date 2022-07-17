@@ -108,11 +108,17 @@ public class UserBusiness {
         System.out.println(user.getImage());
         MapObject object = new MapObject();
         UserRegisterRequest request = object.toRegister(profile);
-        String img = fileService.saveImg(file, "/uploads/profile");
+        String img = file != null?  fileService.saveImg(file, "/uploads/profile") : user.getImage();
         userService.updateProfile(user,request.getFullName(), request.getEmail(),
                 request.getTel(), request.getAddress(), request.getSub(), request.getDistrict(),
                 request.getProvince(), request.getPostalCode(), img);
         return new Response().success("update profile success");
     }
+
+
+
+
+
+
 
 }

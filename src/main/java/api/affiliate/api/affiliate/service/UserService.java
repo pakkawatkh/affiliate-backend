@@ -114,9 +114,13 @@ public class UserService {
         user.setImage(img);
         try {
             userRepository.save(user);
+            System.out.println("try");
         } catch (Exception e) {
+            System.out.println("catch");
             throw UserException.userNameNull();
         }
     }
+
+
 
 }

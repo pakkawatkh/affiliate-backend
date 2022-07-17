@@ -19,13 +19,19 @@ public class OrderListTable {
     @Column(name = "status", nullable = false)
     private Boolean status = true;
 
+
+    @Column(name = "day", nullable = false, length = 10)
+    private String  day;
+
+    @Column(name = "time", nullable = false, length = 10)
+    private String  time;
+
     @Column(name = "date", nullable = false)
     private Date date = new Date();
 
     @Column(name = "image")
     private String image;
 
-    @JsonIgnore
     @Column(name = "fk_user_id", nullable = false, unique = true)
     private String userId;
 
