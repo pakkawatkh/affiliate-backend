@@ -99,6 +99,7 @@ public class ProductBusiness {
         MapObject object = new MapObject();
         ProductCreateRequest request = object.toCreateProduct(product);
         request.valid();
+        System.out.println(user.getRole());
         String img = fileService.saveImg(file, "/uploads/products");
         productService.createProduct(store.getStoreId(), request.getProductName(), request.getProductDetail(), request.getProductPrice(), img);
         return new Response().success("create product success");

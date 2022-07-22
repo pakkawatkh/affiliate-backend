@@ -22,6 +22,12 @@ public class ProductTable {
     @Column(name = "product_price", nullable = false, length = 10)
     private String  productPrice;
 
+    @Column(name = "product_amount", nullable = false, length = 10)
+    private Integer  productAmount = 0;
+
+    @Column(name = "product_total", nullable = false, length = 10)
+    private Integer  productTotal = 0;
+
     @Column(name = "product_detail", nullable = false, length = 5000)
     private String productDetail;
 
