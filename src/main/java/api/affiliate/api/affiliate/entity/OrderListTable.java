@@ -12,9 +12,9 @@ import java.util.Date;
 public class OrderListTable {
 
     @Id
-    @Column(name = "order_id" )
+    @Column(name = "order_list_id" )
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer orderId;
+    private Integer orderListId;
 
     @Column(name = "price", nullable = false, length = 10)
     private String  price;

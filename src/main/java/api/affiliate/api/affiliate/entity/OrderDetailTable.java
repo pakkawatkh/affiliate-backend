@@ -11,7 +11,7 @@ import java.util.Date;
 public class OrderDetailTable {
 
     @Id
-    @Column(name = "orders_id" )
+    @Column(name = "order_detail_id" )
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer orderDetailId;
 
@@ -27,8 +27,8 @@ public class OrderDetailTable {
     @Column(name = "fk_product_total", nullable = false, length = 10)
     private String  productTotal;
 
-    @Column(name = "fk_order_id", nullable = false)
-    private String orderId;
+    @Column(name = "fk_order_list_id", nullable = false)
+    private String orderListId;
 
 //nullable = false ห้ามว่าง
 }

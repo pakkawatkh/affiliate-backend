@@ -7,7 +7,7 @@ import api.affiliate.api.affiliate.exception.ProductException;
 import api.affiliate.api.affiliate.model.MapObject;
 import api.affiliate.api.affiliate.model.Response;
 import api.affiliate.api.affiliate.service.FileService;
-import api.affiliate.api.affiliate.service.OrderService;
+import api.affiliate.api.affiliate.service.OrderListService;
 import api.affiliate.api.affiliate.service.StoreService;
 import api.affiliate.api.affiliate.service.UserService;
 import api.affiliate.api.affiliate.service.token.TokenService;
@@ -17,17 +17,17 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Service
-public class OrderBusiness {
+public class OrderListBusiness {
 
 
-    public final OrderService orderService;
+    public final OrderListService orderService;
     public final UserService userService;
 
     private final StoreService storeService;
     private final TokenService tokenService;
     private final FileService fileService;
 
-    public OrderBusiness(TokenService tokenService, OrderService orderService, UserService userService, StoreService storeService, FileService fileService) {
+    public OrderListBusiness(TokenService tokenService, OrderListService orderService, UserService userService, StoreService storeService, FileService fileService) {
         this.tokenService = tokenService;
         this.orderService = orderService;
         this.userService = userService;
@@ -46,11 +46,20 @@ public class OrderBusiness {
     }
 
 
-    public List<OrderListTable> getMyOrder() throws BaseException {
+//    public List<OrderListTable> getMyOrder() throws BaseException {
+//        UserTable user = tokenService.getUserByToken();
+//        checkRoleIsStore(user);
+//        StoreTable store = storeService.findByUserId2(user);
+//        List<OrderListTable> order = orderService.findMyOrder(store.getUserId());
+//        return order;
+//    }
+
+
+    public List<OrderListTable> getOrderByStoreId() throws BaseException{
         UserTable user = tokenService.getUserByToken();
         checkRoleIsStore(user);
         StoreTable store = storeService.findByUserId2(user);
-        List<OrderListTable> order = orderService.findMyOrder(store.getUserId());
+        List<OrderListTable> order = orderService.getOrderByStoreId(store.getStoreId());
         return order;
     }
 

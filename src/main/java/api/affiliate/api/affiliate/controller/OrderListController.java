@@ -1,11 +1,8 @@
 package api.affiliate.api.affiliate.controller;
 
-import api.affiliate.api.affiliate.business.AffiliateBusiness;
-import api.affiliate.api.affiliate.business.OrderBusiness;
+import api.affiliate.api.affiliate.business.OrderListBusiness;
 import api.affiliate.api.affiliate.entity.OrderListTable;
-import api.affiliate.api.affiliate.entity.ProductTable;
 import api.affiliate.api.affiliate.exception.BaseException;
-import api.affiliate.api.affiliate.model.affiliate.AffiliateRegisterRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,11 +12,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/order")
-public class OrderController {
+public class OrderListController {
 
-    public final OrderBusiness orderBusiness;
+    public final OrderListBusiness orderBusiness;
 
-    public OrderController(OrderBusiness orderBusiness) {
+    public OrderListController(OrderListBusiness orderBusiness) {
         this.orderBusiness = orderBusiness;
     }
 
@@ -34,9 +31,11 @@ public class OrderController {
 
     @GetMapping("/getMyOrder")
     public ResponseEntity<Object> getMyOrder() throws BaseException {
-        List<OrderListTable> order = orderBusiness.getMyOrder();
+        List<OrderListTable> order = orderBusiness.getOrderByStoreId();
         return ResponseEntity.ok(order);
     }
+
+
 
 
 
