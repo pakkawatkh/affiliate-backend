@@ -1,5 +1,6 @@
 package api.affiliate.api.affiliate.model;
 
+import api.affiliate.api.affiliate.entity.CartItemTable;
 import api.affiliate.api.affiliate.entity.OrderListTable;
 import api.affiliate.api.affiliate.exception.*;
 import api.affiliate.api.affiliate.model.affiliate.AffiliateRegisterRequest;
@@ -29,6 +30,17 @@ public class MapObject {
             map = mapper.readValue((String) result, ProductCreateRequest.class);
         } catch (JsonProcessingException e) {
             throw ProductException.productNull();
+        }
+        return map;
+    }
+
+    public CartItemTable toCreateCart(Object result) throws BaseException {
+        ObjectMapper mapper = new ObjectMapper();
+        CartItemTable map;
+        try {
+            map = mapper.readValue((String) result, CartItemTable.class);
+        } catch (JsonProcessingException e) {
+            throw CartException.cartRequestInvalid();
         }
         return map;
     }

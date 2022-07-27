@@ -9,7 +9,6 @@ import lombok.Data;
 public class UserRegisterRequest {
 
     private String userName;
-
     private String passWord;
 
     private  String fullName;

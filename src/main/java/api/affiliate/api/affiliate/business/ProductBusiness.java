@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductBusiness {
@@ -83,8 +82,8 @@ public class ProductBusiness {
 
 
 
-    public Object findByProductById(Integer productId) throws BaseException{
-        Optional<ProductTable> product = productService.findByProductId(productId);
+    public ProductTable findByProductById(Integer productId) throws BaseException{
+        ProductTable product = productService.findByProductId(productId);
         System.out.println(product);
        return product;
     }

@@ -1,7 +1,6 @@
 package api.affiliate.api.affiliate.repository;
 
 import api.affiliate.api.affiliate.entity.OrderListTable;
-import api.affiliate.api.affiliate.entity.ProductTable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,9 +13,9 @@ public interface OrderRepository extends JpaRepository<OrderListTable, Integer> 
 
     @Override
     List<OrderListTable> findAll();
-
     List<OrderListTable>  findAllOrderByUserId(String userId);
-    Optional<OrderListTable> findByUserId(String userId);
+
+    Optional<OrderListTable> findByOrderListId(Integer orderId);
 
 
 

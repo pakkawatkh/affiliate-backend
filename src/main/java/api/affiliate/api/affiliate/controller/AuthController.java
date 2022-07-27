@@ -8,9 +8,9 @@ import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.ProductException;
 import api.affiliate.api.affiliate.model.user.UserLoginRequest;
 import api.affiliate.api.affiliate.model.user.UserRegisterRequest;
+import api.affiliate.api.affiliate.service.CartService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -84,3 +84,23 @@ class AuthProductController {
         return ResponseEntity.ok(product);
     }
 }
+//
+//@RestController
+//@RequestMapping("/auth")
+//class AuthCartController {
+//
+//    public final CartService cartService;
+//
+//    AuthCartController(CartService cartService) {
+//        this.cartService = cartService;
+//    }
+//
+//
+//    @PostMapping("/addProduct/{id}/{amount}")
+//    public Integer addProduct(@PathVariable("id") Integer productId,
+//                              @PathVariable("amount") Integer amount )throws BaseException{
+//        Integer addAmount =  cartService.addProduct(productId, amount);
+//        return (addAmount);
+//    }
+
+//}

@@ -37,8 +37,6 @@ public class OrderListController {
 
 
 
-
-
     //    POST
     @PostMapping("/create-order")
     public ResponseEntity<Object> createOrder(@RequestParam(value = "file") MultipartFile file,
@@ -46,6 +44,18 @@ public class OrderListController {
         Object create = orderBusiness.createOrder(file, order);
         return ResponseEntity.ok(create);
     }
+
+
+    @PutMapping("/update-order-payment/{id}")
+    public ResponseEntity<Object> updateOrderStatusIsPayment(@PathVariable Integer id) throws BaseException {
+        Object update = orderBusiness.updateOrderStatusIsPayment(id);
+        return ResponseEntity.ok(update);
+    }
+
+
+
+
+
 
 
 

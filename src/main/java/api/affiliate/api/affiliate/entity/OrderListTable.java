@@ -32,10 +32,13 @@ public class OrderListTable {
     private String image;
 
     @Column(name = "status", nullable = false)
-    private Boolean status = true;
+    private String status = "true";
 
     @Column(name = "fk_user_id", nullable = false)
     private String userId;
+//
+//    @Column(name = "fk_cart_id", nullable = false)
+//    private Integer cartId;
 
 //nullable = false ห้ามว่าง
 }
