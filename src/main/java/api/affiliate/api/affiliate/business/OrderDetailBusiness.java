@@ -62,14 +62,14 @@ public class OrderDetailBusiness {
         for (ProductRequest product : products) {
             ProductTable pd = productService.findByProductId(product.getProductId());
             System.out.println("product id :" + pd);
-            System.out.println("product amount : " + product.getProductAmount());
-            Integer amount = product.getProductAmount();
+            System.out.println("product amount : " + product.getAmount());
+            Integer amount = product.getAmount();
             Integer price = pd.getProductPrice();
             Integer total = amount * price;
             System.out.println("ToTal " + total);
             System.out.println("Store : " + pd.getStoreId());
-            orderDetailService.addProductIsOrder(pd.getProductId(), pd.getProductPrice(), product.getProductAmount(), total,
-                    pd.getStoreId(), user.getUserId(), order.getFullName(), Integer.valueOf(order.getTel()), order.getAddress(), order.getSub(),
+            orderDetailService.addProductIsOrder(pd.getProductId(), pd.getProductPrice(), product.getAmount(), total,
+                    pd.getStoreId(), user.getUserId(), order.getFullName(), order.getTel(), order.getAddress(), order.getSub(),
                     order.getDistrict(), order.getProvince(), order.getPostalCode());
 //            System.out.println("Create : " +addProductIsOrder );
         }

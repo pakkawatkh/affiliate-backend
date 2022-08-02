@@ -10,7 +10,7 @@ public class OrderRequest {
 
     private  String fullName;
 
-    private Integer tel;
+    private String tel;
 
     private String address;
 

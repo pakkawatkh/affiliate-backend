@@ -38,7 +38,7 @@ public class UserTable {
     private String email;
 
     @Column(name = "tel", nullable = false, length = 10)
-    private Integer tel;
+    private String tel;
 
     @Column(name = "address", nullable = false, length = 120)
     private String address;

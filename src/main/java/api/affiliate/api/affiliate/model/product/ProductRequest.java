@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class ProductRequest {
     private Integer productId;
-    private Integer productAmount;
+    private Integer amount;
 }

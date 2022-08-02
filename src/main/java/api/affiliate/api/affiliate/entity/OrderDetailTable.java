@@ -21,8 +21,8 @@ public class OrderDetailTable {
     @Column(name = "product_price", nullable = false)
     private Integer productPrice;
 
-    @Column(name = "product_amount", nullable = false)
-    private Integer productAmount;
+    @Column(name = "amount", nullable = false)
+    private Integer amount;
 
     @Column(name = "product_total", nullable = false)
     private Integer  productTotal;
@@ -37,7 +37,7 @@ public class OrderDetailTable {
     private String  fullName;
 
     @Column(name = "tel", nullable = false)
-    private Integer  tel;
+    private String  tel;
 
     @Column(name = "address", nullable = false)
     private String  address;

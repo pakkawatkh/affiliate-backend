@@ -34,12 +34,12 @@ public class OrderDetailService {
 
 
     public void addProductIsOrder(Integer productId, Integer productPrice, Integer productAmount, Integer productTotal,
-                                  Integer storeId, String userId, String fullName, Integer tel, String address, String sub,
+                                  Integer storeId, String userId, String fullName, String tel, String address, String sub,
                                   String district, String province, Integer postalCode) throws BaseException {
         OrderDetailTable order = new OrderDetailTable();
         order.setProductId(productId);
         order.setProductPrice(productPrice);
-        order.setProductAmount(productAmount);
+        order.setAmount(productAmount);
         order.setProductTotal(productTotal);
         order.setStoreId(storeId);
         order.setUserId(userId);

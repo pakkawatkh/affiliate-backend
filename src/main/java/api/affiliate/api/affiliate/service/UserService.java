@@ -34,7 +34,7 @@ public class UserService {
 
 
 
-    public void register(String userName, String passWord, String fullName, String email, Integer tel, String address, String sub
+    public void register(String userName, String passWord, String fullName, String email, String tel, String address, String sub
             , String district, String province, Integer postalCode) throws UserException {
         UserTable user = new UserTable();
         user.setUserName(userName);
@@ -101,7 +101,7 @@ public class UserService {
     }
 
 
-    public void updateProfile(UserTable user, String fullName, String email, Integer tel, String address, String sub
+    public void updateProfile(UserTable user, String fullName, String email, String tel, String address, String sub
             , String district, String province, Integer postalCode, String img) throws UserException {
         user.setFullName(fullName);
         user.setEmail(email);
