@@ -65,16 +65,14 @@ public class OrderListBusiness {
     }
 
 
-    public Object createOrder(MultipartFile file, Object order) throws BaseException {
+    public Object createOrder(MultipartFile file) throws BaseException {
         UserTable user = tokenService.getUserByToken();
         UserTable.Role role = user.getRole();
         if  (role.equals(UserTable.Role.ADMIN)){
             throw OrderException.roleUserNotAllowed();
         }
-        MapObject object = new MapObject();
-        OrderListTable request = object.toCreateOrder(order);
         String img = fileService.saveImg(file, "/uploads/orders");
-        orderService.createOrder(user.getUserId(),request.getPrice(), request.getDay(), request.getTime(), img);
+        orderService.createOrder(user.getUserId(), img);
         return new Response().success("create order success");
     }
 

@@ -29,14 +29,10 @@ public class StoreTable {
 
     //      เลขบัญชี
     @Column(name = "bank_number", nullable = false, length = 20)
-    private String bankNumber;
-
+    private Integer bankNumber;
 
     @Column(name = "status", nullable = false)
     private Boolean status = true;
-//
-//    @Column(name = "image")
-//    private String image;
 
     @JsonIgnore
     @Column(name = "fk_user_id", nullable = false, unique = true)

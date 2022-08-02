@@ -39,9 +39,8 @@ public class OrderListController {
 
     //    POST
     @PostMapping("/create-order")
-    public ResponseEntity<Object> createOrder(@RequestParam(value = "file") MultipartFile file,
-                                              @RequestParam(value = "order")Object order) throws BaseException {
-        Object create = orderBusiness.createOrder(file, order);
+    public ResponseEntity<Object> createOrder(@RequestParam(value = "file") MultipartFile file) throws BaseException {
+        Object create = orderBusiness.createOrder(file);
         return ResponseEntity.ok(create);
     }
 

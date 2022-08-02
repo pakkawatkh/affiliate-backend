@@ -58,7 +58,8 @@ public class StoreBisiness {
         }
         request.valid();
         System.out.println(request);
-        storeService.register(user.getUserId(), request.getStore(), request.getBankNameAccount(), request.getBankName(), request.getBankNumber());
+        storeService.register(user.getUserId(), request.getStore(), request.getBankNameAccount(), request.getBankName(),
+                Integer.valueOf(request.getBankNumber()));
         if (role.equals(UserTable.Role.USER)) {
             role = UserTable.Role.STORE;
         } else {
@@ -77,7 +78,8 @@ public class StoreBisiness {
         }
         StoreTable store = storeService.findByUserId2(user);
         request.valid();
-        storeService.updateStore(store, request.getStore(), request.getBankNameAccount(), request.getBankName(), request.getBankNumber());
+        storeService.updateStore(store, request.getStore(), request.getBankNameAccount(), request.getBankName(),
+                Integer.valueOf(request.getBankNumber()));
         return new Response().success("update store success");
     }
 

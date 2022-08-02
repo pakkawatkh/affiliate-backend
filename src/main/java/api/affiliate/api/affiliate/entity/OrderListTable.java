@@ -16,15 +16,6 @@ public class OrderListTable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer orderListId;
 
-    @Column(name = "price", nullable = false, length = 10)
-    private String  price;
-
-    @Column(name = "day", nullable = false, length = 10)
-    private String  day;
-
-    @Column(name = "time", nullable = false, length = 10)
-    private String  time;
-
     @Column(name = "date", nullable = false)
     private Date date = new Date();
 
