@@ -100,7 +100,7 @@ public class ProductBusiness {
         request.valid();
         System.out.println(user.getRole());
         String img = fileService.saveImg(file, "/uploads/products");
-        productService.createProduct(store.getStoreId(), request.getProductName(), request.getProductDetail(), request.getProductPrice(), img);
+        productService.createProduct(store.getStoreId(), request.getProductName(), request.getProductDetail(), Integer.valueOf(request.getProductPrice()), img);
         return new Response().success("create product success");
 
     }
@@ -116,7 +116,7 @@ public class ProductBusiness {
         ProductTable pd = productService.getByProductIdAndStore(store, productId);
         String img ;
         img = file != null?  fileService.saveImg(file, "/uploads/products") : pd.getImage();
-        productService.updateProduct(pd, request.getProductName(), request.getProductDetail(), request.getProductPrice(), img);
+        productService.updateProduct(pd, request.getProductName(), request.getProductDetail(), Integer.valueOf(request.getProductPrice()), img);
         return new Response().success("update product success");
     }
 

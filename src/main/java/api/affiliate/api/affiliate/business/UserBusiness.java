@@ -46,8 +46,8 @@ public class UserBusiness {
     public Object register(UserRegisterRequest request) throws BaseException {
         System.out.println(request);
         request.valid();
-        userService.register(request.getUserName(), request.getPassWord(), request.getFullName(), request.getEmail(), request.getTel(), request.getAddress(),
-                request.getSub(), request.getDistrict(), request.getProvince(), request.getPostalCode());
+        userService.register(request.getUserName(), request.getPassWord(), request.getFullName(), request.getEmail(), Integer.valueOf(request.getTel()), request.getAddress(),
+                request.getSub(), request.getDistrict(), request.getProvince(), Integer.valueOf(request.getPostalCode()));
         return new Response().success("register success");
     }
 
@@ -108,10 +108,12 @@ public class UserBusiness {
         System.out.println(user.getImage());
         MapObject object = new MapObject();
         UserRegisterRequest request = object.toRegister(profile);
+        System.out.println(file);
         String img = file != null?  fileService.saveImg(file, "/uploads/profile") : user.getImage();
+        System.out.println(file);
         userService.updateProfile(user,request.getFullName(), request.getEmail(),
-                request.getTel(), request.getAddress(), request.getSub(), request.getDistrict(),
-                request.getProvince(), request.getPostalCode(), img);
+                Integer.valueOf(request.getTel()), request.getAddress(), request.getSub(), request.getDistrict(),
+                request.getProvince(), Integer.valueOf(request.getPostalCode()), img);
         return new Response().success("update profile success");
     }
 

@@ -1,11 +1,9 @@
 package api.affiliate.api.affiliate.service;
 
 import api.affiliate.api.affiliate.entity.OrderListTable;
-import api.affiliate.api.affiliate.entity.ProductTable;
 import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.OrderException;
-import api.affiliate.api.affiliate.exception.ProductException;
-import api.affiliate.api.affiliate.repository.OrderRepository;
+import api.affiliate.api.affiliate.repository.OrderListRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +14,11 @@ import java.util.Optional;
 @Service
 public class OrderListService {
 
-    public final OrderRepository orderRepository;
+    public final OrderListRepository orderRepository;
     public final PasswordEncoder passwordEncoder;
 
 
-    public OrderListService(OrderRepository orderRepository, PasswordEncoder passwordEncoder) {
+    public OrderListService(OrderListRepository orderRepository, PasswordEncoder passwordEncoder) {
         this.orderRepository = orderRepository;
         this.passwordEncoder = passwordEncoder;
 //        getOrderByStoreId();

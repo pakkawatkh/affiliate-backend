@@ -16,18 +16,45 @@ public class OrderDetailTable {
     private Integer orderDetailId;
 
     @Column(name = "fk_product_id", nullable = false)
-    private String productId;
+    private Integer productId;
 
-    @Column(name = "fk_product_price", nullable = false)
-    private String productPrice;
+    @Column(name = "product_price", nullable = false)
+    private Integer productPrice;
 
-    @Column(name = "fk_product_amount", nullable = false)
-    private String productAmount;
+    @Column(name = "product_amount", nullable = false)
+    private Integer productAmount;
 
-    @Column(name = "fk_product_total", nullable = false, length = 10)
-    private String  productTotal;
+    @Column(name = "product_total", nullable = false)
+    private Integer  productTotal;
 
-    @Column(name = "fk_order_list_id", nullable = false)
+    @Column(name = "fk_store_id", nullable = false)
+    private Integer  storeId;
+
+    @Column(name = "fk_user_id", nullable = false)
+    private String  userId;
+
+    @Column(name = "full_name", nullable = false)
+    private String  fullName;
+
+    @Column(name = "tel", nullable = false)
+    private Integer  tel;
+
+    @Column(name = "address", nullable = false)
+    private String  address;
+
+    @Column(name = "sub", nullable = false)
+    private String  sub;
+
+    @Column(name = "district", nullable = false)
+    private String  district;
+
+    @Column(name = "province", nullable = false)
+    private String  province;
+
+    @Column(name = "postalCode", nullable = false)
+    private Integer  postalCode;
+
+    @Column(name = "fk_order_list_id")
     private String orderListId;
 
 //nullable = false ห้ามว่าง

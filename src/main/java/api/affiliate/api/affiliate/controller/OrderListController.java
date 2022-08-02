@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/order-list")
 public class OrderListController {
 
     public final OrderListBusiness orderBusiness;

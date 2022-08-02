@@ -20,7 +20,7 @@ public class ProductTable {
     private String productName;
 
     @Column(name = "product_price", nullable = false, length = 10)
-    private String  productPrice;
+    private Integer  productPrice;
 //
 //    @Column(name = "product_amount", nullable = false, length = 10)
 //    private Integer  productAmount = 0;

@@ -48,7 +48,7 @@ public class CartService {
 //        return cart.get();
 //    }
 
-    public CartItemTable findByProductId2(Integer productId)throws  BaseException{
+    public CartItemTable findByProductId(Integer productId)throws  BaseException{
         Optional<CartItemTable> cart = cartItemRepository.findByProductId(productId);
         try {
         System.out.println("PRODUCT ID " + cart );
@@ -77,16 +77,24 @@ public class CartService {
 //    }
 
 
-    public void addProduct(String userId, Integer cartId, Integer product)throws BaseException {
+    public void addProduct(String userId, Integer product)throws BaseException {
         CartItemTable cartItem = new CartItemTable();
         cartItem.setUserId(userId);
-        cartItem.setCartId(cartId);
-        if ( product != null ){
-            cartItem.setProductId(3);
-        }
+        cartItem.setProductId(product);
+
         try {
         cartItemRepository.save(cartItem);
 
+        }catch (Exception e){
+            throw CartException.roleUserNotAllowed();
+        }
+    }
+
+    public void updateCart(CartItemTable cart, Integer cartId, Integer product)throws BaseException {
+        cart.setCartId(cartId);
+        cart.setProductId(product);
+        try {
+            cartItemRepository.save(cart);
         }catch (Exception e){
             throw CartException.roleUserNotAllowed();
         }

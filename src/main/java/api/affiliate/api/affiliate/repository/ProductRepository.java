@@ -28,6 +28,8 @@ public interface ProductRepository extends JpaRepository<ProductTable, Integer> 
 
     List<ProductTable> findByStatusIsTrueAndStoreId(Integer storeId);
 
+    Optional<ProductTable> findProductByStoreId(Integer storeId);
+
     Optional<ProductTable> findByProductId(Integer productId);
 
     Optional<ProductTable> findByProductIdAndStoreId(Integer productId, Integer storeId);

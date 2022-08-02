@@ -38,7 +38,7 @@ public class UserTable {
     private String email;
 
     @Column(name = "tel", nullable = false, length = 10)
-    private String tel;
+    private Integer tel;
 
     @Column(name = "address", nullable = false, length = 120)
     private String address;
@@ -53,7 +53,7 @@ public class UserTable {
     private String province;
 
     @Column(name = "postal_code", nullable = false, length = 10)
-    private String postalCode;
+    private Integer postalCode;
 
     @Column(name = "status", nullable = false)
     private Boolean status = true;

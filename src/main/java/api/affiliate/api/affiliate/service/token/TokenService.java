@@ -39,7 +39,7 @@ public class TokenService {
     public String tokenizeUser(UserTable user) {
 
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.HOUR, 24);
+        calendar.add(Calendar.HOUR, 50);
         Date expiresAt = calendar.getTime();
 
         return JWT.create()
@@ -82,7 +82,6 @@ public class TokenService {
     public String userId() {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
-        System.out.println(authentication);
         return (String) authentication.getPrincipal();
     }
 

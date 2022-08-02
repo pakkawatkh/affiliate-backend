@@ -38,9 +38,18 @@ public class CartController {
     }
 
 
-    @PostMapping("/addProduct/{id}")
+
+
+    @PostMapping("/add-product/{id}")
     public ResponseEntity<Object> addProduct(@PathVariable Integer id)throws BaseException{
         Object cartItem = cartBusiness.addProduct(id);
+        return ResponseEntity.ok(cartItem);
+    }
+
+
+    @PutMapping("/update-cart/{id}")
+    public ResponseEntity<Object> updateCart(@PathVariable Integer id)throws BaseException{
+        Object cartItem = cartBusiness.updateCart(id);
         return ResponseEntity.ok(cartItem);
     }
 

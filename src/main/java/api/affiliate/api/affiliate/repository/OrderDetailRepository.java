@@ -1,7 +1,8 @@
 package api.affiliate.api.affiliate.repository;
 
 import api.affiliate.api.affiliate.entity.OrderDetailTable;
-import api.affiliate.api.affiliate.entity.OrderListTable;
+
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,5 +16,5 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetailTable, I
     @Override
     List<OrderDetailTable> findAll();
 
-
+    List<OrderDetailTable> findAllByStoreId(Integer storeId);
 }

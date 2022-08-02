@@ -46,10 +46,17 @@ public class CartBusiness {
         System.out.println("USER " + user);
         ProductTable product = productService.findByProductId(productId);
         System.out.println("PRODUCT " + product);
-        CartItemTable request = cartService.findByProductId2(productId);
-        System.out.println("REQUEST " + request.getProductId());
-        cartService.addProduct(user.getUserId(), request.getCartId(), request.getProductId());
+        cartService.addProduct(user.getUserId(), product.getProductId());
         return new Response().success("add product success");
+    }
+
+    public Object updateCart(Integer productId) throws BaseException{
+        UserTable user = tokenService.getUserByToken();
+        ProductTable product = productService.findByProductId(productId);
+        CartItemTable request = cartService.findByUserId(user.getUserId());
+        System.out.println(request);
+        cartService.updateCart(request, request.getCartId(), product.getProductId());
+        return new Response().success("update product success");
     }
 
 

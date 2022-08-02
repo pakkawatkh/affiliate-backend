@@ -35,6 +35,13 @@ public class ProductService {
     }
 
 
+    public ProductTable findProductByStoreId(Integer storeId) {
+        Optional<ProductTable> product = productRepository.findProductByStoreId(storeId);
+        return product.get();
+    }
+
+
+
 
 
     public List<ProductTable> findAllByStatusIsTrue() {
@@ -70,7 +77,7 @@ public class ProductService {
 
 
 
-    public void createProduct(Integer store, String productName, String productDetail, String productPrice, String img) throws BaseException{
+    public void createProduct(Integer store, String productName, String productDetail, Integer productPrice, String img) throws BaseException{
         ProductTable product = new ProductTable();
         product.setStoreId(store);
         product.setProductName(productName);
@@ -89,7 +96,7 @@ public class ProductService {
     }
 
 
-    public void updateProduct(ProductTable product, String productName, String productDetail, String productPrice, String img) throws BaseException{
+    public void updateProduct(ProductTable product, String productName, String productDetail, Integer productPrice, String img) throws BaseException{
         product.setProductName(productName);
         product.setProductDetail(productDetail);
         product.setProductPrice(productPrice);
