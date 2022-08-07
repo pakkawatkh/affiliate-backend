@@ -13,10 +13,10 @@ public interface OrderListRepository extends JpaRepository<OrderListTable, Integ
 
     @Override
     List<OrderListTable> findAll();
-    List<OrderListTable>  findAllOrderByUserId(String userId);
+
+    List<OrderListTable> findAllOrderByUserId(String userId);
 
     Optional<OrderListTable> findByOrderListId(Integer orderId);
-
 
 
     @Query(value = """
@@ -27,5 +27,12 @@ public interface OrderListRepository extends JpaRepository<OrderListTable, Integ
                 group by ol.order_list_id
              """, nativeQuery = true)
     List<OrderListTable> getOrderByStoreId(@Param("store_id") Integer storeId);
+
+    @Query("""
+            select o from OrderListTable as o
+            where o.orderListId =:id
+            and o.storeId =:store_id
+            """)
+    OrderListTable getOrderListDetailByIdAndStore(@Param("store_id")Integer store_id,@Param("id")Integer id);
 
 }

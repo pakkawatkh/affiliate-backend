@@ -4,15 +4,14 @@ import api.affiliate.api.affiliate.entity.*;
 import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.OrderException;
 import api.affiliate.api.affiliate.exception.ProductException;
-import api.affiliate.api.affiliate.model.MapObject;
+import api.affiliate.api.affiliate.mapper.OrderListMapper;
 import api.affiliate.api.affiliate.model.Response;
+import api.affiliate.api.affiliate.model.order.OrderResponse;
 import api.affiliate.api.affiliate.service.*;
 import api.affiliate.api.affiliate.service.token.TokenService;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OrderListBusiness {
@@ -27,13 +26,19 @@ public class OrderListBusiness {
     private final TokenService tokenService;
     private final FileService fileService;
 
-    public OrderListBusiness(TokenService tokenService, OrderListService orderService, UserService userService, CartService cartService, StoreService storeService, FileService fileService) {
+    private final OrderDetailService orderDetailService;
+
+    private final OrderListMapper orderListMapper;
+
+    public OrderListBusiness(TokenService tokenService, OrderListService orderService, UserService userService, CartService cartService, StoreService storeService, FileService fileService, OrderDetailService orderDetailService, OrderListMapper orderListMapper) {
         this.tokenService = tokenService;
         this.orderService = orderService;
         this.userService = userService;
         this.cartService = cartService;
         this.storeService = storeService;
         this.fileService = fileService;
+        this.orderDetailService = orderDetailService;
+        this.orderListMapper = orderListMapper;
     }
 
 
@@ -64,17 +69,29 @@ public class OrderListBusiness {
         return order;
     }
 
-
-    public Object createOrder(MultipartFile file) throws BaseException {
+    public OrderResponse getDetailById(Integer id) throws BaseException {
         UserTable user = tokenService.getUserByToken();
-        UserTable.Role role = user.getRole();
-        if  (role.equals(UserTable.Role.ADMIN)){
-            throw OrderException.roleUserNotAllowed();
-        }
-        String img = fileService.saveImg(file, "/uploads/orders");
-        orderService.createOrder(user.getUserId(), img);
-        return new Response().success("create order success");
+        checkRoleIsStore(user);
+        StoreTable store = storeService.findByUserId2(user);
+        OrderListTable order = orderService.getOrderListDetailByIdAndStore(id, store.getStoreId());
+        OrderResponse response = orderListMapper.toOrderResponse(order);
+        List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(response.getOrderListId());
+        response.setDetail(details);
+
+        return response;
     }
+
+
+//    public Object createOrder(MultipartFile file) throws BaseException {
+//        UserTable user = tokenService.getUserByToken();
+//        UserTable.Role role = user.getRole();
+//        if  (role.equals(UserTable.Role.ADMIN)){
+//            throw OrderException.roleUserNotAllowed();
+//        }
+//        String img = fileService.saveImg(file, "/uploads/orders");
+//        orderService.createOrder(user.getUserId(), img);
+//        return new Response().success("create order success");
+//    }
 
     public void checkRoleIsStore(UserTable user) throws BaseException {
         UserTable.Role role = user.getRole();

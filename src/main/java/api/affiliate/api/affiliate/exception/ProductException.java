@@ -23,4 +23,7 @@ public class ProductException extends BaseException {
 
     public static ProductException productNull() { return new ProductException("ไม่พบข้อมูล product"); }
 
+
+    public static ProductException productNotfound() { return new ProductException("ไม่พบข้อมูล product id ใน store id"); }
+
 }

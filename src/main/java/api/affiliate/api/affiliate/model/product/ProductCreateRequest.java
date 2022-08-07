@@ -9,8 +9,7 @@ import lombok.Data;
 public class ProductCreateRequest {
 
     private String productName;
-
-    private String  productPrice;
+    private Integer  productPrice;
 
     private String productDetail;
 
@@ -18,7 +17,7 @@ public class ProductCreateRequest {
         if (productName == null || productPrice == null) {
             throw ProductException.productRequestInvalid();
         }
-        if (productName.isBlank() || productPrice.isBlank()) {
+        if (productName.isBlank() || productPrice.equals(null)) {
             throw ProductException.productRequestInvalid();
         }
     }

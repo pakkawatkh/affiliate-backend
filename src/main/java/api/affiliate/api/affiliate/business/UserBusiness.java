@@ -42,15 +42,14 @@ public class UserBusiness {
     }
 
 
-//file = img , profile = data profile
+    //file = img , profile = data profile
     public Object register(UserRegisterRequest request) throws BaseException {
         System.out.println(request);
         request.valid();
         userService.register(request.getUserName(), request.getPassWord(), request.getFullName(), request.getEmail(), request.getTel(), request.getAddress(),
-                request.getSub(), request.getDistrict(), request.getProvince(), Integer.valueOf(request.getPostalCode()));
+                request.getSub(), request.getDistrict(), request.getProvince(), request.getPostalCode());
         return new Response().success("register success");
     }
-
 
 
     public Object login(UserLoginRequest request) throws BaseException {
@@ -60,9 +59,8 @@ public class UserBusiness {
             throw UserException.passWordInvalid();
         }
         String tokenize = tokenService.tokenizeUser(user);
-        return new Response().ok(user.getRole().toString(),"token",tokenize);
+        return new Response().ok(user.getRole().toString(), "token", tokenize);
     }
-
 
 
     public UserTable checkLogin() throws BaseException {
@@ -71,56 +69,45 @@ public class UserBusiness {
     }
 
 
-
-
     public List<UserTable> findAllUser() {
         List<UserTable> store = userService.findAllUser();
         return store;
     }
 
 
-
     public Object getProfile() throws BaseException {
         UserTable user = tokenService.getUserByToken();
         UserProfileResponse response = userMapper.toUserProfileResponse(user);
-
         UserTable.Role role = user.getRole();
-        if (role.equals(UserTable.Role.STORE)){
+        if (role.equals(UserTable.Role.STORE)) {
             StoreTable store = storeService.findByUserId(user);
             response.setStore(store);
-        }else if(role.equals(UserTable.Role.AFFILIATE)){
+        } else if (role.equals(UserTable.Role.AFFILIATE)) {
             AffiliateTable affiliate = affiliateService.findByUser(user);
             response.setAffiliate(affiliate);
-        }else if(role.equals(UserTable.Role.ST_AF)){
+        } else if (role.equals(UserTable.Role.ST_AF)) {
             StoreTable store = storeService.findByUserId(user);
             response.setStore(store);
             AffiliateTable affiliate = affiliateService.findByUser(user);
             response.setAffiliate(affiliate);
         }
-        return new Response().ok("","profile",response);
+        return new Response().ok("", "profile", response);
     }
 
 
-
-
-    public  Object updateProfile(MultipartFile file, Object profile)throws BaseException{
+    public Object updateProfile(MultipartFile file, Object profile) throws BaseException {
         UserTable user = tokenService.getUserByToken();
         System.out.println(user.getImage());
         MapObject object = new MapObject();
         UserRegisterRequest request = object.toRegister(profile);
         System.out.println(file);
-        String img = file != null?  fileService.saveImg(file, "/uploads/profile") : user.getImage();
+        String img = file != null ? fileService.saveImg(file, "/uploads/profile") : user.getImage();
         System.out.println(file);
-        userService.updateProfile(user,request.getFullName(), request.getEmail(),
+        userService.updateProfile(user, request.getFullName(), request.getEmail(),
                 request.getTel(), request.getAddress(), request.getSub(), request.getDistrict(),
-                request.getProvince(), Integer.valueOf(request.getPostalCode()), img);
+                request.getProvince(), request.getPostalCode(), img);
         return new Response().success("update profile success");
     }
-
-
-
-
-
 
 
 }

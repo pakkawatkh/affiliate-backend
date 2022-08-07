@@ -22,5 +22,9 @@ public class OrderRequest {
 
     private Integer postalCode;
 
+    private Integer orderListId;
+
+    private Integer storeId;
+
     private List<ProductRequest> products;
 }

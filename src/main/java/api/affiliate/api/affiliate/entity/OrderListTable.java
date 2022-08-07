@@ -27,6 +27,35 @@ public class OrderListTable {
 
     @Column(name = "fk_user_id", nullable = false)
     private String userId;
+
+    @Column(name = "full_name", nullable = false)
+    private String  fullName;
+
+    @Column(name = "tel", nullable = false)
+    private String  tel;
+
+    @Column(name = "address", nullable = false)
+    private String  address;
+
+    @Column(name = "sub", nullable = false)
+    private String  sub;
+
+    @Column(name = "district", nullable = false)
+    private String  district;
+
+    @Column(name = "province", nullable = false)
+    private String  province;
+
+    @Column(name = "postalCode", nullable = false)
+    private Integer  postalCode;
+
+    @Column(name = "totalPrice")
+    private Integer  totalPrice;
+
+    @Column(name = "fk_store_id", nullable = false)
+    private Integer  storeId;
+
+
 //
 //    @Column(name = "fk_cart_id", nullable = false)
 //    private Integer cartId;

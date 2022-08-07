@@ -25,7 +25,7 @@ public class UserRegisterRequest {
 
     private String province;
 
-    private String postalCode;
+    private Integer postalCode;
 
     public void valid() throws BaseException {
 

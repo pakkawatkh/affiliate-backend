@@ -47,14 +47,42 @@ public class OrderListService {
 
 
 
-    public void createOrder(String user, String img) throws BaseException {
+    public OrderListTable createOrder(String user, String fullName, String tel, String address, String sub,
+                                      String district, String province, Integer postalCode, Integer storeId) throws BaseException {
         OrderListTable order = new OrderListTable();
         order.setUserId(user);
-        order.setImage(img);
+        order.setFullName(fullName);
+        order.setTel(tel);
+        order.setAddress(address);
+        order.setSub(sub);
+        order.setDistrict(district);
+        order.setProvince(province);
+        order.setPostalCode(postalCode);
+        order.setStoreId(storeId);
         try {
-            orderRepository.save(order);
+            return orderRepository.save(order);
+
         }catch (Exception e) {
             throw OrderException.orderRequestInvalid();
+        }
+
+    }
+
+
+    public void saveTotalPrice(OrderListTable order)throws BaseException{
+        try {
+            orderRepository.save(order);
+        }catch (Exception e){
+//            TODO: ERROR
+        }
+    }
+
+
+    public void deleteOrderList(OrderListTable orderList)throws BaseException{
+        try {
+            orderRepository.delete(orderList);
+        }catch (Exception e){
+//            TODO: ERROR
         }
     }
 
@@ -80,6 +108,10 @@ public class OrderListService {
         List<OrderListTable> order = orderRepository.getOrderByStoreId(storeId);
         System.out.println(order.toString());
         return order;
+    }
+
+    public OrderListTable getOrderListDetailByIdAndStore(Integer id,Integer storeId){
+        return orderRepository.getOrderListDetailByIdAndStore(storeId, id);
     }
 
 

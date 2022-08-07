@@ -77,6 +77,15 @@ public class StoreService {
     }
 
 
+    public StoreTable findByStoreId(Integer storeId) throws BaseException {
+        Optional<StoreTable> store = storeRepository.findById(storeId);
+        if (store.isEmpty()) {
+            throw StoreException.storeIdNull();
+        }
+        return store.get();
+    }
+
+
     public StoreTable findByUserId2(UserTable user) throws BaseException {
         Optional<StoreTable> store = storeRepository.findByUserId(user.getUserId());
         if (store.isEmpty()) {

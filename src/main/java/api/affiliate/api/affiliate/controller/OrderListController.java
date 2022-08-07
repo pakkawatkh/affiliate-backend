@@ -3,9 +3,9 @@ package api.affiliate.api.affiliate.controller;
 import api.affiliate.api.affiliate.business.OrderListBusiness;
 import api.affiliate.api.affiliate.entity.OrderListTable;
 import api.affiliate.api.affiliate.exception.BaseException;
+import api.affiliate.api.affiliate.model.order.OrderResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -34,15 +34,20 @@ public class OrderListController {
         List<OrderListTable> order = orderBusiness.getOrderByStoreId();
         return ResponseEntity.ok(order);
     }
+    @GetMapping("/getOrderDetail")
+    public ResponseEntity<OrderResponse> getOrderDetail(@RequestParam(name = "id")Integer orderId) throws BaseException {
+        OrderResponse order = orderBusiness.getDetailById(orderId);
+        return ResponseEntity.ok(order);
+    }
 
 
 
     //    POST
-    @PostMapping("/create-order")
-    public ResponseEntity<Object> createOrder(@RequestParam(value = "file") MultipartFile file) throws BaseException {
-        Object create = orderBusiness.createOrder(file);
-        return ResponseEntity.ok(create);
-    }
+//    @PostMapping("/create-order")
+//    public ResponseEntity<Object> createOrder(@RequestParam(value = "file") MultipartFile file) throws BaseException {
+//        Object create = orderBusiness.createOrder(file);
+//        return ResponseEntity.ok(create);
+//    }
 
 
     @PutMapping("/update-order-payment/{id}")

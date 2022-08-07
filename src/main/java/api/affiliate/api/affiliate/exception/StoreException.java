@@ -19,6 +19,10 @@ public class StoreException extends BaseException {
         return new StoreException("ไม่พบ storeName");
     }
 
+    public static StoreException storeIdNull() {
+        return new StoreException("ไม่พบ store id");
+    }
+
     public static StoreException passWordInvalid() {
         return new StoreException("passWord ไม่ถูกต้อง");
     }
