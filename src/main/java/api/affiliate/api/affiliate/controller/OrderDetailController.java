@@ -32,13 +32,6 @@ public class OrderDetailController {
     }
 
 
-//    @GetMapping("/getOrderIdMax")
-//    public ResponseEntity<Optional<OrderDetailTable>> getOrderIdMax() throws BaseException {
-//        Optional<OrderDetailTable> order = orderDetailBusiness.getOrderIdMax();
-//        return ResponseEntity.ok(order);
-//    }
-
-
 //    @GetMapping("/getAllByStoreId")
 //    public ResponseEntity<Object> findAllByStoreId() throws BaseException {
 //        List<OrderDetailTable> order = orderDetailBusiness.findAllByStoreId();

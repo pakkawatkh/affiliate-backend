@@ -45,8 +45,6 @@ public class OrderListService {
 
 
 
-
-
     public OrderListTable createOrder(String user, String fullName, String tel, String address, String sub,
                                       String district, String province, Integer postalCode, Integer storeId) throws BaseException {
         OrderListTable order = new OrderListTable();
@@ -87,23 +85,6 @@ public class OrderListService {
     }
 
 
-
-//    public void createOrder(Integer cart,String price, String day, String time, String img) throws BaseException {
-//        OrderListTable order = new OrderListTable();
-//        order.setCartId(cart);
-//        order.setPrice(price);
-//        order.setDay(day);
-//        order.setTime(time);
-//        order.setImage(img);
-//        try {
-//            orderRepository.save(order);
-//            System.out.println("try");
-//        }catch (Exception e) {
-//            System.out.println("catch");
-//            throw OrderException.orderRequestInvalid();
-//        }
-//    }
-
     public List<OrderListTable> getOrderByStoreId(Integer storeId){
         List<OrderListTable> order = orderRepository.getOrderByStoreId(storeId);
         System.out.println(order.toString());
@@ -115,8 +96,8 @@ public class OrderListService {
     }
 
 
-    public void updateOrderStatusIsPayment(OrderListTable order) throws BaseException{
-        order.setStatus("payment");
+    public void addSlip(OrderListTable order, String img) throws BaseException{
+        order.setImage(img);
         order.setDate(new Date());
         try {
             orderRepository.save(order);

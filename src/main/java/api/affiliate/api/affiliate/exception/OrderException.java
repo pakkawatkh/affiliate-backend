@@ -11,11 +11,6 @@ public class OrderException extends BaseException {
         return new OrderException("Failed to create order");
     }
 
-    public static OrderException createOrderDuplicated() {
-        return new OrderException("orderName ซ้ำ");
-    }
-
-
     public static OrderException orderNull() {
         return new OrderException("ไม่พบข้อมูล order");
     }

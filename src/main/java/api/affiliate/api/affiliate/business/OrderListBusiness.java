@@ -10,6 +10,7 @@ import api.affiliate.api.affiliate.model.order.OrderResponse;
 import api.affiliate.api.affiliate.service.*;
 import api.affiliate.api.affiliate.service.token.TokenService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -52,15 +53,6 @@ public class OrderListBusiness {
     }
 
 
-//    public List<OrderListTable> getMyOrder() throws BaseException {
-//        UserTable user = tokenService.getUserByToken();
-//        checkRoleIsStore(user);
-//        StoreTable store = storeService.findByUserId2(user);
-//        List<OrderListTable> order = orderService.findMyOrder(store.getUserId());
-//        return order;
-//    }
-
-
     public List<OrderListTable> getOrderByStoreId() throws BaseException{
         UserTable user = tokenService.getUserByToken();
         checkRoleIsStore(user);
@@ -82,16 +74,6 @@ public class OrderListBusiness {
     }
 
 
-//    public Object createOrder(MultipartFile file) throws BaseException {
-//        UserTable user = tokenService.getUserByToken();
-//        UserTable.Role role = user.getRole();
-//        if  (role.equals(UserTable.Role.ADMIN)){
-//            throw OrderException.roleUserNotAllowed();
-//        }
-//        String img = fileService.saveImg(file, "/uploads/orders");
-//        orderService.createOrder(user.getUserId(), img);
-//        return new Response().success("create order success");
-//    }
 
     public void checkRoleIsStore(UserTable user) throws BaseException {
         UserTable.Role role = user.getRole();
@@ -103,13 +85,16 @@ public class OrderListBusiness {
         }
     }
 
-    public Object updateOrderStatusIsPayment(Integer orderId) throws BaseException {
+    public Object addslip(MultipartFile file, Integer orderId) throws BaseException {
         UserTable user = tokenService.getUserByToken();
-        checkRoleIsStore(user);
+//        checkRoleIsStore(user);
+        System.out.println("USER" + user);
         OrderListTable order = orderService.findByOrderId(orderId);
         System.out.println("ORDER " + order);
-        orderService.updateOrderStatusIsPayment(order);
-        return new Response().success("update order status payment");
+        String img ;
+        img = file != null?  fileService.saveImg(file, "/uploads/orders") : order.getImage();
+        orderService.addSlip(order, img);
+        return new Response().success("add slip success");
     }
 
 

@@ -6,6 +6,7 @@ import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.model.order.OrderResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -21,7 +22,6 @@ public class OrderListController {
     }
 
 
-
     @GetMapping("/getAllOrder")
     public ResponseEntity<Object> getAllOrder() throws BaseException {
         List<OrderListTable> order = orderBusiness.getAllOrder();
@@ -34,36 +34,28 @@ public class OrderListController {
         List<OrderListTable> order = orderBusiness.getOrderByStoreId();
         return ResponseEntity.ok(order);
     }
+
     @GetMapping("/getOrderDetail")
-    public ResponseEntity<OrderResponse> getOrderDetail(@RequestParam(name = "id")Integer orderId) throws BaseException {
+    public ResponseEntity<OrderResponse> getOrderDetail(@RequestParam(name = "id") Integer orderId) throws BaseException {
         OrderResponse order = orderBusiness.getDetailById(orderId);
         return ResponseEntity.ok(order);
     }
 
 
-
-    //    POST
-//    @PostMapping("/create-order")
-//    public ResponseEntity<Object> createOrder(@RequestParam(value = "file") MultipartFile file) throws BaseException {
-//        Object create = orderBusiness.createOrder(file);
+//       PUT
+//    @PostMapping("/update-order-payment/{id}")
+//    public ResponseEntity<Object> createOrder(@PathVariable Integer id) throws BaseException {
+//        Object create = orderBusiness.updateOrderStatusIsPayment(id);
 //        return ResponseEntity.ok(create);
 //    }
 
 
-    @PutMapping("/update-order-payment/{id}")
-    public ResponseEntity<Object> updateOrderStatusIsPayment(@PathVariable Integer id) throws BaseException {
-        Object update = orderBusiness.updateOrderStatusIsPayment(id);
+    @PutMapping("/add-silp-by-order/{id}")
+    public ResponseEntity<Object> addSlip(@PathVariable Integer id,
+                                          @RequestParam(value = "file", required = false) MultipartFile file) throws BaseException {
+        Object update = orderBusiness.addslip(file, id);
         return ResponseEntity.ok(update);
     }
-
-
-
-
-
-
-
-
-
 
 
 }
