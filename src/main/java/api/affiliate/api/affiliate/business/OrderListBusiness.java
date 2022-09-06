@@ -1,6 +1,9 @@
 package api.affiliate.api.affiliate.business;
 
-import api.affiliate.api.affiliate.entity.*;
+import api.affiliate.api.affiliate.entity.OrderDetailTable;
+import api.affiliate.api.affiliate.entity.OrderListTable;
+import api.affiliate.api.affiliate.entity.StoreTable;
+import api.affiliate.api.affiliate.entity.UserTable;
 import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.OrderException;
 import api.affiliate.api.affiliate.exception.ProductException;
@@ -20,22 +23,16 @@ public class OrderListBusiness {
 
     public final OrderListService orderService;
     public final UserService userService;
-
-    public final CartService cartService;
-
     private final StoreService storeService;
     private final TokenService tokenService;
     private final FileService fileService;
-
     private final OrderDetailService orderDetailService;
-
     private final OrderListMapper orderListMapper;
 
-    public OrderListBusiness(TokenService tokenService, OrderListService orderService, UserService userService, CartService cartService, StoreService storeService, FileService fileService, OrderDetailService orderDetailService, OrderListMapper orderListMapper) {
+    public OrderListBusiness(TokenService tokenService, OrderListService orderService, UserService userService, StoreService storeService, FileService fileService, OrderDetailService orderDetailService, OrderListMapper orderListMapper) {
         this.tokenService = tokenService;
         this.orderService = orderService;
         this.userService = userService;
-        this.cartService = cartService;
         this.storeService = storeService;
         this.fileService = fileService;
         this.orderDetailService = orderDetailService;
@@ -43,17 +40,16 @@ public class OrderListBusiness {
     }
 
 
-
     public List<OrderListTable> getAllOrder() throws BaseException {
         List<OrderListTable> order = orderService.findAllOrder();
-        if (order.isEmpty()){
+        if (order.isEmpty()) {
             throw OrderException.orderNull();
         }
         return order;
     }
 
 
-    public List<OrderListTable> getOrderByStoreId() throws BaseException{
+    public List<OrderListTable> getOrderByStoreId() throws BaseException {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsStore(user);
         StoreTable store = storeService.findByUserId2(user);
@@ -74,13 +70,22 @@ public class OrderListBusiness {
     }
 
 
+    public List<OrderResponse> getMyOrderList() throws BaseException {
+        UserTable user = tokenService.getUserByToken();
+        List<OrderListTable> orderList = orderService.findMyOrder(user.getUserId());
+        List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
+        for (OrderResponse order: orderResponses){
+            List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
+            order.setDetail(details);
+        }
+        return orderResponses;
+    }
+
 
     public void checkRoleIsStore(UserTable user) throws BaseException {
         UserTable.Role role = user.getRole();
-        boolean checkRole = role.equals(UserTable.Role.USER)
-                || role.equals(UserTable.Role.AFFILIATE)
-                || role.equals(UserTable.Role.ADMIN);
-        if (checkRole){
+        boolean checkRole = role.equals(UserTable.Role.USER) || role.equals(UserTable.Role.AFFILIATE) || role.equals(UserTable.Role.ADMIN);
+        if (checkRole) {
             throw ProductException.roleUserNotAllowed();
         }
     }
@@ -91,8 +96,8 @@ public class OrderListBusiness {
         System.out.println("USER" + user);
         OrderListTable order = orderService.findByOrderId(orderId);
         System.out.println("ORDER " + order);
-        String img ;
-        img = file != null?  fileService.saveImg(file, "/uploads/orders") : order.getImage();
+        String img;
+        img = file != null ? fileService.saveImg(file, "/uploads/orders") : order.getImage();
         orderService.addSlip(order, img);
         return new Response().success("add slip success");
     }

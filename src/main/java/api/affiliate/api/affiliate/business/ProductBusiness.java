@@ -89,6 +89,16 @@ public class ProductBusiness {
     }
 
 
+    public List<ProductTable> getProductSearch(String productName) throws BaseException{
+        List<ProductTable> product = productService.findByProductSearch(productName);
+        System.out.println(product);
+        return product;
+    }
+
+
+
+
+
 
 
     public Object createProduct(MultipartFile file, Object product) throws BaseException {

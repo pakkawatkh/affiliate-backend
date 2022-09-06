@@ -29,7 +29,7 @@ public class StoreTable {
 
     //      เลขบัญชี
     @Column(name = "bank_number", nullable = false, length = 20)
-    private Integer bankNumber;
+    private String bankNumber;
 
     @Column(name = "status", nullable = false)
     private Boolean status = true;

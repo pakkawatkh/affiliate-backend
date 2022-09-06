@@ -75,6 +75,17 @@ public class ProductService {
 
 
 
+    public List<ProductTable> findByProductSearch(String productName) {
+        productName = "%" +productName+ "%" ;
+        List<ProductTable> product = productRepository.getProductSearch(productName);
+        return product;
+    }
+
+
+
+
+
+
 
 
     public void createProduct(Integer store, String productName, String productDetail, Integer productPrice, String img) throws BaseException{

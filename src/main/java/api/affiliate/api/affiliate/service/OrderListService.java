@@ -14,31 +14,30 @@ import java.util.Optional;
 @Service
 public class OrderListService {
 
-    public final OrderListRepository orderRepository;
+    public final OrderListRepository orderListRepository;
     public final PasswordEncoder passwordEncoder;
 
 
     public OrderListService(OrderListRepository orderRepository, PasswordEncoder passwordEncoder) {
-        this.orderRepository = orderRepository;
+        this.orderListRepository = orderRepository;
         this.passwordEncoder = passwordEncoder;
-//        getOrderByStoreId();
     }
 
 
 
     public List<OrderListTable> findAllOrder() {
-        List<OrderListTable> order = orderRepository.findAll();
+        List<OrderListTable> order = orderListRepository.findAll();
         return order;
     }
 
 
     public List<OrderListTable> findMyOrder(String userId) {
-        List<OrderListTable> order = orderRepository.findAllOrderByUserId(userId);
+        List<OrderListTable> order = orderListRepository.findAllOrderByUserId(userId);
         return order;
     }
 
     public OrderListTable findByOrderId(Integer orderId) {
-        Optional<OrderListTable> order = orderRepository.findByOrderListId(orderId);
+        Optional<OrderListTable> order = orderListRepository.findByOrderListId(orderId);
         return order.get();
     }
 
@@ -58,7 +57,7 @@ public class OrderListService {
         order.setPostalCode(postalCode);
         order.setStoreId(storeId);
         try {
-            return orderRepository.save(order);
+            return orderListRepository.save(order);
 
         }catch (Exception e) {
             throw OrderException.orderRequestInvalid();
@@ -69,7 +68,7 @@ public class OrderListService {
 
     public void saveTotalPrice(OrderListTable order)throws BaseException{
         try {
-            orderRepository.save(order);
+            orderListRepository.save(order);
         }catch (Exception e){
 //            TODO: ERROR
         }
@@ -78,7 +77,7 @@ public class OrderListService {
 
     public void deleteOrderList(OrderListTable orderList)throws BaseException{
         try {
-            orderRepository.delete(orderList);
+            orderListRepository.delete(orderList);
         }catch (Exception e){
 //            TODO: ERROR
         }
@@ -86,21 +85,23 @@ public class OrderListService {
 
 
     public List<OrderListTable> getOrderByStoreId(Integer storeId){
-        List<OrderListTable> order = orderRepository.getOrderByStoreId(storeId);
+        List<OrderListTable> order = orderListRepository.getOrderByStoreId(storeId);
         System.out.println(order.toString());
         return order;
     }
 
     public OrderListTable getOrderListDetailByIdAndStore(Integer id,Integer storeId){
-        return orderRepository.getOrderListDetailByIdAndStore(storeId, id);
+        return orderListRepository.getOrderListDetailByIdAndStore(storeId, id);
     }
+
+
 
 
     public void addSlip(OrderListTable order, String img) throws BaseException{
         order.setImage(img);
         order.setDate(new Date());
         try {
-            orderRepository.save(order);
+            orderListRepository.save(order);
         }catch (Exception e){
             throw OrderException.orderNull();
         }

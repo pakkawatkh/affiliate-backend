@@ -36,6 +36,13 @@ public class ProductController {
     }
 
 
+    @GetMapping("/product-search")
+    public ResponseEntity<Object> getProductSearch(@RequestParam(name = "keyword")String keyword) throws BaseException {
+        List<ProductTable> product = productBusiness.getProductSearch(keyword);
+        return ResponseEntity.ok(product);
+    }
+
+
     @PostMapping("/create-product")
     public ResponseEntity<Object> createProduct(@RequestParam(value = "file") MultipartFile file,
                                                 @RequestParam(value = "product")Object product) throws BaseException {

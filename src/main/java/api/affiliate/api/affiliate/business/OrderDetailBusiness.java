@@ -20,18 +20,16 @@ public class OrderDetailBusiness {
 
     public final OrderListService orderService;
     public final UserService userService;
-    public final CartService cartService;
     private final StoreService storeService;
     private final OrderDetailService orderDetailService;
     private final TokenService tokenService;
     private final ProductService productService;
     private final FileService fileService;
 
-    public OrderDetailBusiness(TokenService tokenService, OrderListService orderService, UserService userService, CartService cartService, StoreService storeService, OrderDetailService orderDetailService, ProductService productService, FileService fileService) {
+    public OrderDetailBusiness(TokenService tokenService, OrderListService orderService, UserService userService, StoreService storeService, OrderDetailService orderDetailService, ProductService productService, FileService fileService) {
         this.tokenService = tokenService;
         this.orderService = orderService;
         this.userService = userService;
-        this.cartService = cartService;
         this.storeService = storeService;
         this.orderDetailService = orderDetailService;
         this.productService = productService;
@@ -78,8 +76,10 @@ public class OrderDetailBusiness {
         }
         orderList.setTotalPrice(total);
         orderService.saveTotalPrice(orderList);
-        return new Response().success("add product to order success");
+//        return new Response().success("add product to order success");
+        return orderList;
     }
+
 
 
 }

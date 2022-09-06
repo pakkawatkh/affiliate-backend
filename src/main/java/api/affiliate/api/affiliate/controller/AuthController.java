@@ -8,7 +8,6 @@ import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.ProductException;
 import api.affiliate.api.affiliate.model.user.UserLoginRequest;
 import api.affiliate.api.affiliate.model.user.UserRegisterRequest;
-import api.affiliate.api.affiliate.service.CartService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

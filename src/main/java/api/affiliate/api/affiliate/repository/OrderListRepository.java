@@ -18,7 +18,6 @@ public interface OrderListRepository extends JpaRepository<OrderListTable, Integ
 
     Optional<OrderListTable> findByOrderListId(Integer orderId);
 
-
     @Query(value = """
             select * from order_list ol
                 inner join order_detail od on ol.order_list_id = od.fk_order_list_id
@@ -34,5 +33,24 @@ public interface OrderListRepository extends JpaRepository<OrderListTable, Integ
             and o.storeId =:store_id
             """)
     OrderListTable getOrderListDetailByIdAndStore(@Param("store_id")Integer store_id,@Param("id")Integer id);
+
+
+
+
+    @Query("""
+            select MAX(o.orderListId) from OrderListTable as o
+            """)
+    OrderListTable getOrderListMaxId(@Param("order_list_id") Integer orderListId);
+
+
+    @Query("""
+            select MAX(o.orderListId) from OrderListTable as o
+            where o.userId =: userId
+            """)
+    OrderListTable getOrderListMaxIdByUser(@Param("order_list_id") Integer orderListId,
+                                           @Param("fk_user_id") String userId);
+
+
+
 
 }

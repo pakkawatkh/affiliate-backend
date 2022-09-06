@@ -28,7 +28,7 @@ public class StoreService {
         return store;
     }
 
-    public void register(String user, String store, String bankNameAccount, String bankName, Integer bankNumber) throws StoreException {
+    public void register(String user, String store, String bankNameAccount, String bankName, String bankNumber) throws StoreException {
         StoreTable st = new StoreTable();
         st.setUserId(user);
         st.setStore(store);
@@ -46,7 +46,7 @@ public class StoreService {
     }
 
 
-    public void updateStore(StoreTable st, String store, String bankNameAccount, String bankName, Integer bankNumber) {
+    public void updateStore(StoreTable st, String store, String bankNameAccount, String bankName, String bankNumber) {
         st.setStore(store);
         st.setBankNameAccount(bankNameAccount);
         st.setBankName(bankName);

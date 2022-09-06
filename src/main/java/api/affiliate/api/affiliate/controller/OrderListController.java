@@ -42,15 +42,16 @@ public class OrderListController {
     }
 
 
-//       PUT
-//    @PostMapping("/update-order-payment/{id}")
-//    public ResponseEntity<Object> createOrder(@PathVariable Integer id) throws BaseException {
-//        Object create = orderBusiness.updateOrderStatusIsPayment(id);
-//        return ResponseEntity.ok(create);
-//    }
+    @GetMapping("/getMyOrderList")
+    public ResponseEntity<List<OrderResponse>> getMyOrderList() throws BaseException {
+        List<OrderResponse> order = orderBusiness.getMyOrderList();
+        return ResponseEntity.ok(order);
+    }
 
 
-    @PutMapping("/add-silp-by-order/{id}")
+
+
+    @PutMapping("/add-slip-by-order/{id}")
     public ResponseEntity<Object> addSlip(@PathVariable Integer id,
                                           @RequestParam(value = "file", required = false) MultipartFile file) throws BaseException {
         Object update = orderBusiness.addslip(file, id);
