@@ -12,7 +12,7 @@ public class StoreTable {
 
     @Id
     @Column(name = "store_id" )
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer storeId;
 
     //      ชื่อร้าน

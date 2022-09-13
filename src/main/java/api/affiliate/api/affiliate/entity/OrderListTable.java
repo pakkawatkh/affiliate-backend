@@ -13,7 +13,7 @@ public class OrderListTable {
 
     @Id
     @Column(name = "order_list_id" )
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer orderListId;
 
     @Column(name = "date", nullable = false)

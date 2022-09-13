@@ -35,6 +35,14 @@ public interface OrderListRepository extends JpaRepository<OrderListTable, Integ
     OrderListTable getOrderListDetailByIdAndStore(@Param("store_id")Integer store_id,@Param("id")Integer id);
 
 
+    @Query("""
+            select o from OrderListTable as o
+            where o.orderListId =:id
+            and o.userId =:user_id
+            """)
+    OrderListTable getOrderListDetailByIdAndUser(@Param("user_id")String user_id,@Param("id")Integer id);
+
+
 
 
     @Query("""

@@ -39,7 +39,7 @@ public class TokenService {
     public String tokenizeUser(UserTable user) {
 
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.HOUR, 50);
+        calendar.add(Calendar.DAY_OF_MONTH, 7);
         Date expiresAt = calendar.getTime();
 
         return JWT.create()

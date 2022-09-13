@@ -13,7 +13,7 @@ public class AffiliateTable {
 
     @Id
     @Column(name = "affiliate_id" )
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer affiliateId;
 
     //      ชื่อบัญชี

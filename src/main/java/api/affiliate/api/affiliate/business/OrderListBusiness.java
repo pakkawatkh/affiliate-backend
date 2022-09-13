@@ -57,11 +57,23 @@ public class OrderListBusiness {
         return order;
     }
 
-    public OrderResponse getDetailById(Integer id) throws BaseException {
+    public OrderResponse getDetailByIdAndStore(Integer id) throws BaseException {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsStore(user);
         StoreTable store = storeService.findByUserId2(user);
         OrderListTable order = orderService.getOrderListDetailByIdAndStore(id, store.getStoreId());
+        OrderResponse response = orderListMapper.toOrderResponse(order);
+        List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(response.getOrderListId());
+        response.setDetail(details);
+
+        return response;
+    }
+
+
+
+    public OrderResponse getDetailById(Integer id) throws BaseException {
+        UserTable user = tokenService.getUserByToken();
+        OrderListTable order = orderService.getOrderListDetailByIdAndUser(id, user.getUserId());
         OrderResponse response = orderListMapper.toOrderResponse(order);
         List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(response.getOrderListId());
         response.setDetail(details);

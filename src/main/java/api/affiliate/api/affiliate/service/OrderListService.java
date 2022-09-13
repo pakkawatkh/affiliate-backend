@@ -90,9 +90,24 @@ public class OrderListService {
         return order;
     }
 
-    public OrderListTable getOrderListDetailByIdAndStore(Integer id,Integer storeId){
-        return orderListRepository.getOrderListDetailByIdAndStore(storeId, id);
+    public OrderListTable getOrderListDetailByIdAndStore(Integer id,Integer storeId)throws BaseException{
+        OrderListTable orderList = orderListRepository.getOrderListDetailByIdAndStore(storeId, id);
+        if (orderList == null){
+            throw OrderException.orderNull();
+        }
+
+        return orderList;
     }
+
+    public OrderListTable getOrderListDetailByIdAndUser(Integer id, String userId)throws BaseException{
+        OrderListTable orderList = orderListRepository.getOrderListDetailByIdAndUser(userId, id);
+        if (orderList == null){
+            throw OrderException.orderNull();
+        }
+
+        return orderList;
+    }
+
 
 
 

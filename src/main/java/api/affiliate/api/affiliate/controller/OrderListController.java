@@ -42,6 +42,13 @@ public class OrderListController {
     }
 
 
+    @GetMapping("/getOrderDetailByStore")
+    public ResponseEntity<OrderResponse> getOrderDetailByStore(@RequestParam(name = "id") Integer orderId) throws BaseException {
+        OrderResponse order = orderBusiness.getDetailByIdAndStore(orderId);
+        return ResponseEntity.ok(order);
+    }
+
+
     @GetMapping("/getMyOrderList")
     public ResponseEntity<List<OrderResponse>> getMyOrderList() throws BaseException {
         List<OrderResponse> order = orderBusiness.getMyOrderList();

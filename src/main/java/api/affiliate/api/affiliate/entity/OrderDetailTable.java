@@ -12,7 +12,7 @@ public class OrderDetailTable {
 
     @Id
     @Column(name = "order_detail_id" )
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer orderDetailId;
 
     @Column(name = "fk_product_id", nullable = false)
