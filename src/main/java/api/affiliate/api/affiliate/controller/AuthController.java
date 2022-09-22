@@ -82,7 +82,14 @@ class AuthProductController {
         List<ProductTable> product = productBusiness.findAllByStatusIsTrue();
         return ResponseEntity.ok(product);
     }
+
+    @GetMapping("/product-search")
+    public ResponseEntity<Object> getProductSearch(@RequestParam(name = "keyword")String keyword) throws BaseException {
+        List<ProductTable> product = productBusiness.getProductSearch(keyword);
+        return ResponseEntity.ok(product);
+    }
 }
+
 //
 //@RestController
 //@RequestMapping("/auth")
