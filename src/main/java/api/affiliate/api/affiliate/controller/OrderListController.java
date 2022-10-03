@@ -66,4 +66,12 @@ public class OrderListController {
     }
 
 
+
+    @PutMapping("/update-order-payment/{id}")
+    public ResponseEntity<Object> updateOrderStatusIsPayment(@PathVariable Integer id) throws BaseException {
+        Object update = orderBusiness.updateOrderStatusIsPayment(id);
+        return ResponseEntity.ok(update);
+    }
+
+
 }

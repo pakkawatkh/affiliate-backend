@@ -115,4 +115,15 @@ public class OrderListBusiness {
     }
 
 
+
+    public Object updateOrderStatusIsPayment(Integer orderId) throws BaseException {
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsStore(user);
+        OrderListTable order = orderService.findByOrderId(orderId);
+        System.out.println("ORDER " + order);
+        orderService.updateOrderStatusIsPayment(order);
+        return new Response().success("update order status payment");
+    }
+
+
 }

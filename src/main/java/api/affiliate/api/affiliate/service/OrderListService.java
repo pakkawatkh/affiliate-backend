@@ -109,6 +109,17 @@ public class OrderListService {
     }
 
 
+    public void updateOrderStatusIsPayment(OrderListTable order) throws BaseException{
+        order.setStatus("payment");
+        order.setDate(new Date());
+        try {
+            orderListRepository.save(order);
+        }catch (Exception e){
+            throw OrderException.orderNull();
+        }
+    }
+
+
 
 
 
