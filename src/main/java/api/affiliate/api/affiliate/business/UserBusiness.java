@@ -4,6 +4,7 @@ import api.affiliate.api.affiliate.entity.AffiliateTable;
 import api.affiliate.api.affiliate.entity.StoreTable;
 import api.affiliate.api.affiliate.entity.UserTable;
 import api.affiliate.api.affiliate.exception.BaseException;
+import api.affiliate.api.affiliate.exception.ProductException;
 import api.affiliate.api.affiliate.exception.UserException;
 import api.affiliate.api.affiliate.model.MapObject;
 import api.affiliate.api.affiliate.mapper.UserMapper;
@@ -75,6 +76,7 @@ public class UserBusiness {
     }
 
 
+
     public Object getProfile() throws BaseException {
         UserTable user = tokenService.getUserByToken();
         UserProfileResponse response = userMapper.toUserProfileResponse(user);
@@ -97,7 +99,6 @@ public class UserBusiness {
 
     public Object updateProfile(MultipartFile file, Object profile) throws BaseException {
         UserTable user = tokenService.getUserByToken();
-        System.out.println(user.getImage());
         MapObject object = new MapObject();
         UserRegisterRequest request = object.toRegister(profile);
         System.out.println(file);
@@ -108,6 +109,10 @@ public class UserBusiness {
                 request.getProvince(), request.getPostalCode(), img);
         return new Response().success("update profile success");
     }
+
+
+
+
 
 
 }

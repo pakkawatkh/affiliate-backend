@@ -9,6 +9,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -66,12 +67,14 @@ public class TokenService {
 
 
     //generate token for user
-    public UserTable getUserByToken() throws BaseException {
+    @SneakyThrows
+    public UserTable getUserByToken(){
         String userId = this.userId();  // id from token
 
         Optional<UserTable> user = userRepository.findById(userId);
         if (user.isEmpty()) {
             throw UserException.userNameNull();
+
         }
 
         return user.get();

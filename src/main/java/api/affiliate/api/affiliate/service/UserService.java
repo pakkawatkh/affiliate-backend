@@ -5,6 +5,7 @@ import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.UserException;
 import api.affiliate.api.affiliate.repository.UserRepository;
 //import org.springframework.security.crypto.password.PasswordEncoder;
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,15 +14,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class UserService {
 
     public final UserRepository userRepository;
     public final PasswordEncoder passwordEncoder;
-
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
 
 

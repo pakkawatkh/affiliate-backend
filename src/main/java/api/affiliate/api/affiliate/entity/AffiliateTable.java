@@ -28,12 +28,9 @@ public class AffiliateTable {
     @Column(name = "bank_number", nullable = false, length = 20)
     private String bankNumber;
 
+
     @Column(name = "status", nullable = false)
     private Boolean status = true;
-
-//
-//    @Column(name = "image")
-//    private String image;
 
 
     @JsonIgnore

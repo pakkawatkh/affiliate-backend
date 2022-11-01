@@ -1,5 +1,6 @@
 package api.affiliate.api.affiliate.controller;
 
+import api.affiliate.api.affiliate.business.AdminBusiness;
 import api.affiliate.api.affiliate.business.ProductBusiness;
 import api.affiliate.api.affiliate.business.UserBusiness;
 import api.affiliate.api.affiliate.entity.ProductTable;
@@ -39,8 +40,9 @@ class AuthUserController {
         Object login = userBusiness.login(request);
         return ResponseEntity.ok(login);
     }
+
     @GetMapping("/getAll-user")
-    public List<UserTable> getAllUser() {
+    public List<UserTable> getAllUser() throws BaseException{
         List<UserTable> user = userBusiness.findAllUser();
         return user;
     }
@@ -64,7 +66,7 @@ class AuthProductController {
     }
 
     @GetMapping("/getProductById/{id}")
-    public ResponseEntity<Object> getProductById(@PathVariable Integer id) throws BaseException{
+    public ResponseEntity<Object> getProductById(@PathVariable Integer id) throws BaseException {
         Object product = productBusiness.findByProductById(id);
         return ResponseEntity.ok(product);
     }
@@ -84,29 +86,35 @@ class AuthProductController {
     }
 
     @GetMapping("/product-search")
-    public ResponseEntity<Object> getProductSearch(@RequestParam(name = "keyword")String keyword) throws BaseException {
+    public ResponseEntity<Object> getProductSearch(@RequestParam(name = "keyword") String keyword) throws BaseException {
         List<ProductTable> product = productBusiness.getProductSearch(keyword);
         return ResponseEntity.ok(product);
     }
 }
 
-//
-//@RestController
-//@RequestMapping("/auth")
-//class AuthCartController {
-//
-//    public final CartService cartService;
-//
-//    AuthCartController(CartService cartService) {
-//        this.cartService = cartService;
-//    }
-//
-//
-//    @PostMapping("/addProduct/{id}/{amount}")
-//    public Integer addProduct(@PathVariable("id") Integer productId,
-//                              @PathVariable("amount") Integer amount )throws BaseException{
-//        Integer addAmount =  cartService.addProduct(productId, amount);
-//        return (addAmount);
-//    }
+@RestController
+@RequestMapping("/auth")
+class AuthAdminController {
 
-//}
+    public final AdminBusiness adminBusiness;
+
+    public final UserBusiness userBusiness;
+
+    AuthAdminController(AdminBusiness adminBusiness, UserBusiness userBusiness) {
+        this.adminBusiness = adminBusiness;
+        this.userBusiness = userBusiness;
+    }
+
+//    GET
+    @GetMapping("/getAll-user-admin")
+    public List<UserTable> getAllUser() throws BaseException {
+        List<UserTable> user = userBusiness.findAllUser();
+        return user;
+    }
+}
+
+
+
+
+
+
