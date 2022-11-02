@@ -12,12 +12,14 @@ import api.affiliate.api.affiliate.model.Response;
 import api.affiliate.api.affiliate.model.order.OrderResponse;
 import api.affiliate.api.affiliate.service.*;
 import api.affiliate.api.affiliate.service.token.TokenService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class OrderListBusiness {
 
 
@@ -29,15 +31,6 @@ public class OrderListBusiness {
     private final OrderDetailService orderDetailService;
     private final OrderListMapper orderListMapper;
 
-    public OrderListBusiness(TokenService tokenService, OrderListService orderService, UserService userService, StoreService storeService, FileService fileService, OrderDetailService orderDetailService, OrderListMapper orderListMapper) {
-        this.tokenService = tokenService;
-        this.orderService = orderService;
-        this.userService = userService;
-        this.storeService = storeService;
-        this.fileService = fileService;
-        this.orderDetailService = orderDetailService;
-        this.orderListMapper = orderListMapper;
-    }
 
 
     public List<OrderListTable> getAllOrder() throws BaseException {
@@ -49,12 +42,17 @@ public class OrderListBusiness {
     }
 
 
-    public List<OrderListTable> getOrderByStoreId() throws BaseException {
+    public List<OrderResponse> getOrderByStoreId() throws BaseException {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsStore(user);
         StoreTable store = storeService.findByUserId2(user);
-        List<OrderListTable> order = orderService.getOrderByStoreId(store.getStoreId());
-        return order;
+        List<OrderListTable> orderList = orderService.getOrderByStoreId(store.getStoreId());
+        List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
+        for (OrderResponse order : orderResponses) {
+            List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
+            order.setDetail(details);
+        }
+        return orderResponses;
     }
 
     public OrderResponse getDetailByIdAndStore(Integer id) throws BaseException {
@@ -82,7 +80,7 @@ public class OrderListBusiness {
     }
 
 
-    public List<OrderResponse> getMyOrderList() throws BaseException {
+    public List<OrderResponse> getMyOrderList(){
         UserTable user = tokenService.getUserByToken();
         List<OrderListTable> orderList = orderService.findMyOrder(user.getUserId());
         List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
@@ -102,7 +100,7 @@ public class OrderListBusiness {
         }
     }
 
-    public Object addslip(MultipartFile file, Integer orderId) throws BaseException {
+    public Object addSlip(MultipartFile file, Integer orderId) throws BaseException {
         UserTable user = tokenService.getUserByToken();
 //        checkRoleIsStore(user);
         System.out.println("USER" + user);

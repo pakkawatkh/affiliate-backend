@@ -1,40 +1,44 @@
 package api.affiliate.api.affiliate.business;
 
+import api.affiliate.api.affiliate.entity.OrderDetailTable;
+import api.affiliate.api.affiliate.entity.OrderListTable;
+import api.affiliate.api.affiliate.entity.StoreTable;
 import api.affiliate.api.affiliate.entity.UserTable;
 import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.UserException;
+import api.affiliate.api.affiliate.mapper.OrderListMapper;
 import api.affiliate.api.affiliate.model.Response;
 import api.affiliate.api.affiliate.model.admin.AdminRegisterRequest;
+import api.affiliate.api.affiliate.model.order.OrderResponse;
 import api.affiliate.api.affiliate.service.AdminService;
-import api.affiliate.api.affiliate.service.UserService;
+import api.affiliate.api.affiliate.service.OrderDetailService;
+import api.affiliate.api.affiliate.service.OrderListService;
+import api.affiliate.api.affiliate.service.StoreService;
 import api.affiliate.api.affiliate.service.token.TokenService;
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class AdminBusiness {
-
 
 
     private final TokenService tokenService;
     private final AdminService adminService;
-    private final UserService userService;
 
-
-    public AdminBusiness(TokenService tokenService, AdminService adminService, UserService userService) {
-        this.tokenService = tokenService;
-        this.adminService = adminService;
-        this.userService = userService;
-    }
+    private final OrderListService orderListService;
+    private final OrderListMapper orderListMapper;
+    private final StoreService storeService;
+    private final OrderDetailService orderDetailService;
 
 
     public Object register(AdminRegisterRequest request) throws BaseException {
         System.out.println(request);
         return new Response().success("register success");
     }
-
 
 
 //    public List<UserTable> findAllUser(){
@@ -46,18 +50,18 @@ public class AdminBusiness {
 //    }
 
 
-    public List<UserTable> findAllUser(){
+    public List<UserTable> findAllUser() {
         UserTable user = tokenService.getUserByToken();
-        System.out.println("USER"+user);
+        System.out.println("USER" + user);
         checkRoleIsAdmin(user);
         List<UserTable> user1 = adminService.getAllRole(UserTable.Role.USER);
         return user1;
     }
 
 
-    public List<UserTable> findAllStore(){
+    public List<UserTable> findAllStore() {
         UserTable user = tokenService.getUserByToken();
-        System.out.println("USER " +user);
+        System.out.println("USER " + user);
         checkRoleIsAdmin(user);
         List<UserTable> user1 = adminService.getAllRole(UserTable.Role.ST_AF, UserTable.Role.STORE);
         System.out.println(user1);
@@ -65,9 +69,9 @@ public class AdminBusiness {
     }
 
 
-    public List<UserTable> findAllAffiliate(){
+    public List<UserTable> findAllAffiliate() {
         UserTable user = tokenService.getUserByToken();
-        System.out.println("USER " +user);
+        System.out.println("USER " + user);
         checkRoleIsAdmin(user);
         List<UserTable> user1 = adminService.getAllRole(UserTable.Role.AFFILIATE, UserTable.Role.ST_AF);
         System.out.println(user1);
@@ -75,14 +79,42 @@ public class AdminBusiness {
     }
 
 
+    public List<OrderResponse> getOrderUserById(String id) {
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsAdmin(user);
+        List<OrderListTable> orderList = adminService.findOrderByUserId(id);
+        List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
+        for (OrderResponse order : orderResponses) {
+            List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
+            order.setDetail(details);
+        }
+        return orderResponses;
+    }
+
+
+
+    public List<OrderResponse> getOrderByStoreId(Integer id) {
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsAdmin(user);
+        StoreTable store = storeService.findByStoreId(id);
+        List<OrderListTable> orderList = orderListService.getOrderByStoreId(store.getStoreId());
+        List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
+        for (OrderResponse order : orderResponses) {
+            List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
+            order.setDetail(details);
+        }
+        return orderResponses;
+    }
+
+
     @SneakyThrows
-    public void checkRoleIsAdmin(UserTable user){
+    public void checkRoleIsAdmin(UserTable user) {
         UserTable.Role role = user.getRole();
         boolean checkRole = role.equals(UserTable.Role.STORE)
                 || role.equals(UserTable.Role.AFFILIATE)
                 || role.equals(UserTable.Role.USER)
                 || role.equals(UserTable.Role.ST_AF);
-        if (checkRole){
+        if (checkRole) {
             throw UserException.roleUserNotAllowed();
         }
     }

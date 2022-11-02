@@ -86,7 +86,6 @@ public class OrderListService {
 
     public List<OrderListTable> getOrderByStoreId(Integer storeId){
         List<OrderListTable> order = orderListRepository.getOrderByStoreId(storeId);
-        System.out.println(order.toString());
         return order;
     }
 

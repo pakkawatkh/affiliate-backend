@@ -5,6 +5,7 @@ import api.affiliate.api.affiliate.entity.UserTable;
 import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.StoreException;
 import api.affiliate.api.affiliate.repository.StoreRepository;
+import lombok.SneakyThrows;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -71,13 +72,14 @@ public class StoreService {
     }
 
 
-    public StoreTable findByUserId(UserTable user) throws BaseException {
+    public StoreTable findByUserId(UserTable user){
         Optional<StoreTable> store = storeRepository.findByUserId(user.getUserId());
         return store.get();
     }
 
 
-    public StoreTable findByStoreId(Integer storeId) throws BaseException {
+    @SneakyThrows
+    public StoreTable findByStoreId(Integer storeId){
         Optional<StoreTable> store = storeRepository.findById(storeId);
         if (store.isEmpty()) {
             throw StoreException.storeIdNull();
@@ -86,7 +88,8 @@ public class StoreService {
     }
 
 
-    public StoreTable findByUserId2(UserTable user) throws BaseException {
+    @SneakyThrows
+    public StoreTable findByUserId2(UserTable user){
         Optional<StoreTable> store = storeRepository.findByUserId(user.getUserId());
         if (store.isEmpty()) {
             throw StoreException.storeNameNull();

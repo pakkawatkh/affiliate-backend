@@ -30,8 +30,8 @@ public class OrderListController {
 
 
     @GetMapping("/getMyOrder")
-    public ResponseEntity<Object> getMyOrder() throws BaseException {
-        List<OrderListTable> order = orderBusiness.getOrderByStoreId();
+    public ResponseEntity<List<OrderResponse>> getMyOrder() throws BaseException {
+        List<OrderResponse> order = orderBusiness.getOrderByStoreId();
         return ResponseEntity.ok(order);
     }
 
@@ -61,7 +61,7 @@ public class OrderListController {
     @PutMapping("/add-slip-by-order/{id}")
     public ResponseEntity<Object> addSlip(@PathVariable Integer id,
                                           @RequestParam(value = "file", required = false) MultipartFile file) throws BaseException {
-        Object update = orderBusiness.addslip(file, id);
+        Object update = orderBusiness.addSlip(file, id);
         return ResponseEntity.ok(update);
     }
 

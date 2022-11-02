@@ -1,7 +1,8 @@
 package api.affiliate.api.affiliate.service;
 
+import api.affiliate.api.affiliate.entity.OrderListTable;
 import api.affiliate.api.affiliate.entity.UserTable;
-import api.affiliate.api.affiliate.exception.BaseException;
+import api.affiliate.api.affiliate.repository.OrderListRepository;
 import api.affiliate.api.affiliate.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,13 +37,14 @@ interface AdminReq {
 public class AdminService {
 
     public final PasswordEncoder passwordEncoder;
-
     public final UserRepository userRepository;
+    public final OrderListRepository orderListRepository;
 
-    public AdminService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    public AdminService(PasswordEncoder passwordEncoder, UserRepository userRepository, OrderListRepository orderListRepository) {
 
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.orderListRepository = orderListRepository;
         register();
     }
 
@@ -71,12 +73,6 @@ public class AdminService {
     }
 
 
-    public List<UserTable> getAllUser() {
-        List<UserTable> user = userRepository.getAllUserByAdmin(UserTable.Role.ADMIN.toString());
-        return user;
-    }
-
-
     public List<UserTable> getAllRole(UserTable.Role roles, UserTable.Role role) {
         List<UserTable> user = userRepository.getAllRole(roles.toString(), role.toString());
         return user;
@@ -87,4 +83,28 @@ public class AdminService {
         List<UserTable> user = userRepository.getAllRole(roles.toString());
         return user;
     }
+
+
+    public List<OrderListTable> findOrderByUserId(String userId) {
+        List<OrderListTable> order = orderListRepository.findAllOrderByUserId(userId);
+        return order;
+    }
+
+
+    public List<OrderListTable> findOrderByStoreId(Integer storeId){
+        List<OrderListTable> order = orderListRepository.getOrderByStoreId(storeId);
+        System.out.println(order.toString());
+        return order;
+    }
+
+
+
+
+
+
 }
+//
+//    public List<UserTable> getAllUser() {
+//        List<UserTable> user = userRepository.getAllUserByAdmin(UserTable.Role.ADMIN.toString());
+//        return user;
+//    }
