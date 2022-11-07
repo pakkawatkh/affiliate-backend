@@ -1,14 +1,13 @@
 package api.affiliate.api.affiliate.business;
 
 import api.affiliate.api.affiliate.entity.*;
-import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.OrderException;
 import api.affiliate.api.affiliate.exception.ProductException;
-import api.affiliate.api.affiliate.model.Response;
 import api.affiliate.api.affiliate.model.order.OrderRequest;
 import api.affiliate.api.affiliate.model.product.ProductRequest;
 import api.affiliate.api.affiliate.service.*;
 import api.affiliate.api.affiliate.service.token.TokenService;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import java.util.List;
 
 @Service
 public class OrderDetailBusiness {
-
 
     public final OrderListService orderService;
     public final UserService userService;
@@ -26,18 +24,22 @@ public class OrderDetailBusiness {
     private final ProductService productService;
     private final FileService fileService;
 
-    public OrderDetailBusiness(TokenService tokenService, OrderListService orderService, UserService userService, StoreService storeService, OrderDetailService orderDetailService, ProductService productService, FileService fileService) {
-        this.tokenService = tokenService;
+
+    public OrderDetailBusiness(OrderListService orderService, UserService userService, StoreService storeService,
+                               OrderDetailService orderDetailService, TokenService tokenService, ProductService
+                                       productService, FileService fileService) {
         this.orderService = orderService;
         this.userService = userService;
         this.storeService = storeService;
         this.orderDetailService = orderDetailService;
+        this.tokenService = tokenService;
         this.productService = productService;
         this.fileService = fileService;
     }
 
 
-    public List<OrderDetailTable> findAllOrderDetail() throws BaseException {
+    @SneakyThrows
+    public List<OrderDetailTable> findAllOrderDetail() {
         List<OrderDetailTable> order = orderDetailService.findAllOrderDetail();
         if (order.isEmpty()) {
             throw OrderException.orderNull();
@@ -46,7 +48,8 @@ public class OrderDetailBusiness {
     }
 
 
-    public Object addProduct(OrderRequest order) throws BaseException {
+    @SneakyThrows
+    public Object addProduct(OrderRequest order) {
         UserTable user = tokenService.getUserByToken();
         List<ProductRequest> products = order.getProducts();
         StoreTable store = storeService.findByStoreId(order.getStoreId());
@@ -71,15 +74,12 @@ public class OrderDetailBusiness {
         orderDetailService.saveAll(orderList, orderDetail);
         int total = 0;
         for (OrderDetailTable product : orderDetail) {
-//            total += product.getProductTotal();
             total = total + product.getProductTotal();
         }
         orderList.setTotalPrice(total);
         orderService.saveTotalPrice(orderList);
-//        return new Response().success("add product to order success");
         return orderList;
     }
-
 
 
 }

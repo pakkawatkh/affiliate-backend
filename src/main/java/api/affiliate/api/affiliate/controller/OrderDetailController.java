@@ -40,7 +40,7 @@ public class OrderDetailController {
 
 
     @PostMapping("/addProducts")
-    public ResponseEntity<Object> addProduct(@RequestBody OrderRequest order) throws BaseException {
+    public ResponseEntity<Object> addProduct(@RequestBody OrderRequest order){
         log.info(order);
         Object product = orderDetailBusiness.addProduct(order);
         return ResponseEntity.ok(product);

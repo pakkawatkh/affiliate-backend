@@ -6,6 +6,7 @@ import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.OrderException;
 import api.affiliate.api.affiliate.repository.OrderDetailRepository;
 import api.affiliate.api.affiliate.repository.OrderListRepository;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +20,6 @@ public class OrderDetailService {
 
 
     public OrderDetailService(OrderDetailRepository orderDetailRepository, OrderListRepository orderListRepository) {
-
         this.orderDetailRepository = orderDetailRepository;
         this.orderListRepository = orderListRepository;
     }
@@ -44,7 +44,7 @@ public class OrderDetailService {
 
 
     public OrderDetailTable addProductIsOrder(Integer productId, String productName, Integer productPrice,
-                                              Integer productAmount, Integer productTotal,Integer orderListId) throws BaseException {
+                                              Integer productAmount, Integer productTotal,Integer orderListId) {
         OrderDetailTable order = new OrderDetailTable();
         order.setProductId(productId);
         order.setProductName(productName);
@@ -63,7 +63,8 @@ public class OrderDetailService {
     }
 
 
-    public List<OrderDetailTable> saveAll(OrderListTable orderList, List<OrderDetailTable> detail) throws  BaseException{
+    @SneakyThrows
+    public List<OrderDetailTable> saveAll(OrderListTable orderList, List<OrderDetailTable> detail) {
         try {
         return orderDetailRepository.saveAll(detail);
         }catch (Exception e){
@@ -77,36 +78,5 @@ public class OrderDetailService {
         return orderDetailRepository.findAllByOrderListId(orderId);
     }
 
-
-//    public void addProductIsOrder(String orderDetailId, Integer productId, Integer productPrice, Integer productAmount, Integer productTotal,
-//                                  Integer storeId, String userId, String fullName, String tel, String address, String sub,
-//                                  String district, String province, Integer postalCode) throws BaseException {
-//        OrderDetailTable order = new OrderDetailTable();
-//        if (order == null){
-//            order.setOrderDetailId("A001");
-//        }else {
-//            String data = String.valueOf(orderDetailRepository.findAll());
-//            String count = data.toUpperCase();
-//            order.setOrderDetailId("A00" + count.toString());
-//        }
-//        order.setProductId(productId);
-//        order.setProductPrice(productPrice);
-//        order.setAmount(productAmount);
-//        order.setProductTotal(productTotal);
-//        order.setStoreId(storeId);
-//        order.setUserId(userId);
-//        order.setFullName(fullName);
-//        order.setTel(tel);
-//        order.setAddress(address);
-//        order.setSub(sub);
-//        order.setDistrict(district);
-//        order.setProvince(province);
-//        order.setPostalCode(postalCode);
-//        try {
-//            orderDetailRepository.save(order);
-//        }catch (Exception e) {
-//            throw OrderException.orderRequestInvalid();
-//        }
-//    }
 
 }

@@ -3,17 +3,13 @@ package api.affiliate.api.affiliate.business;
 import api.affiliate.api.affiliate.entity.AffiliateTable;
 import api.affiliate.api.affiliate.entity.UserTable;
 import api.affiliate.api.affiliate.exception.AffiliateException;
-import api.affiliate.api.affiliate.exception.BaseException;
-import api.affiliate.api.affiliate.model.MapObject;
 import api.affiliate.api.affiliate.model.Response;
 import api.affiliate.api.affiliate.model.affiliate.AffiliateRegisterRequest;
-import api.affiliate.api.affiliate.model.store.StoreRegisterRequest;
 import api.affiliate.api.affiliate.service.AffiliateService;
-import api.affiliate.api.affiliate.service.FileService;
 import api.affiliate.api.affiliate.service.UserService;
 import api.affiliate.api.affiliate.service.token.TokenService;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class AffiliateBusiness {
@@ -23,17 +19,15 @@ public class AffiliateBusiness {
     public final UserService userService;
     private final TokenService tokenService;
 
-    private final FileService fileService;
-
-    public AffiliateBusiness(TokenService tokenService, AffiliateService affiliateService, UserService userService, FileService fileService) {
-        this.tokenService = tokenService;
+    public AffiliateBusiness(AffiliateService affiliateService, UserService userService, TokenService tokenService) {
         this.affiliateService = affiliateService;
         this.userService = userService;
-        this.fileService = fileService;
+        this.tokenService = tokenService;
     }
 
 
-    public Object getMyAffiliate()throws BaseException{
+    @SneakyThrows
+    public Object getMyAffiliate(){
         UserTable user = tokenService.getUserByToken();
         UserTable.Role role = user.getRole();
         if ((role.equals(UserTable.Role.STORE) || (role.equals(UserTable.Role.USER)
@@ -46,13 +40,13 @@ public class AffiliateBusiness {
     }
 
 
-    public Object register(AffiliateRegisterRequest request) throws BaseException {
+    @SneakyThrows
+    public Object register(AffiliateRegisterRequest request){
         UserTable user = tokenService.getUserByToken();
         UserTable.Role role = user.getRole();
         if (role.equals(UserTable.Role.ADMIN) || role.equals(UserTable.Role.ST_AF)) {
             throw AffiliateException.affiliateRequestInvalid();
         }
-        request.valid();
         affiliateService.register(user.getUserId(), request.getBankNameAccount(), request.getBankName(), request.getBankNumber());
         if (role.equals(UserTable.Role.USER)) {
             role = UserTable.Role.AFFILIATE;
@@ -64,21 +58,21 @@ public class AffiliateBusiness {
     }
 
 
-    public Object updateProfile(AffiliateRegisterRequest request) throws BaseException {
+    @SneakyThrows
+    public Object updateProfile(AffiliateRegisterRequest request){
         UserTable user = tokenService.getUserByToken();
         UserTable.Role role = user.getRole();
         if (role.equals(UserTable.Role.ADMIN) || role.equals(UserTable.Role.STORE) || role.equals(UserTable.Role.USER))  {
             throw AffiliateException.roleUserNotAllowed();
         }
         AffiliateTable affiliate = affiliateService.findByUser(user);
-        request.valid();
         affiliateService.updateProfile(affiliate, request.getBankNameAccount(), request.getBankName(), request.getBankNumber());
         return new Response().success("update success");
     }
 
 
 
-    public Object updateMyStatusAffiliate() throws BaseException {
+    public Object updateMyStatusAffiliate(){
         UserTable user = tokenService.getUserByToken();
         UserTable.Role role = user.getRole();
         AffiliateTable affiliate = affiliateService.findByUser(user);

@@ -60,8 +60,8 @@ class AuthProductController {
     }
 
     @GetMapping("/getAll-product")
-    public List<ProductTable> getAllProduct() throws ProductException {
-        List<ProductTable> product = productBusiness.finAllProduct();
+    public List<ProductTable> getAllProduct(){
+        List<ProductTable> product = productBusiness.findAllProduct();
         return product;
     }
 
@@ -73,7 +73,7 @@ class AuthProductController {
 
 
     @GetMapping("/getAll-productByStoreId/{id}")
-    public ResponseEntity<Object> getProductByStoreId(@PathVariable Integer id) throws BaseException {
+    public ResponseEntity<Object> getProductByStoreId(@PathVariable Integer id){
         List<ProductTable> product = productBusiness.findAllProductByStoreId(id);
         return ResponseEntity.ok(product);
     }

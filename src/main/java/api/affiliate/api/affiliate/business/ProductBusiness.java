@@ -14,6 +14,7 @@ import api.affiliate.api.affiliate.service.ProductService;
 import api.affiliate.api.affiliate.service.StoreService;
 import api.affiliate.api.affiliate.service.UserService;
 import api.affiliate.api.affiliate.service.token.TokenService;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,7 +38,8 @@ public class ProductBusiness {
     }
 
 
-    public List<ProductTable> finAllProduct() throws ProductException {
+    @SneakyThrows
+    public List<ProductTable> findAllProduct(){
         List<ProductTable> product = productService.findAllProduct();
         if (product.isEmpty()){
             throw ProductException.productNull();
@@ -108,7 +110,6 @@ public class ProductBusiness {
         MapObject object = new MapObject();
         ProductCreateRequest request = object.toCreateProduct(product);
         request.valid();
-        System.out.println(user.getRole());
         String img = fileService.saveImg(file, "/uploads/products");
         productService.createProduct(store.getStoreId(), request.getProductName(), request.getProductDetail(), request.getProductPrice(), img);
         return new Response().success("create product success");

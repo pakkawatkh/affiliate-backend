@@ -4,11 +4,8 @@ import api.affiliate.api.affiliate.entity.OrderDetailTable;
 import api.affiliate.api.affiliate.entity.OrderListTable;
 import api.affiliate.api.affiliate.entity.StoreTable;
 import api.affiliate.api.affiliate.entity.UserTable;
-import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.UserException;
 import api.affiliate.api.affiliate.mapper.OrderListMapper;
-import api.affiliate.api.affiliate.model.Response;
-import api.affiliate.api.affiliate.model.admin.AdminRegisterRequest;
 import api.affiliate.api.affiliate.model.order.OrderResponse;
 import api.affiliate.api.affiliate.service.AdminService;
 import api.affiliate.api.affiliate.service.OrderDetailService;
@@ -28,17 +25,10 @@ public class AdminBusiness {
 
     private final TokenService tokenService;
     private final AdminService adminService;
-
     private final OrderListService orderListService;
     private final OrderListMapper orderListMapper;
     private final StoreService storeService;
     private final OrderDetailService orderDetailService;
-
-
-    public Object register(AdminRegisterRequest request) throws BaseException {
-        System.out.println(request);
-        return new Response().success("register success");
-    }
 
 
 //    public List<UserTable> findAllUser(){
@@ -92,7 +82,6 @@ public class AdminBusiness {
     }
 
 
-
     public List<OrderResponse> getOrderByStoreId(Integer id) {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsAdmin(user);
@@ -104,6 +93,22 @@ public class AdminBusiness {
             order.setDetail(details);
         }
         return orderResponses;
+    }
+
+
+    public Object getTotalPriceOrderByStore(Integer id) {
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsAdmin(user);
+        StoreTable store = storeService.findByStoreId(id);
+        List<OrderListTable> orderList = orderListService.getOrderByStoreId(store.getStoreId());
+        int total = 0;
+        for (OrderListTable order : orderList) {
+            total = total + order.getTotalPrice();
+        }
+        System.out.println(total);
+        store.setTotalPrice(total);
+        adminService.saveTotalPrice(store);
+        return store;
     }
 
 

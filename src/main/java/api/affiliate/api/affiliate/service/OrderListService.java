@@ -1,9 +1,9 @@
 package api.affiliate.api.affiliate.service;
 
 import api.affiliate.api.affiliate.entity.OrderListTable;
-import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.OrderException;
 import api.affiliate.api.affiliate.repository.OrderListRepository;
+import lombok.SneakyThrows;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,14 +15,13 @@ import java.util.Optional;
 public class OrderListService {
 
     public final OrderListRepository orderListRepository;
+
     public final PasswordEncoder passwordEncoder;
 
-
-    public OrderListService(OrderListRepository orderRepository, PasswordEncoder passwordEncoder) {
-        this.orderListRepository = orderRepository;
+    public OrderListService(OrderListRepository orderListRepository, PasswordEncoder passwordEncoder) {
+        this.orderListRepository = orderListRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
 
 
     public List<OrderListTable> findAllOrder() {
@@ -44,8 +43,9 @@ public class OrderListService {
 
 
 
+    @SneakyThrows
     public OrderListTable createOrder(String user, String fullName, String tel, String address, String sub,
-                                      String district, String province, Integer postalCode, Integer storeId) throws BaseException {
+                                      String district, String province, Integer postalCode, Integer storeId) {
         OrderListTable order = new OrderListTable();
         order.setUserId(user);
         order.setFullName(fullName);
@@ -66,7 +66,7 @@ public class OrderListService {
     }
 
 
-    public void saveTotalPrice(OrderListTable order)throws BaseException{
+    public void saveTotalPrice(OrderListTable order){
         try {
             orderListRepository.save(order);
         }catch (Exception e){
@@ -75,7 +75,7 @@ public class OrderListService {
     }
 
 
-    public void deleteOrderList(OrderListTable orderList)throws BaseException{
+    public void deleteOrderList(OrderListTable orderList){
         try {
             orderListRepository.delete(orderList);
         }catch (Exception e){
@@ -89,7 +89,8 @@ public class OrderListService {
         return order;
     }
 
-    public OrderListTable getOrderListDetailByIdAndStore(Integer id,Integer storeId)throws BaseException{
+    @SneakyThrows
+    public OrderListTable getOrderListDetailByIdAndStore(Integer id, Integer storeId){
         OrderListTable orderList = orderListRepository.getOrderListDetailByIdAndStore(storeId, id);
         if (orderList == null){
             throw OrderException.orderNull();
@@ -98,7 +99,8 @@ public class OrderListService {
         return orderList;
     }
 
-    public OrderListTable getOrderListDetailByIdAndUser(Integer id, String userId)throws BaseException{
+    @SneakyThrows
+    public OrderListTable getOrderListDetailByIdAndUser(Integer id, String userId){
         OrderListTable orderList = orderListRepository.getOrderListDetailByIdAndUser(userId, id);
         if (orderList == null){
             throw OrderException.orderNull();
@@ -108,7 +110,8 @@ public class OrderListService {
     }
 
 
-    public void updateOrderStatusIsPayment(OrderListTable order) throws BaseException{
+    @SneakyThrows
+    public void updateOrderStatusIsPayment(OrderListTable order){
         order.setStatus("payment");
         order.setDate(new Date());
         try {
@@ -122,7 +125,8 @@ public class OrderListService {
 
 
 
-    public void addSlip(OrderListTable order, String img) throws BaseException{
+    @SneakyThrows
+    public void addSlip(OrderListTable order, String img){
         order.setImage(img);
         order.setDate(new Date());
         try {

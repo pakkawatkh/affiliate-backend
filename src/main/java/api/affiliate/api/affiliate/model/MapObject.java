@@ -28,7 +28,7 @@ public class MapObject {
         try {
             map = mapper.readValue((String) result, ProductCreateRequest.class);
         } catch (JsonProcessingException e) {
-            throw ProductException.productNull();
+            throw ProductException.productRequestInvalid();
         }
         return map;
     }

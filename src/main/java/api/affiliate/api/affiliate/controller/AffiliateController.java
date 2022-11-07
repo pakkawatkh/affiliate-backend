@@ -22,7 +22,7 @@ public class AffiliateController {
 
     //    GET
     @GetMapping("/getMyProfile-affiliate")
-    public ResponseEntity<Object> getMyProfile()throws BaseException{
+    public ResponseEntity<Object> getMyProfile(){
         Object profile = affiliateBusiness.getMyAffiliate();
         return ResponseEntity.ok(profile);
     }

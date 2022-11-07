@@ -1,8 +1,10 @@
 package api.affiliate.api.affiliate.service;
 
 import api.affiliate.api.affiliate.entity.OrderListTable;
+import api.affiliate.api.affiliate.entity.StoreTable;
 import api.affiliate.api.affiliate.entity.UserTable;
 import api.affiliate.api.affiliate.repository.OrderListRepository;
+import api.affiliate.api.affiliate.repository.StoreRepository;
 import api.affiliate.api.affiliate.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,11 +42,14 @@ public class AdminService {
     public final UserRepository userRepository;
     public final OrderListRepository orderListRepository;
 
-    public AdminService(PasswordEncoder passwordEncoder, UserRepository userRepository, OrderListRepository orderListRepository) {
+    public final StoreRepository storeRepository;
+
+    public AdminService(PasswordEncoder passwordEncoder, UserRepository userRepository, OrderListRepository orderListRepository, StoreRepository storeRepository) {
 
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.orderListRepository = orderListRepository;
+        this.storeRepository = storeRepository;
         register();
     }
 
@@ -96,6 +101,16 @@ public class AdminService {
         System.out.println(order.toString());
         return order;
     }
+
+    public void saveTotalPrice(StoreTable store){
+        try {
+            storeRepository.save(store);
+        }catch (Exception e){
+//            TODO: ERROR
+        }
+    }
+
+
 
 
 

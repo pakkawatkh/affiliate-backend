@@ -12,14 +12,4 @@ public class AffiliateRegisterRequest {
 
     private  String bankNumber;
 
-    public void valid() throws BaseException {
-
-//        if (customerName == null || passWord == null) {
-//            throw UserException.userRequestInvalid();
-//        }
-//
-//        if (customerName.isBlank() || passWord.isBlank()) {
-//            throw UserException.userRequestInvalid();
-//        }
-    }
 }

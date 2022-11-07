@@ -34,6 +34,9 @@ public class StoreTable {
     @Column(name = "status", nullable = false)
     private Boolean status = true;
 
+    @Column(name = "total_price", nullable = true)
+    private Integer totalPrice;
+
     @JsonIgnore
     @Column(name = "fk_user_id", nullable = false, unique = true)
     private String userId;

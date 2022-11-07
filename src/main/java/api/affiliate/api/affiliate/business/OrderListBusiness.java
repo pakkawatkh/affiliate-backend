@@ -13,6 +13,7 @@ import api.affiliate.api.affiliate.model.order.OrderResponse;
 import api.affiliate.api.affiliate.service.*;
 import api.affiliate.api.affiliate.service.token.TokenService;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,7 +34,8 @@ public class OrderListBusiness {
 
 
 
-    public List<OrderListTable> getAllOrder() throws BaseException {
+    @SneakyThrows
+    public List<OrderListTable> getAllOrder(){
         List<OrderListTable> order = orderService.findAllOrder();
         if (order.isEmpty()) {
             throw OrderException.orderNull();
@@ -42,7 +44,7 @@ public class OrderListBusiness {
     }
 
 
-    public List<OrderResponse> getOrderByStoreId() throws BaseException {
+    public List<OrderResponse> getOrderByStoreId(){
         UserTable user = tokenService.getUserByToken();
         checkRoleIsStore(user);
         StoreTable store = storeService.findByUserId2(user);
@@ -55,7 +57,12 @@ public class OrderListBusiness {
         return orderResponses;
     }
 
-    public OrderResponse getDetailByIdAndStore(Integer id) throws BaseException {
+
+    public void totalPriceOrderByStoreId(){
+
+    }
+
+    public OrderResponse getDetailByIdAndStore(Integer id){
         UserTable user = tokenService.getUserByToken();
         checkRoleIsStore(user);
         StoreTable store = storeService.findByUserId2(user);
@@ -69,7 +76,7 @@ public class OrderListBusiness {
 
 
 
-    public OrderResponse getDetailById(Integer id) throws BaseException {
+    public OrderResponse getDetailById(Integer id){
         UserTable user = tokenService.getUserByToken();
         OrderListTable order = orderService.getOrderListDetailByIdAndUser(id, user.getUserId());
         OrderResponse response = orderListMapper.toOrderResponse(order);
@@ -92,7 +99,8 @@ public class OrderListBusiness {
     }
 
 
-    public void checkRoleIsStore(UserTable user) throws BaseException {
+    @SneakyThrows
+    public void checkRoleIsStore(UserTable user){
         UserTable.Role role = user.getRole();
         boolean checkRole = role.equals(UserTable.Role.USER) || role.equals(UserTable.Role.AFFILIATE) || role.equals(UserTable.Role.ADMIN);
         if (checkRole) {
@@ -100,7 +108,7 @@ public class OrderListBusiness {
         }
     }
 
-    public Object addSlip(MultipartFile file, Integer orderId) throws BaseException {
+    public Object addSlip(MultipartFile file, Integer orderId){
         UserTable user = tokenService.getUserByToken();
 //        checkRoleIsStore(user);
         System.out.println("USER" + user);
@@ -114,7 +122,7 @@ public class OrderListBusiness {
 
 
 
-    public Object updateOrderStatusIsPayment(Integer orderId) throws BaseException {
+    public Object updateOrderStatusIsPayment(Integer orderId){
         UserTable user = tokenService.getUserByToken();
         checkRoleIsStore(user);
         OrderListTable order = orderService.findByOrderId(orderId);

@@ -36,7 +36,7 @@ public class OrderListController {
     }
 
     @GetMapping("/getOrderDetail")
-    public ResponseEntity<OrderResponse> getOrderDetail(@RequestParam(name = "id") Integer orderId) throws BaseException {
+    public ResponseEntity<OrderResponse> getOrderDetail(@RequestParam(name = "id") Integer orderId){
         OrderResponse order = orderBusiness.getDetailById(orderId);
         return ResponseEntity.ok(order);
     }

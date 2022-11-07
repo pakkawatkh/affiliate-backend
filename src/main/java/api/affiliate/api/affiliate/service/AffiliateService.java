@@ -5,6 +5,7 @@ import api.affiliate.api.affiliate.entity.UserTable;
 import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.AffiliateException;
 import api.affiliate.api.affiliate.repository.AffiliateRepository;
+import lombok.SneakyThrows;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,8 @@ public class AffiliateService {
 
 
 
-    public void register(String user,String bankNameAccount, String bankName, String bankNumber) throws BaseException {
+    @SneakyThrows
+    public void register(String user, String bankNameAccount, String bankName, String bankNumber){
     AffiliateTable affiliate = new AffiliateTable();
         affiliate.setUserId(user);
         affiliate.setBankNameAccount(bankNameAccount);
@@ -57,7 +59,8 @@ public class AffiliateService {
         }
     }
 
-    public void updateMyStatusAffiliate(AffiliateTable affiliate) throws BaseException {
+    @SneakyThrows
+    public void updateMyStatusAffiliate(AffiliateTable affiliate){
         affiliate.setStatus(false);
         try {
             affiliateRepository.save(affiliate);
