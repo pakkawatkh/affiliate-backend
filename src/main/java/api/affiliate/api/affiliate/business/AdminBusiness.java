@@ -1,16 +1,12 @@
 package api.affiliate.api.affiliate.business;
 
-import api.affiliate.api.affiliate.entity.OrderDetailTable;
-import api.affiliate.api.affiliate.entity.OrderListTable;
-import api.affiliate.api.affiliate.entity.StoreTable;
-import api.affiliate.api.affiliate.entity.UserTable;
+import api.affiliate.api.affiliate.entity.*;
 import api.affiliate.api.affiliate.exception.UserException;
 import api.affiliate.api.affiliate.mapper.OrderListMapper;
+import api.affiliate.api.affiliate.mapper.UserMapper;
 import api.affiliate.api.affiliate.model.order.OrderResponse;
-import api.affiliate.api.affiliate.service.AdminService;
-import api.affiliate.api.affiliate.service.OrderDetailService;
-import api.affiliate.api.affiliate.service.OrderListService;
-import api.affiliate.api.affiliate.service.StoreService;
+import api.affiliate.api.affiliate.model.user.UserProfileResponse;
+import api.affiliate.api.affiliate.service.*;
 import api.affiliate.api.affiliate.service.token.TokenService;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -29,6 +25,8 @@ public class AdminBusiness {
     private final OrderListMapper orderListMapper;
     private final StoreService storeService;
     private final OrderDetailService orderDetailService;
+    private final UserMapper userMapper;
+    private final AffiliateService affiliateService;
 
 
 //    public List<UserTable> findAllUser(){
@@ -49,23 +47,29 @@ public class AdminBusiness {
     }
 
 
-    public List<UserTable> findAllStore() {
+    public List<UserProfileResponse> findAllStore() {
         UserTable user = tokenService.getUserByToken();
-        System.out.println("USER " + user);
         checkRoleIsAdmin(user);
         List<UserTable> user1 = adminService.getAllRole(UserTable.Role.ST_AF, UserTable.Role.STORE);
-        System.out.println(user1);
-        return user1;
+        List<UserProfileResponse> response = userMapper.toUserProfileResponse(user1);
+        for (UserProfileResponse r : response) {
+            StoreTable store = storeService.findByUserId(r.getUserId());
+            r.setStore(store);
+        }
+        return response;
     }
 
 
-    public List<UserTable> findAllAffiliate() {
+    public List<UserProfileResponse> findAllAffiliate() {
         UserTable user = tokenService.getUserByToken();
-        System.out.println("USER " + user);
         checkRoleIsAdmin(user);
         List<UserTable> user1 = adminService.getAllRole(UserTable.Role.AFFILIATE, UserTable.Role.ST_AF);
-        System.out.println(user1);
-        return user1;
+        List<UserProfileResponse> response = userMapper.toUserProfileResponse(user1);
+        for (UserProfileResponse r : response) {
+            AffiliateTable affiliate = affiliateService.findByUserId(r.getUserId());
+            r.setAffiliate(affiliate);
+        }
+        return response;
     }
 
 
@@ -108,6 +112,7 @@ public class AdminBusiness {
         System.out.println(total);
         store.setTotalPrice(total);
         adminService.saveTotalPrice(store);
+
         return store;
     }
 

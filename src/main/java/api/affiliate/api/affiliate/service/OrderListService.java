@@ -41,8 +41,6 @@ public class OrderListService {
     }
 
 
-
-
     @SneakyThrows
     public OrderListTable createOrder(String user, String fullName, String tel, String address, String sub,
                                       String district, String province, Integer postalCode, Integer storeId) {
@@ -59,40 +57,46 @@ public class OrderListService {
         try {
             return orderListRepository.save(order);
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw OrderException.orderRequestInvalid();
         }
 
     }
 
 
-    public void saveTotalPrice(OrderListTable order){
+    public void saveTotalPrice(OrderListTable order) {
         try {
             orderListRepository.save(order);
-        }catch (Exception e){
+        } catch (Exception e) {
 //            TODO: ERROR
         }
     }
 
 
-    public void deleteOrderList(OrderListTable orderList){
+    public void deleteOrderList(OrderListTable orderList) {
         try {
             orderListRepository.delete(orderList);
-        }catch (Exception e){
+        } catch (Exception e) {
 //            TODO: ERROR
         }
     }
 
 
-    public List<OrderListTable> getOrderByStoreId(Integer storeId){
+    public List<OrderListTable> getOrderByStoreId(Integer storeId) {
         List<OrderListTable> order = orderListRepository.getOrderByStoreId(storeId);
         return order;
     }
 
+
+    public List<OrderListTable> getOrderStatus(Integer storeId, String status) {
+        List<OrderListTable> order = orderListRepository.getOrderStatus(storeId, status);
+        return order;
+    }
+
     @SneakyThrows
-    public OrderListTable getOrderListDetailByIdAndStore(Integer id, Integer storeId){
+    public OrderListTable getOrderListDetailByIdAndStore(Integer id, Integer storeId) {
         OrderListTable orderList = orderListRepository.getOrderListDetailByIdAndStore(storeId, id);
-        if (orderList == null){
+        if (orderList == null) {
             throw OrderException.orderNull();
         }
 
@@ -100,9 +104,9 @@ public class OrderListService {
     }
 
     @SneakyThrows
-    public OrderListTable getOrderListDetailByIdAndUser(Integer id, String userId){
+    public OrderListTable getOrderListDetailByIdAndUser(Integer id, String userId) {
         OrderListTable orderList = orderListRepository.getOrderListDetailByIdAndUser(userId, id);
-        if (orderList == null){
+        if (orderList == null) {
             throw OrderException.orderNull();
         }
 
@@ -110,33 +114,82 @@ public class OrderListService {
     }
 
 
+    public Object getTotalPriceByOrderStatusSuccess(Integer storeId) {
+        Object orderList = orderListRepository.getTotalPriceByOrderStatusSuccess(storeId);
+        if (orderList == null) {
+            orderList = 0;
+        }
+        return orderList;
+    }
+
+
+//    public Object updateOrderStatusIsWithDrawMoney(Integer storeId) {
+//        Object orderList = orderListRepository.updateOrderStatusIsWithDrawMoney(storeId);
+//        if (orderList == null) {
+//            OrderException.orderNull();
+//        }
+//        return orderList;
+//    }
+
+
     @SneakyThrows
-    public void updateOrderStatusIsPayment(OrderListTable order){
+    public void addSlip(OrderListTable order, String img) {
+        order.setImage(img);
+        order.setDate(new Date());
+        order.setStatus("wait payment");
+        try {
+            orderListRepository.save(order);
+        } catch (Exception e) {
+            throw OrderException.orderNull();
+        }
+    }
+
+
+    @SneakyThrows
+    public void updateOrderStatusIsPayment(OrderListTable order) {
         order.setStatus("payment");
         order.setDate(new Date());
         try {
             orderListRepository.save(order);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw OrderException.orderNull();
         }
     }
-
-
-
 
 
     @SneakyThrows
-    public void addSlip(OrderListTable order, String img){
-        order.setImage(img);
+    public void updateOrderStatusIsSuccess(OrderListTable order) {
+        order.setStatus("success");
         order.setDate(new Date());
         try {
             orderListRepository.save(order);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw OrderException.orderNull();
         }
     }
 
 
+    @SneakyThrows
+    public void updateOrderStatusIsWithDrawMoney(Integer storeId) {
+        try {
+        orderListRepository.updateOrderStatusIsWithDrawMoney(storeId);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            throw OrderException.orderNull();
+        }
+    }
+
+
+    @SneakyThrows
+    public void updateOrderStatusIsWithDrawSuccess(OrderListTable order) {
+        order.setStatus("withdraw success");
+        order.setDate(new Date());
+        try {
+            orderListRepository.save(order);
+        } catch (Exception e) {
+            throw OrderException.orderNull();
+        }
+    }
 
 
 }

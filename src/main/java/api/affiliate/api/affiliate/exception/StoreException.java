@@ -23,14 +23,6 @@ public class StoreException extends BaseException {
         return new StoreException("ไม่พบ store id");
     }
 
-    public static StoreException passWordInvalid() {
-        return new StoreException("passWord ไม่ถูกต้อง");
-    }
-
-    public static StoreException loginFail() {
-        return new StoreException("login ไม่สำเร็จ");
-    }
-
 
     public static StoreException roleUserNotAllowed() {
         return new StoreException("ไม่อนุญาต");

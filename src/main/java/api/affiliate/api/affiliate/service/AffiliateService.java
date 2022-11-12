@@ -77,5 +77,11 @@ public class AffiliateService {
     }
 
 
+    public AffiliateTable findByUserId(String userId){
+        Optional<AffiliateTable> affiliate = affiliateRepository.findByUserId(userId);
+        return affiliate.get();
+    }
+
+
 
 }

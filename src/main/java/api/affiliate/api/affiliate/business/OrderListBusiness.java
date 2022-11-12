@@ -4,9 +4,9 @@ import api.affiliate.api.affiliate.entity.OrderDetailTable;
 import api.affiliate.api.affiliate.entity.OrderListTable;
 import api.affiliate.api.affiliate.entity.StoreTable;
 import api.affiliate.api.affiliate.entity.UserTable;
-import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.OrderException;
-import api.affiliate.api.affiliate.exception.ProductException;
+import api.affiliate.api.affiliate.exception.StoreException;
+import api.affiliate.api.affiliate.exception.UserException;
 import api.affiliate.api.affiliate.mapper.OrderListMapper;
 import api.affiliate.api.affiliate.model.Response;
 import api.affiliate.api.affiliate.model.order.OrderResponse;
@@ -33,9 +33,8 @@ public class OrderListBusiness {
     private final OrderListMapper orderListMapper;
 
 
-
     @SneakyThrows
-    public List<OrderListTable> getAllOrder(){
+    public List<OrderListTable> getAllOrder() {
         List<OrderListTable> order = orderService.findAllOrder();
         if (order.isEmpty()) {
             throw OrderException.orderNull();
@@ -44,7 +43,7 @@ public class OrderListBusiness {
     }
 
 
-    public List<OrderResponse> getOrderByStoreId(){
+    public List<OrderResponse> getOrderByStoreId() {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsStore(user);
         StoreTable store = storeService.findByUserId2(user);
@@ -58,11 +57,21 @@ public class OrderListBusiness {
     }
 
 
-    public void totalPriceOrderByStoreId(){
-
+    public List<OrderResponse> getOrderStatusPayment() {
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsStore(user);
+        StoreTable store = storeService.findByUserId2(user);
+        List<OrderListTable> orderList = orderService.getOrderStatus(store.getStoreId(), "payment");
+        List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
+        for (OrderResponse order : orderResponses) {
+            List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
+            order.setDetail(details);
+        }
+        return orderResponses;
     }
 
-    public OrderResponse getDetailByIdAndStore(Integer id){
+
+    public OrderResponse getDetailByIdAndStore(Integer id) {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsStore(user);
         StoreTable store = storeService.findByUserId2(user);
@@ -75,8 +84,7 @@ public class OrderListBusiness {
     }
 
 
-
-    public OrderResponse getDetailById(Integer id){
+    public OrderResponse getDetailById(Integer id) {
         UserTable user = tokenService.getUserByToken();
         OrderListTable order = orderService.getOrderListDetailByIdAndUser(id, user.getUserId());
         OrderResponse response = orderListMapper.toOrderResponse(order);
@@ -87,11 +95,11 @@ public class OrderListBusiness {
     }
 
 
-    public List<OrderResponse> getMyOrderList(){
+    public List<OrderResponse> getMyOrderList() {
         UserTable user = tokenService.getUserByToken();
         List<OrderListTable> orderList = orderService.findMyOrder(user.getUserId());
         List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
-        for (OrderResponse order: orderResponses){
+        for (OrderResponse order : orderResponses) {
             List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
             order.setDetail(details);
         }
@@ -99,21 +107,19 @@ public class OrderListBusiness {
     }
 
 
-    @SneakyThrows
-    public void checkRoleIsStore(UserTable user){
-        UserTable.Role role = user.getRole();
-        boolean checkRole = role.equals(UserTable.Role.USER) || role.equals(UserTable.Role.AFFILIATE) || role.equals(UserTable.Role.ADMIN);
-        if (checkRole) {
-            throw ProductException.roleUserNotAllowed();
-        }
+    public Object getTotalPriceByOrderStatusSuccess() {
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsStore(user);
+        StoreTable store = storeService.findByUserId2(user);
+        Object orderList = orderService.getTotalPriceByOrderStatusSuccess(store.getStoreId());
+        return new Response().ok("", "ยอดเงินที่สามารถถอนได้", orderList);
     }
 
-    public Object addSlip(MultipartFile file, Integer orderId){
+
+    public Object addSlip(MultipartFile file, Integer orderId) {
         UserTable user = tokenService.getUserByToken();
 //        checkRoleIsStore(user);
-        System.out.println("USER" + user);
         OrderListTable order = orderService.findByOrderId(orderId);
-        System.out.println("ORDER " + order);
         String img;
         img = file != null ? fileService.saveImg(file, "/uploads/orders") : order.getImage();
         orderService.addSlip(order, img);
@@ -121,10 +127,9 @@ public class OrderListBusiness {
     }
 
 
-
-    public Object updateOrderStatusIsPayment(Integer orderId){
+    public Object updateOrderStatusIsPayment(Integer orderId) {
         UserTable user = tokenService.getUserByToken();
-        checkRoleIsStore(user);
+        checkRoleIsAdmin(user);
         OrderListTable order = orderService.findByOrderId(orderId);
         System.out.println("ORDER " + order);
         orderService.updateOrderStatusIsPayment(order);
@@ -132,4 +137,54 @@ public class OrderListBusiness {
     }
 
 
+    public Object updateOrderStatusIsSuccess(Integer orderId) {
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsStore(user);
+        OrderListTable order = orderService.findByOrderId(orderId);
+        System.out.println("ORDER " + order);
+        orderService.updateOrderStatusIsSuccess(order);
+        return new Response().success("update order status success");
+    }
+
+
+    public Object updateOrderStatusIsWithDrawMoney() {
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsStore(user);
+        StoreTable store = storeService.findByUserId2(user);
+        System.out.println(store);
+        orderService.updateOrderStatusIsWithDrawMoney(store.getStoreId());
+        return new Response().success("update order status withdraw money");
+    }
+
+
+    public Object updateOrderStatusIsWithDrawSuccess(Integer orderId) {
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsAdmin(user);
+        OrderListTable order = orderService.findByOrderId(orderId);
+        System.out.println("ORDER " + order);
+        orderService.updateOrderStatusIsWithDrawSuccess(order);
+        return new Response().success("update order status withdraw success");
+    }
+
+
+    @SneakyThrows
+    public void checkRoleIsStore(UserTable user) {
+        UserTable.Role role = user.getRole();
+        boolean checkRole = role.equals(UserTable.Role.USER) || role.equals(UserTable.Role.AFFILIATE) || role.equals(UserTable.Role.ADMIN);
+        if (checkRole) {
+            throw StoreException.roleUserNotAllowed();
+        }
+    }
+
+    @SneakyThrows
+    public void checkRoleIsAdmin(UserTable user) {
+        UserTable.Role role = user.getRole();
+        boolean checkRole = role.equals(UserTable.Role.STORE)
+                || role.equals(UserTable.Role.AFFILIATE)
+                || role.equals(UserTable.Role.USER)
+                || role.equals(UserTable.Role.ST_AF);
+        if (checkRole) {
+            throw UserException.roleUserNotAllowed();
+        }
+    }
 }

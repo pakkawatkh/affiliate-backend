@@ -78,6 +78,13 @@ public class StoreService {
     }
 
 
+    public StoreTable findByUserId(String userId){
+        Optional<StoreTable> store = storeRepository.findByUserId(userId);
+        return store.get();
+    }
+
+
+
     @SneakyThrows
     public StoreTable findByStoreId(Integer storeId){
         Optional<StoreTable> store = storeRepository.findById(storeId);

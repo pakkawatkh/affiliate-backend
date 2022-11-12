@@ -77,7 +77,7 @@ public class UserBusiness {
 
 
 
-    public Object getProfile() throws BaseException {
+    public Object getProfile(){
         UserTable user = tokenService.getUserByToken();
         UserProfileResponse response = userMapper.toUserProfileResponse(user);
         UserTable.Role role = user.getRole();

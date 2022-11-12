@@ -10,6 +10,8 @@ public class UserProfileResponse {
 
     private UserTable.Role role = UserTable.Role.USER;
 
+    private String userId;
+
     private String userName;
 
     private String fullName;

@@ -19,4 +19,6 @@ public interface StoreRepository extends JpaRepository<StoreTable, Integer> {
     Optional<StoreTable> findByUserId(String id);
 
 
+
+
 }

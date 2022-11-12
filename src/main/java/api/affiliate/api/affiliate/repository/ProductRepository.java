@@ -18,16 +18,7 @@ public interface ProductRepository extends JpaRepository<ProductTable, Integer> 
     List<ProductTable> findAllProductByStoreId(Integer storeId);
 
     List<ProductTable> findAllByStatusIsTrue();
-/*
-*   findBy
-*       Status*
-*             And
-*                   StoreId*
-*                           (boolean Status(true) ,Integer storeId(6) )
-*
-*
-* */
-//    List<ProductTable> findByStatusAndStoreId(boolean status,Integer storeId);
+
 
     List<ProductTable> findByStatusIsTrueAndStoreId(Integer storeId);
 
@@ -39,12 +30,22 @@ public interface ProductRepository extends JpaRepository<ProductTable, Integer> 
 
     boolean existsByProductName(String productName);
 
-
     @Query(value = """
             select * from product p 
             where p.product_name like :product_name
              """, nativeQuery = true)
     List<ProductTable> getProductSearch(@Param("product_name") String productName);
 
+
+    /*
+     *   findBy
+     *       Status*
+     *             And
+     *                   StoreId*
+     *                           (boolean Status(true) ,Integer storeId(6) )
+     *
+     *
+     * */
+//    List<ProductTable> findByStatusAndStoreId(boolean status,Integer storeId);
 
 }

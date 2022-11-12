@@ -1,14 +1,14 @@
 package api.affiliate.api.affiliate.controller;
 
 import api.affiliate.api.affiliate.business.AdminBusiness;
+import api.affiliate.api.affiliate.business.OrderListBusiness;
 import api.affiliate.api.affiliate.entity.UserTable;
+import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.model.order.OrderResponse;
+import api.affiliate.api.affiliate.model.user.UserProfileResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +19,7 @@ import java.util.List;
 public class AdminController {
 
     private final AdminBusiness adminBusiness;
+    private final OrderListBusiness orderBusiness;
 
 
 
@@ -31,14 +32,14 @@ public class AdminController {
     }
 
     @GetMapping("/get-all-store")
-    public List<UserTable> getAllStore() {
-        List<UserTable> user = adminBusiness.findAllStore();
+    public List<UserProfileResponse> getAllStore() {
+        List<UserProfileResponse> user = adminBusiness.findAllStore();
         return user;
     }
 
     @GetMapping("/get-all-affiliate")
-    public List<UserTable> getAllAffiliate() {
-        List<UserTable> user = adminBusiness.findAllAffiliate();
+    public List<UserProfileResponse> getAllAffiliate() {
+        List<UserProfileResponse> user = adminBusiness.findAllAffiliate();
         return user;
     }
 
@@ -59,6 +60,20 @@ public class AdminController {
     public ResponseEntity<Object> getTotalPriceOrderByStore(@PathVariable Integer id){
         Object order = adminBusiness.getTotalPriceOrderByStore(id);
         return ResponseEntity.ok(order);
+    }
+
+
+    @PutMapping("/update-order-payment/{id}")
+    public ResponseEntity<Object> updateOrderStatusIsPayment(@PathVariable Integer id) throws BaseException {
+        Object update = orderBusiness.updateOrderStatusIsPayment(id);
+        return ResponseEntity.ok(update);
+    }
+
+
+    @PutMapping("/update-order-withdraw-success/{id}")
+    public ResponseEntity<Object> updateOrderStatusIsWithDrawSuccess(@PathVariable Integer id) throws BaseException {
+        Object update = orderBusiness.updateOrderStatusIsWithDrawSuccess(id);
+        return ResponseEntity.ok(update);
     }
 
 }

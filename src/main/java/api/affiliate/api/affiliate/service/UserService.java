@@ -6,6 +6,7 @@ import api.affiliate.api.affiliate.exception.UserException;
 import api.affiliate.api.affiliate.repository.UserRepository;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -60,7 +61,8 @@ public class UserService {
 
 
 
-    public UserTable findByUserName(String userName) throws BaseException {
+    @SneakyThrows
+    public UserTable findByUserName(String userName){
         Optional<UserTable> user = userRepository.findByUserName(userName);
         if (user.isEmpty()) {
             throw UserException.userNameNull();
@@ -81,7 +83,8 @@ public class UserService {
 
 
 
-    public UserTable findById(String id) throws BaseException {
+    @SneakyThrows
+    public UserTable findById(String id){
         Optional<UserTable> opt = userRepository.findById(id);
         if (opt.isEmpty()) {
             throw UserException.userNameNull();
