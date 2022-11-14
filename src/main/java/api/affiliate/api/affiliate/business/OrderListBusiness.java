@@ -33,15 +33,6 @@ public class OrderListBusiness {
     private final OrderListMapper orderListMapper;
 
 
-    @SneakyThrows
-    public List<OrderListTable> getAllOrder() {
-        List<OrderListTable> order = orderService.findAllOrder();
-        if (order.isEmpty()) {
-            throw OrderException.orderNull();
-        }
-        return order;
-    }
-
 
     public List<OrderResponse> getOrderByStoreId() {
         UserTable user = tokenService.getUserByToken();
@@ -62,6 +53,18 @@ public class OrderListBusiness {
         checkRoleIsStore(user);
         StoreTable store = storeService.findByUserId2(user);
         List<OrderListTable> orderList = orderService.getOrderStatus(store.getStoreId(), "payment");
+        List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
+        for (OrderResponse order : orderResponses) {
+            List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
+            order.setDetail(details);
+        }
+        return orderResponses;
+    }
+
+    public List<OrderResponse> getOrderStatusWaitPayment() {
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsAdmin(user);
+        List<OrderListTable> orderList = orderService.getOrderStatus("wait payment");
         List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
         for (OrderResponse order : orderResponses) {
             List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
@@ -116,10 +119,14 @@ public class OrderListBusiness {
     }
 
 
+    @SneakyThrows
     public Object addSlip(MultipartFile file, Integer orderId) {
         UserTable user = tokenService.getUserByToken();
-//        checkRoleIsStore(user);
         OrderListTable order = orderService.findByOrderId(orderId);
+        UserTable user1 = userService.findById(order.getUserId());
+        if (user != user1){
+            throw UserException.roleUserNotAllowed();
+        }
         String img;
         img = file != null ? fileService.saveImg(file, "/uploads/orders") : order.getImage();
         orderService.addSlip(order, img);
@@ -165,6 +172,8 @@ public class OrderListBusiness {
         orderService.updateOrderStatusIsWithDrawSuccess(order);
         return new Response().success("update order status withdraw success");
     }
+
+
 
 
     @SneakyThrows

@@ -17,7 +17,7 @@ public class AffiliateException extends BaseException {
 
 
     public static AffiliateException affiliateNameNull() {
-        return new AffiliateException("ไม่พบ affiliateName");
+        return new AffiliateException("ไม่พบข้อมูล affiliate");
     }
 
     public static AffiliateException roleUserNotAllowed() {

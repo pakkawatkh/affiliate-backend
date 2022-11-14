@@ -1,6 +1,7 @@
 package api.affiliate.api.affiliate.business;
 
 import api.affiliate.api.affiliate.entity.*;
+import api.affiliate.api.affiliate.exception.OrderException;
 import api.affiliate.api.affiliate.exception.UserException;
 import api.affiliate.api.affiliate.mapper.OrderListMapper;
 import api.affiliate.api.affiliate.mapper.UserMapper;
@@ -27,6 +28,7 @@ public class AdminBusiness {
     private final OrderDetailService orderDetailService;
     private final UserMapper userMapper;
     private final AffiliateService affiliateService;
+
 
 
 //    public List<UserTable> findAllUser(){
@@ -60,6 +62,7 @@ public class AdminBusiness {
     }
 
 
+    @SneakyThrows
     public List<UserProfileResponse> findAllAffiliate() {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsAdmin(user);
@@ -70,6 +73,23 @@ public class AdminBusiness {
             r.setAffiliate(affiliate);
         }
         return response;
+    }
+
+
+    @SneakyThrows
+    public List<OrderResponse> findAllOrder() {
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsAdmin(user);
+        List<OrderListTable> orderList = orderListService.findAllOrder();
+        List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
+        for (OrderResponse order : orderResponses) {
+            List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
+            order.setDetail(details);
+        }
+        if (orderList.isEmpty()) {
+            throw OrderException.orderNull();
+        }
+        return orderResponses;
     }
 
 

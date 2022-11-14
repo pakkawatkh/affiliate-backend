@@ -46,6 +46,13 @@ public interface OrderListRepository extends JpaRepository<OrderListTable, Integ
 
 
     @Query(value = """
+            select * from order_list o
+            where o.status like :status
+             """, nativeQuery = true)
+    List<OrderListTable> getOrderStatus(@Param("status") String status);
+
+
+    @Query(value = """
             select * from order_list ol
                 inner join order_detail od on ol.order_list_id = od.fk_order_list_id
                 inner join product p on p.product_id = od.fk_product_id

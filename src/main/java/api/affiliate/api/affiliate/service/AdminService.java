@@ -77,6 +77,10 @@ public class AdminService {
         }
     }
 
+//    public List<UserTable> getAllOrder() {
+//        List<UserTable> user = userRepository.();
+//        return user;
+//    }
 
     public List<UserTable> getAllRole(UserTable.Role roles, UserTable.Role role) {
         List<UserTable> user = userRepository.getAllRole(roles.toString(), role.toString());

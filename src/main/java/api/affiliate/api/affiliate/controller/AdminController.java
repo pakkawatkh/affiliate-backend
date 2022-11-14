@@ -55,6 +55,12 @@ public class AdminController {
         return user;
     }
 
+    @GetMapping("/get-all-order")
+    public ResponseEntity<List<OrderResponse>> getAllOrder(){
+        List<OrderResponse> order = orderBusiness.getOrderStatusWaitPayment();
+        return ResponseEntity.ok(order);
+    }
+
 
     @GetMapping("/get-total-order-by-store/{id}")
     public ResponseEntity<Object> getTotalPriceOrderByStore(@PathVariable Integer id){

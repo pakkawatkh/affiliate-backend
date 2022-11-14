@@ -20,13 +20,6 @@ public class OrderListController {
     public final OrderListBusiness orderBusiness;
 
 
-    @GetMapping("/getAllOrder")
-    public ResponseEntity<Object> getAllOrder() throws BaseException {
-        List<OrderListTable> order = orderBusiness.getAllOrder();
-        return ResponseEntity.ok(order);
-    }
-
-
 //    @GetMapping("/getMyOrder")
 //    public ResponseEntity<List<OrderResponse>> getMyOrder(){
 //        List<OrderResponse> order = orderBusiness.getOrderByStoreId();
@@ -46,8 +39,8 @@ public class OrderListController {
     }
 
 
-    @GetMapping("/getOrderDetailByStore")
-    public ResponseEntity<OrderResponse> getOrderDetailByStore(@RequestParam(name = "id") Integer orderId) throws BaseException {
+    @GetMapping("/get-my-order-detail")
+    public ResponseEntity<OrderResponse> getOrderDetailByStore(@RequestParam(name = "id") Integer orderId){
         OrderResponse order = orderBusiness.getDetailByIdAndStore(orderId);
         return ResponseEntity.ok(order);
     }

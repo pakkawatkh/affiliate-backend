@@ -93,6 +93,11 @@ public class OrderListService {
         return order;
     }
 
+    public List<OrderListTable> getOrderStatus(String status) {
+        List<OrderListTable> order = orderListRepository.getOrderStatus(status);
+        return order;
+    }
+
     @SneakyThrows
     public OrderListTable getOrderListDetailByIdAndStore(Integer id, Integer storeId) {
         OrderListTable orderList = orderListRepository.getOrderListDetailByIdAndStore(storeId, id);
