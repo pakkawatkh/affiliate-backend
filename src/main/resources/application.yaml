@@ -12,9 +12,12 @@ Spring:
             max-file-size: 50MB
             max-request-size: 50MB
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/affiliatenew
+#    url: jdbc:mysql://127.0.0.1:3306/affiliatenew
+#    username: root
+#    password:
+    url: jdbc:mysql://203.158.201.107:3307/affiliatenew
     username: root
-    password: 12345678
+    password: ecptoday
 
 app:
   token:
