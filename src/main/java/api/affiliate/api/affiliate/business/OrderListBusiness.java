@@ -115,7 +115,7 @@ public class OrderListBusiness {
         checkRoleIsStore(user);
         StoreTable store = storeService.findByUserId2(user);
         Object orderList = orderService.getTotalPriceByOrderStatusSuccess(store.getStoreId());
-        return new Response().ok("", "ยอดเงินที่สามารถถอนได้", orderList);
+        return new Response().ok("", "Total Price", orderList);
     }
 
 
