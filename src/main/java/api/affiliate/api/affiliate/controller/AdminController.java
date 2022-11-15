@@ -69,17 +69,21 @@ public class AdminController {
     }
 
 
+//    PUT
     @PutMapping("/update-order-payment/{id}")
-    public ResponseEntity<Object> updateOrderStatusIsPayment(@PathVariable Integer id) throws BaseException {
+    public ResponseEntity<Object> updateOrderStatusIsPayment(@PathVariable Integer id){
         Object update = orderBusiness.updateOrderStatusIsPayment(id);
         return ResponseEntity.ok(update);
     }
 
 
-    @PutMapping("/update-order-withdraw-success/{id}")
-    public ResponseEntity<Object> updateOrderStatusIsWithDrawSuccess(@PathVariable Integer id) throws BaseException {
-        Object update = orderBusiness.updateOrderStatusIsWithDrawSuccess(id);
+    @PostMapping("/update-order-withdraw-success-and-attach-slip/{id}")
+    public ResponseEntity<Object> updateOrderStatusIsWithDrawSuccessAndAttachSlip(@PathVariable Integer id){
+        Object update = orderBusiness.updateOrderStatusIsWithDrawSuccessAndAttachSlip(id);
         return ResponseEntity.ok(update);
     }
+
+
+
 
 }
