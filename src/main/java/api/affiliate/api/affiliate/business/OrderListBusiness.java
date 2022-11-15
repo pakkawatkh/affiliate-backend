@@ -115,7 +115,7 @@ public class OrderListBusiness {
         checkRoleIsStore(user);
         StoreTable store = storeService.findByUserId2(user);
         Object orderList = orderService.getTotalPriceByOrderStatusSuccess(store.getStoreId());
-        return orderList;
+        return new Response().ok("", "ยอดเงินที่สามารถถอนได้", orderList);
     }
 
 
@@ -164,7 +164,7 @@ public class OrderListBusiness {
     }
 
 
-    public Object updateOrderStatusIsWithDrawSuccess(Integer orderId) {
+    public Object updateOrderStatusIsWithDrawSuccessAndAttachSlip(Integer orderId) {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsAdmin(user);
         OrderListTable order = orderService.findByOrderId(orderId);

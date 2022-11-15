@@ -14,7 +14,7 @@ Spring:
   datasource:
 #    url: jdbc:mysql://127.0.0.1:3306/affiliatenew
 #    username: root
-#    password:
+#    password: 12345678
     url: jdbc:mysql://203.158.201.107:3307/affiliatenew
     username: root
     password: ecptoday
