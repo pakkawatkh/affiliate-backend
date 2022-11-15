@@ -100,12 +100,6 @@ public class AdminService {
     }
 
 
-    public List<OrderListTable> findOrderByStoreId(Integer storeId){
-        List<OrderListTable> order = orderListRepository.getOrderByStoreId(storeId);
-        System.out.println(order.toString());
-        return order;
-    }
-
     public void saveTotalPrice(StoreTable store){
         try {
             storeRepository.save(store);

@@ -34,20 +34,6 @@ public class OrderListBusiness {
 
 
 
-    public List<OrderResponse> getOrderByStoreId() {
-        UserTable user = tokenService.getUserByToken();
-        checkRoleIsStore(user);
-        StoreTable store = storeService.findByUserId2(user);
-        List<OrderListTable> orderList = orderService.getOrderByStoreId(store.getStoreId());
-        List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
-        for (OrderResponse order : orderResponses) {
-            List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
-            order.setDetail(details);
-        }
-        return orderResponses;
-    }
-
-
     public List<OrderResponse> getOrderStatusPayment() {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsStore(user);
@@ -115,7 +101,11 @@ public class OrderListBusiness {
         checkRoleIsStore(user);
         StoreTable store = storeService.findByUserId2(user);
         Object orderList = orderService.getTotalPriceByOrderStatusSuccess(store.getStoreId());
+<<<<<<< HEAD
         return new Response().ok("", "TotalMoney", orderList);
+=======
+        return new Response().ok("", "total_price", orderList);
+>>>>>>> 329a93fee1412468328c7569b26132c702480206
     }
 
 

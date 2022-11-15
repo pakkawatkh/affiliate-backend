@@ -74,8 +74,13 @@ public class OrderDetailService {
         }
     }
 
+    @SneakyThrows
     public List<OrderDetailTable> findAllByOrderListId(Integer orderId){
-        return orderDetailRepository.findAllByOrderListId(orderId);
+        try {
+            return orderDetailRepository.findAllByOrderListId(orderId);
+        }catch (Exception e){
+            throw OrderException.orderNull();
+        }
     }
 
 

@@ -50,7 +50,7 @@ public class AdminController {
     }
 
     @GetMapping("/get-order-by-store-id/{id}")
-    public List<OrderResponse> getOrderStoreById(@PathVariable Integer id) {
+    public List<OrderResponse> getOrderStoreById(@PathVariable Integer id){
         List<OrderResponse> user = adminBusiness.getOrderByStoreId(id);
         return user;
     }

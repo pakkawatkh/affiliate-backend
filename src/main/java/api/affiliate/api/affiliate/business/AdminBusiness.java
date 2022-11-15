@@ -111,6 +111,7 @@ public class AdminBusiness {
         checkRoleIsAdmin(user);
         StoreTable store = storeService.findByStoreId(id);
         List<OrderListTable> orderList = orderListService.getOrderByStoreId(store.getStoreId());
+        System.out.println(orderList);
         List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
         for (OrderResponse order : orderResponses) {
             List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
