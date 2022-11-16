@@ -53,12 +53,11 @@ public interface OrderListRepository extends JpaRepository<OrderListTable, Integ
 
 
     @Query(value = """
-            select * from order_list ol
+            select distinct ol.* from order_list ol
                 inner join order_detail od on ol.order_list_id = od.fk_order_list_id
                 inner join product p on p.product_id = od.fk_product_id
                 where p.fk_store_id =:store_id 
                 and (ol.status like :status)
-                group by ol.order_list_id
              """, nativeQuery = true)
     List<OrderListTable> getOrderStatus(@Param("store_id") Integer storeId, @Param("status") String status);
 

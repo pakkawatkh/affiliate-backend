@@ -55,6 +55,9 @@ public class OrderListTable {
     @Column(name = "fk_store_id", nullable = false)
     private Integer  storeId;
 
+    @Column(name = "fk_withdraw_id", nullable = false)
+    private Integer withdrawId;
+
 
 //
 //    @Column(name = "fk_cart_id", nullable = false)

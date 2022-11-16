@@ -25,11 +25,5 @@ public class WithdrawTable {
     @Column(name = "total_price", nullable = true)
     private Integer totalPrice;
 
-    @Column(name = "fk_order_list_id", nullable = false)
-    private Integer orderListId;
-
-    @Column(name = "fk_store_id", nullable = false)
-    private Integer  storeId;
-
 
 }
