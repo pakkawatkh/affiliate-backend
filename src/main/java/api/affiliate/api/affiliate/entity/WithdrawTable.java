@@ -22,7 +22,7 @@ public class WithdrawTable {
     @Column(name = "image")
     private String image;
 
-    @Column(name = "total_price", nullable = true)
+    @Column(name = "total_price")
     private Integer totalPrice;
 
 

@@ -119,12 +119,14 @@ public class OrderListService {
     }
 
 
-    public Object getTotalPriceByOrderStatusSuccess(Integer storeId) {
-        Object orderList = orderListRepository.getTotalPriceByOrderStatusSuccess(storeId);
-        if (orderList == null) {
-            orderList = 0;
+    public Integer getTotalPriceByOrderStatusSuccess(Integer storeId) {
+        boolean exists = orderListRepository.existsByStatusAndStoreId("success", storeId);
+        if (exists){
+            int count = orderListRepository.getTotalPriceByOrderStatusSuccess(storeId);
+       return count;
+        }else {
+            return 0;
         }
-        return orderList;
     }
 
 
@@ -175,11 +177,10 @@ public class OrderListService {
 
 
     @SneakyThrows
-    public void updateOrderStatusIsWithDrawMoney(Integer storeId) {
+    public void updateOrderStatusIsWithDrawMoney(Integer withdrawId, Integer storeId) {
         try {
-        orderListRepository.updateOrderStatusIsWithDrawMoney(storeId);
+        orderListRepository.updateOrderStatusIsWithDrawMoney(withdrawId,storeId);
         }catch (Exception e){
-            System.out.println(e.getMessage());
             throw OrderException.orderNull();
         }
     }

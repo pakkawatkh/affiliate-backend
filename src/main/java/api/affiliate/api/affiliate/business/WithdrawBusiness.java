@@ -1,8 +1,10 @@
 package api.affiliate.api.affiliate.business;
 
 import api.affiliate.api.affiliate.entity.*;
+import api.affiliate.api.affiliate.exception.OrderException;
 import api.affiliate.api.affiliate.exception.StoreException;
 import api.affiliate.api.affiliate.exception.WithdrawException;
+import api.affiliate.api.affiliate.model.Response;
 import api.affiliate.api.affiliate.model.product.ProductRequest;
 import api.affiliate.api.affiliate.service.OrderListService;
 import api.affiliate.api.affiliate.service.StoreService;
@@ -23,25 +25,21 @@ public class WithdrawBusiness {
     private final StoreService storeService;
 
 
-//    @SneakyThrows
-//    public Object createWithdrawByOrder(OrderListTable order) {
-//        UserTable user = tokenService.getUserByToken();
-//        checkRoleIsStore(user);
-//        StoreTable store = storeService.findByStoreId(order.getStoreId());
-//        OrderListTable orderList = orderService.findByOrderId(order.getOrderListId());
-//        OrderListTable order1 = (OrderListTable) orderService.getTotalPriceByOrderStatusSuccess(store.getStoreId());
-//        orderService.findAllOrder(orderList.getOrderListId());
-//        try {
-//            for (orderList.getOrderListId() : order1){
-//
-//            }
-//        }catch (Exception e){
-//            throw WithdrawException.createFail();
-//        }
-//        WithdrawTable withdraw = withdrawService.createWithdrawByOrder(order1.getTotalPrice());
-//        orderList.setStatus("withdraw money");
-//        return
-//    }
+    @SneakyThrows
+    public Object createWithdrawByOrder() {
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsStore(user);
+        StoreTable store = storeService.findByUserId(user.getUserId());
+        int i = orderService.getTotalPriceByOrderStatusSuccess(store.getStoreId());
+//        int i = checkstatusSuccess == null?0 : Integer.parseInt((String) checkstatusSuccess);
+        if (i == 0){
+            throw OrderException.orderNull();
+//            คุณไม่มียอดเงินสำหรับถอน
+        }
+        WithdrawTable withdraw = withdrawService.createWithdrawByOrder(i);
+        orderService.updateOrderStatusIsWithDrawMoney(withdraw.getWithdrawId(), store.getStoreId());
+        return new Response().success("update order status withdraw money");
+    }
 
 
     @SneakyThrows

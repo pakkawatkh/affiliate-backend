@@ -100,7 +100,7 @@ public class OrderListBusiness {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsStore(user);
         StoreTable store = storeService.findByUserId2(user);
-        Object orderList = orderService.getTotalPriceByOrderStatusSuccess(store.getStoreId());
+        int orderList = orderService.getTotalPriceByOrderStatusSuccess(store.getStoreId());
         return new Response().ok("", "total_price", orderList);
     }
 
@@ -140,14 +140,14 @@ public class OrderListBusiness {
     }
 
 
-    public Object updateOrderStatusIsWithDrawMoney() {
-        UserTable user = tokenService.getUserByToken();
-        checkRoleIsStore(user);
-        StoreTable store = storeService.findByUserId2(user);
-        System.out.println(store);
-        orderService.updateOrderStatusIsWithDrawMoney(store.getStoreId());
-        return new Response().success("update order status withdraw money");
-    }
+//    public Object updateOrderStatusIsWithDrawMoney() {
+//        UserTable user = tokenService.getUserByToken();
+//        checkRoleIsStore(user);
+//        StoreTable store = storeService.findByUserId2(user);
+//        System.out.println(store);
+//        orderService.updateOrderStatusIsWithDrawMoney(store.getStoreId());
+//        return new Response().success("update order status withdraw money");
+//    }
 
 
     public Object updateOrderStatusIsWithDrawSuccessAndAttachSlip(Integer orderId) {

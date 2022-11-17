@@ -2,8 +2,10 @@ package api.affiliate.api.affiliate.controller;
 
 import api.affiliate.api.affiliate.business.OrderListBusiness;
 import api.affiliate.api.affiliate.business.StoreBisiness;
+import api.affiliate.api.affiliate.business.WithdrawBusiness;
 import api.affiliate.api.affiliate.entity.StoreTable;
 import api.affiliate.api.affiliate.exception.BaseException;
+import api.affiliate.api.affiliate.model.Response;
 import api.affiliate.api.affiliate.model.store.StoreRegisterRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,8 @@ public class StoreController {
 
     private final StoreBisiness storeBisiness;
     private final OrderListBusiness orderListBusiness;
+
+    private  final WithdrawBusiness withdrawBusiness;
 
 
     //    GET
@@ -82,7 +86,7 @@ public class StoreController {
 
     @PutMapping("/update-order-withdraw-money")
     public ResponseEntity<Object> updateOrderStatusIsWithDrawMoney(){
-        Object update = orderListBusiness.updateOrderStatusIsWithDrawMoney();
+        Object update = withdrawBusiness.createWithdrawByOrder();
         return ResponseEntity.ok(update);
     }
 

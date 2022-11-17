@@ -67,18 +67,40 @@ public interface OrderListRepository extends JpaRepository<OrderListTable, Integ
                 where ol.status like 'success'
                 and ol.fk_store_id = :store_id
             """, nativeQuery = true)
-    Object getTotalPriceByOrderStatusSuccess(@Param("store_id") Integer storeId);
+    Integer getTotalPriceByOrderStatusSuccess(@Param("store_id") Integer storeId);
+
+
+    @Query(value = """
+            select count(*) from order_list ol
+                where ol.status like 'success'
+                and ol.fk_store_id = :store_id
+            """, nativeQuery = true)
+    long countByOrderStatusSuccess(@Param("store_id") Integer storeId);
+
+
+
+    boolean existsByStatusAndStoreId(String status, Integer storeId);
+
+
+    //    @Modifying
+//    @Transactional
+//    @Query(value = """
+//            UPDATE OrderListTable as o
+//                SET o.status = 'withdraw money'
+//                WHERE o.status like 'success'
+//                and o.storeId = :store_id
+//             """)
+//    void updateOrderStatusIsWithDrawMoney(@Param("store_id") Integer storeId);
 
 
     @Modifying
     @Transactional
     @Query(value = """
-            UPDATE OrderListTable as o
-                SET o.status = 'withdraw money'
-                WHERE o.status like 'success'
-                and o.storeId = :store_id
-             """)
-    void updateOrderStatusIsWithDrawMoney(@Param("store_id") Integer storeId);
+        UPDATE OrderListTable as ol
+            SET ol.status = 'withdraw money' , ol.withdrawId =:withdraw_id
+            WHERE ol.status = 'success' and ol.storeId =:store_id
+        """)
+    void updateOrderStatusIsWithDrawMoney(@Param("withdraw_id") Integer withdrawId, @Param("store_id") Integer storeId);
 
 
 //    @Query("""
