@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @GetMapping("/getProfile")
-    public ResponseEntity<Object> profile() throws BaseException {
+    public ResponseEntity<Object> profile(){
         Object profile = userBusiness.getProfile();
         return ResponseEntity.ok(profile);
     }

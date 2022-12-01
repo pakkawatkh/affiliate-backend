@@ -31,12 +31,10 @@ public class WithdrawBusiness {
         checkRoleIsStore(user);
         StoreTable store = storeService.findByUserId(user.getUserId());
         int i = orderService.getTotalPriceByOrderStatusSuccess(store.getStoreId());
-//        int i = checkstatusSuccess == null?0 : Integer.parseInt((String) checkstatusSuccess);
         if (i == 0){
-            throw OrderException.orderNull();
-//            คุณไม่มียอดเงินสำหรับถอน
+            throw WithdrawException.withdrawFail();
         }
-        WithdrawTable withdraw = withdrawService.createWithdrawByOrder(i);
+        WithdrawTable withdraw = withdrawService.createWithdrawByOrder(i, store.getStoreId());
         orderService.updateOrderStatusIsWithDrawMoney(withdraw.getWithdrawId(), store.getStoreId());
         return new Response().success("update order status withdraw money");
     }

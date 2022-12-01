@@ -130,14 +130,6 @@ public class OrderListService {
     }
 
 
-//    public Object updateOrderStatusIsWithDrawMoney(Integer storeId) {
-//        Object orderList = orderListRepository.updateOrderStatusIsWithDrawMoney(storeId);
-//        if (orderList == null) {
-//            OrderException.orderNull();
-//        }
-//        return orderList;
-//    }
-
 
     @SneakyThrows
     public void addSlip(OrderListTable order, String img) {

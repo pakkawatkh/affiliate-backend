@@ -20,10 +20,17 @@ public class WithdrawTable {
     private Date date = new Date();
 
     @Column(name = "image")
-    private String image;
+    private String image = null;
 
     @Column(name = "total_price")
     private Integer totalPrice;
+
+    @Column(name = "status", nullable = false)
+    private String status;
+
+    @Column(name = "fk_store_id", nullable = false)
+    private Integer storeId;
+
 
 
 }

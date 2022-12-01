@@ -3,7 +3,6 @@ package api.affiliate.api.affiliate.controller;
 import api.affiliate.api.affiliate.business.AdminBusiness;
 import api.affiliate.api.affiliate.business.OrderListBusiness;
 import api.affiliate.api.affiliate.entity.UserTable;
-import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.model.order.OrderResponse;
 import api.affiliate.api.affiliate.model.user.UserProfileResponse;
 import lombok.AllArgsConstructor;
@@ -65,6 +64,13 @@ public class AdminController {
     @GetMapping("/get-total-order-by-store/{id}")
     public ResponseEntity<Object> getTotalPriceOrderByStore(@PathVariable Integer id){
         Object order = adminBusiness.getTotalPriceOrderByStore(id);
+        return ResponseEntity.ok(order);
+    }
+
+
+    @GetMapping("/get-all-order-status-withdraw-money")
+    public ResponseEntity<Object> getAllOrderStatusWithDrawMoney(){
+        Object order = adminBusiness.getAllOrderStatusWithDrawMoney();
         return ResponseEntity.ok(order);
     }
 

@@ -35,13 +35,6 @@ public class ProductService {
     }
 
 
-    public ProductTable findProductByStoreId(Integer storeId) {
-        Optional<ProductTable> product = productRepository.findProductByStoreId(storeId);
-        return product.get();
-    }
-
-
-
 
 
     public List<ProductTable> findAllByStatusIsTrue() {
@@ -80,8 +73,6 @@ public class ProductService {
         List<ProductTable> product = productRepository.getProductSearch(productName);
         return product;
     }
-
-
 
 
 

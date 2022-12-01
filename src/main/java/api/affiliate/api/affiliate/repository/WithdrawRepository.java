@@ -1,6 +1,7 @@
 package api.affiliate.api.affiliate.repository;
 
 
+import api.affiliate.api.affiliate.entity.OrderListTable;
 import api.affiliate.api.affiliate.entity.ProductTable;
 import api.affiliate.api.affiliate.entity.UserTable;
 import api.affiliate.api.affiliate.entity.WithdrawTable;
@@ -18,6 +19,12 @@ public interface WithdrawRepository extends JpaRepository<WithdrawTable, Integer
 
     @Override
     Optional<WithdrawTable> findById(Integer id);
+
+    @Query(value = """
+            select * from withdraw w 
+            where w.status like :status
+             """, nativeQuery = true)
+    List<WithdrawTable> getWithdrawStatus(@Param("status") String status);
 
 
 }

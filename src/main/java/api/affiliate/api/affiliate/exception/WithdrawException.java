@@ -12,6 +12,11 @@ public class WithdrawException extends BaseException {
     }
 
 
+    public static WithdrawException withdrawFail() {
+        return new WithdrawException("You don't have any withdrawal balance.");
+    }
+
+
 
 
 

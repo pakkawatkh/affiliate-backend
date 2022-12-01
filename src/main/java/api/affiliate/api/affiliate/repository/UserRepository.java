@@ -35,6 +35,11 @@ public interface UserRepository extends JpaRepository<UserTable, String> {
             """, nativeQuery = true)
     List<UserTable> getAllUserByAdmin(@Param("roles") String roles);
 
+    @Query(value = """
+            select * from users as u
+            where u.role =:roles
+            """, nativeQuery = true)
+    List<UserTable> getAllRole(@Param("roles") String roles);
 
     @Query(value = """
             select * from users as u
@@ -43,9 +48,8 @@ public interface UserRepository extends JpaRepository<UserTable, String> {
     List<UserTable> getAllRole(@Param("roles") String roles, @Param("role") String role);
 
 
-    @Query(value = """
-            select * from users as u
-            where u.role =:roles
-            """, nativeQuery = true)
-    List<UserTable> getAllRole(@Param("roles") String roles);
+
+
+
+
 }

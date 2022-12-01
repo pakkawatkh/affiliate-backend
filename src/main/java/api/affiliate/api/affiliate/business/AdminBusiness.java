@@ -28,7 +28,7 @@ public class AdminBusiness {
     private final OrderDetailService orderDetailService;
     private final UserMapper userMapper;
     private final AffiliateService affiliateService;
-
+    private final WithdrawService withdrawService;
 
 
 //    public List<UserTable> findAllUser(){
@@ -42,9 +42,8 @@ public class AdminBusiness {
 
     public List<UserTable> findAllUser() {
         UserTable user = tokenService.getUserByToken();
-        System.out.println("USER" + user);
         checkRoleIsAdmin(user);
-        List<UserTable> user1 = adminService.getAllRole(UserTable.Role.USER);
+        List<UserTable> user1 = adminService.findAllUser();
         return user1;
     }
 
@@ -136,6 +135,16 @@ public class AdminBusiness {
 
         return store;
     }
+
+
+    public List<WithdrawTable> getAllOrderStatusWithDrawMoney() {
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsAdmin(user);
+        List<WithdrawTable> order = withdrawService.getWithdrawStatus("withdraw money");
+        return order;
+    }
+
+
 
 
     @SneakyThrows
