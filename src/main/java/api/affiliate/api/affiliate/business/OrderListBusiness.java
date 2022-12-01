@@ -1,10 +1,6 @@
 package api.affiliate.api.affiliate.business;
 
-import api.affiliate.api.affiliate.entity.OrderDetailTable;
-import api.affiliate.api.affiliate.entity.OrderListTable;
-import api.affiliate.api.affiliate.entity.StoreTable;
-import api.affiliate.api.affiliate.entity.UserTable;
-import api.affiliate.api.affiliate.exception.OrderException;
+import api.affiliate.api.affiliate.entity.*;
 import api.affiliate.api.affiliate.exception.StoreException;
 import api.affiliate.api.affiliate.exception.UserException;
 import api.affiliate.api.affiliate.mapper.OrderListMapper;
@@ -18,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -31,7 +28,7 @@ public class OrderListBusiness {
     private final FileService fileService;
     private final OrderDetailService orderDetailService;
     private final OrderListMapper orderListMapper;
-
+    private final WithdrawService withdrawService;
 
 
     public List<OrderResponse> getOrderStatusPayment() {
@@ -110,7 +107,7 @@ public class OrderListBusiness {
         UserTable user = tokenService.getUserByToken();
         OrderListTable order = orderService.findByOrderId(orderId);
         UserTable user1 = userService.findById(order.getUserId());
-        if (user != user1){
+        if (user != user1) {
             throw UserException.roleUserNotAllowed();
         }
         String img;
@@ -150,16 +147,17 @@ public class OrderListBusiness {
 //    }
 
 
-    public Object updateOrderStatusIsWithDrawSuccessAndAttachSlip(Integer orderId) {
+    public Object updateOrderStatusIsWithDrawSuccessAndAddSlip(MultipartFile file, Integer withdrawId) {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsAdmin(user);
-        OrderListTable order = orderService.findByOrderId(orderId);
-        System.out.println("ORDER " + order);
-        orderService.updateOrderStatusIsWithDrawSuccess(order);
+        WithdrawTable withdraw = withdrawService.findById(withdrawId);
+        System.out.println("withdraw " + withdraw);
+        String img;
+        System.out.println(file);
+        img = file != null ? fileService.saveImg(file, "/uploads/withdraws") : withdraw.getImage();
+        withdrawService.updateOrderStatusIsWithDrawSuccess(withdraw, img);
         return new Response().success("update order status withdraw success");
     }
-
-
 
 
     @SneakyThrows

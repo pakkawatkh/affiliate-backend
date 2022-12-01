@@ -26,7 +26,7 @@ public class OrderDetailController {
 
 
     @GetMapping("/getAllOrder")
-    public ResponseEntity<Object> getAllOrder() throws BaseException {
+    public ResponseEntity<Object> getAllOrder(){
         List<OrderDetailTable> order = orderDetailBusiness.findAllOrderDetail();
         return ResponseEntity.ok(order);
     }

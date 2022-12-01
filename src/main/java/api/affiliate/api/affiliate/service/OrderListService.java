@@ -121,14 +121,13 @@ public class OrderListService {
 
     public Integer getTotalPriceByOrderStatusSuccess(Integer storeId) {
         boolean exists = orderListRepository.existsByStatusAndStoreId("success", storeId);
-        if (exists){
+        if (exists) {
             int count = orderListRepository.getTotalPriceByOrderStatusSuccess(storeId);
-       return count;
-        }else {
+            return count;
+        } else {
             return 0;
         }
     }
-
 
 
     @SneakyThrows
@@ -171,23 +170,10 @@ public class OrderListService {
     @SneakyThrows
     public void updateOrderStatusIsWithDrawMoney(Integer withdrawId, Integer storeId) {
         try {
-        orderListRepository.updateOrderStatusIsWithDrawMoney(withdrawId,storeId);
-        }catch (Exception e){
-            throw OrderException.orderNull();
-        }
-    }
-
-
-    @SneakyThrows
-    public void updateOrderStatusIsWithDrawSuccess(OrderListTable order) {
-        order.setStatus("withdraw success");
-        order.setDate(new Date());
-        try {
-            orderListRepository.save(order);
+            orderListRepository.updateOrderStatusIsWithDrawMoney(withdrawId, storeId);
         } catch (Exception e) {
             throw OrderException.orderNull();
         }
     }
-
 
 }

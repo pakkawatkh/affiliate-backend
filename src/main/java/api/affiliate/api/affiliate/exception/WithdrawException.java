@@ -12,6 +12,11 @@ public class WithdrawException extends BaseException {
     }
 
 
+    public static WithdrawException addSlipFail() {
+        return new WithdrawException("Failed to add slip withdraw");
+    }
+
+
     public static WithdrawException withdrawFail() {
         return new WithdrawException("You don't have any withdrawal balance.");
     }

@@ -8,6 +8,7 @@ import api.affiliate.api.affiliate.model.user.UserProfileResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -83,9 +84,17 @@ public class AdminController {
     }
 
 
-    @PostMapping("/update-order-withdraw-success-and-attach-slip/{id}")
-    public ResponseEntity<Object> updateOrderStatusIsWithDrawSuccessAndAttachSlip(@PathVariable Integer id){
-        Object update = orderBusiness.updateOrderStatusIsWithDrawSuccessAndAttachSlip(id);
+//    @PostMapping("/update-order-withdraw-success-and-ฟกก-slip/{id}")
+//    public ResponseEntity<Object> updateOrderStatusIsWithDrawSuccessAndAttachSlip(@PathVariable Integer id){
+//        Object update = orderBusiness.updateOrderStatusIsWithDrawSuccessAndAttachSlip(id);
+//        return ResponseEntity.ok(update);
+//    }
+
+
+    @PutMapping("/update-order-withdraw-success-and-add-slip/{id}")
+    public ResponseEntity<Object> updateOrderStatusIsWithDrawSuccessAndAddSlip(@PathVariable Integer id,
+                                          @RequestParam(value = "file", required = false) MultipartFile file){
+        Object update = orderBusiness.updateOrderStatusIsWithDrawSuccessAndAddSlip(file, id);
         return ResponseEntity.ok(update);
     }
 
