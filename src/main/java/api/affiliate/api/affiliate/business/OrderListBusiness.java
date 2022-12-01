@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -102,6 +101,23 @@ public class OrderListBusiness {
     }
 
 
+//    public List<WithdrawTable> getAllOrderStatusWithDrawSuccessByStore() {
+//        UserTable user = tokenService.getUserByToken();
+//        checkRoleIsStore(user);
+//        List<WithdrawTable> order = withdrawService.getWithdrawStatus("withdraw success");
+//        return order;
+//    }
+
+    public List<WithdrawTable> getAllOrderStatusWithDrawSuccessByStore() {
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsStore(user);
+        StoreTable store = storeService.findByUserId2(user);
+        List<WithdrawTable> withdraw = withdrawService.getWithdrawStatus(store.getStoreId(), "withdraw success");
+        return withdraw;
+    }
+
+
+
     @SneakyThrows
     public Object addSlip(MultipartFile file, Integer orderId) {
         UserTable user = tokenService.getUserByToken();
@@ -151,9 +167,7 @@ public class OrderListBusiness {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsAdmin(user);
         WithdrawTable withdraw = withdrawService.findById(withdrawId);
-        System.out.println("withdraw " + withdraw);
         String img;
-        System.out.println(file);
         img = file != null ? fileService.saveImg(file, "/uploads/withdraws") : withdraw.getImage();
         withdrawService.updateOrderStatusIsWithDrawSuccess(withdraw, img);
         return new Response().success("update order status withdraw success");

@@ -27,4 +27,13 @@ public interface WithdrawRepository extends JpaRepository<WithdrawTable, Integer
     List<WithdrawTable> getWithdrawStatus(@Param("status") String status);
 
 
+
+    @Query(value = """
+            select distinct wd.* from withdraw wd
+                where wd.fk_store_id =:store_id 
+                and (wd.status like :status)
+             """, nativeQuery = true)
+    List<WithdrawTable> getWithdrawStatus(@Param("store_id") Integer storeId, @Param("status") String status);
+
+
 }

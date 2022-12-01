@@ -76,6 +76,13 @@ public class AdminController {
     }
 
 
+    @GetMapping("/get-all-order-status-withdraw-success")
+    public ResponseEntity<Object> getAllOrderStatusWithDrawSuccess(){
+        Object order = adminBusiness.getAllOrderStatusWithDrawSuccess();
+        return ResponseEntity.ok(order);
+    }
+
+
 //    PUT
     @PutMapping("/update-order-payment/{id}")
     public ResponseEntity<Object> updateOrderStatusIsPayment(@PathVariable Integer id){
@@ -83,12 +90,6 @@ public class AdminController {
         return ResponseEntity.ok(update);
     }
 
-
-//    @PostMapping("/update-order-withdraw-success-and-ฟกก-slip/{id}")
-//    public ResponseEntity<Object> updateOrderStatusIsWithDrawSuccessAndAttachSlip(@PathVariable Integer id){
-//        Object update = orderBusiness.updateOrderStatusIsWithDrawSuccessAndAttachSlip(id);
-//        return ResponseEntity.ok(update);
-//    }
 
 
     @PutMapping("/update-order-withdraw-success-and-add-slip/{id}")

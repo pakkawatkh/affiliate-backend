@@ -144,6 +144,13 @@ public class AdminBusiness {
         return order;
     }
 
+    public List<WithdrawTable> getAllOrderStatusWithDrawSuccess() {
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsAdmin(user);
+        List<WithdrawTable> order = withdrawService.getWithdrawStatus("withdraw success");
+        return order;
+    }
+
 
 
 

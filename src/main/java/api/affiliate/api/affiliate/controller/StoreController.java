@@ -4,6 +4,7 @@ import api.affiliate.api.affiliate.business.OrderListBusiness;
 import api.affiliate.api.affiliate.business.StoreBisiness;
 import api.affiliate.api.affiliate.business.WithdrawBusiness;
 import api.affiliate.api.affiliate.entity.StoreTable;
+import api.affiliate.api.affiliate.entity.WithdrawTable;
 import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.model.Response;
 import api.affiliate.api.affiliate.model.store.StoreRegisterRequest;
@@ -50,6 +51,13 @@ public class StoreController {
     public ResponseEntity<Object> getMyTotalPriceByOrderStatusSuccess(){
         Object order = orderListBusiness.getTotalPriceByOrderStatusSuccess();
         return ResponseEntity.ok(order);
+    }
+
+
+    @GetMapping("/get-all-order-status-withdraw-success-by-store")
+    public ResponseEntity<Object> getAllOrderStatusWithDrawSuccess(){
+        Object withdraw = orderListBusiness.getAllOrderStatusWithDrawSuccessByStore();
+        return ResponseEntity.ok(withdraw);
     }
 
 

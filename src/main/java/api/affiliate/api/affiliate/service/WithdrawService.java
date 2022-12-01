@@ -26,6 +26,12 @@ public class WithdrawService {
         return withdraw.get();
     }
 
+
+    public List<WithdrawTable> getWithdrawStatus(Integer storeId, String status) {
+        List<WithdrawTable> withdraw = withdrawRepository.getWithdrawStatus(storeId, status);
+        return withdraw;
+    }
+
     public List<WithdrawTable> getWithdrawStatus(String status) {
         List<WithdrawTable> order = withdrawRepository.getWithdrawStatus(status);
         return order;
