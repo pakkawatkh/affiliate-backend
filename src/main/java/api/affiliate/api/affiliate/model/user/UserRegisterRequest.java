@@ -10,23 +10,14 @@ public class UserRegisterRequest {
 
     private String userName;
     private String passWord;
-
     private  String fullName;
-
     private String email;
-
     private String tel;
-
     private String address;
-
     private String sub;
-
     private String district;
-
     private String province;
-
     private Integer postalCode;
-
     public void valid() throws BaseException {
 
         if (userName == null || passWord == null) {

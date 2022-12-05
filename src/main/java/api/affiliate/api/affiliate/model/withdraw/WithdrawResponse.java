@@ -2,6 +2,8 @@ package api.affiliate.api.affiliate.model.withdraw;
 
 import api.affiliate.api.affiliate.entity.StoreTable;
 import api.affiliate.api.affiliate.entity.UserTable;
+import api.affiliate.api.affiliate.model.store.StoreRegisterRequest;
+import api.affiliate.api.affiliate.model.store.StoreRequest;
 import lombok.Data;
 
 import java.util.Date;
@@ -16,7 +18,7 @@ public class WithdrawResponse {
     private Integer totalPrice;
     private String status;
     private Integer storeId;
-    private StoreTable storeTable;
-    private UserTable userTable;
+    private StoreTable store;
+    private UserTable user;
 
 }

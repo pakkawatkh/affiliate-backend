@@ -147,9 +147,9 @@ public class AdminBusiness {
         List<WithdrawResponse> responses = withdrawMapper.toWithdrawResponse(withdraw);
         for (WithdrawResponse wd : responses) {
             StoreTable storeTable = storeService.findByStoreId(wd.getStoreId());
-            wd.setStoreTable(storeTable);
+            wd.setStore(storeTable);
             UserTable userTable = userService.findById(storeTable.getUserId());
-            wd.setUserTable(userTable);
+            wd.setUser(userTable);
         }
         return responses;
     }
@@ -161,9 +161,9 @@ public class AdminBusiness {
         List<WithdrawResponse> responses = withdrawMapper.toWithdrawResponse(withdraw);
         for (WithdrawResponse wd : responses) {
             StoreTable storeTable = storeService.findByStoreId(wd.getStoreId());
-            wd.setStoreTable(storeTable);
+            wd.setStore(storeTable);
             UserTable userTable = userService.findById(storeTable.getUserId());
-            wd.setUserTable(userTable);
+            wd.setUser(userTable);
         }
         return responses;
     }

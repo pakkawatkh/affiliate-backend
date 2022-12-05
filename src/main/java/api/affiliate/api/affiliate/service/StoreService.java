@@ -4,6 +4,7 @@ import api.affiliate.api.affiliate.entity.StoreTable;
 import api.affiliate.api.affiliate.entity.UserTable;
 import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.StoreException;
+import api.affiliate.api.affiliate.model.store.StoreRequest;
 import api.affiliate.api.affiliate.repository.StoreRepository;
 import lombok.SneakyThrows;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -91,6 +92,7 @@ public class StoreService {
         }
         return store.get();
     }
+
 
 
     @SneakyThrows

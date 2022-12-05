@@ -8,6 +8,7 @@ import api.affiliate.api.affiliate.exception.UserException;
 import api.affiliate.api.affiliate.exception.WithdrawException;
 import api.affiliate.api.affiliate.mapper.WithdrawMapper;
 import api.affiliate.api.affiliate.model.Response;
+import api.affiliate.api.affiliate.model.store.StoreRequest;
 import api.affiliate.api.affiliate.model.withdraw.WithdrawResponse;
 import api.affiliate.api.affiliate.service.OrderListService;
 import api.affiliate.api.affiliate.service.StoreService;
@@ -35,10 +36,10 @@ public class WithdrawBusiness {
         checkRoleIsAdmin(user);
         WithdrawTable withdraw = withdrawService.findById(withdrawId);
         WithdrawResponse responses = withdrawMapper.toWithdrawResponse(withdraw);
-        StoreTable storeTable = storeService.findByStoreId(responses.getStoreId());
-        responses.setStoreTable(storeTable);
+        StoreTable storeTable = storeService.findByStoreId(withdraw.getStoreId());
+        responses.setStore(storeTable);
         UserTable userTable = userService.findById(storeTable.getUserId());
-        responses.setUserTable(userTable);
+        responses.setUser(userTable);
         return responses;
     }
 
