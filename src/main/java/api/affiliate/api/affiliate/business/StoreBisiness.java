@@ -54,15 +54,6 @@ public class StoreBisiness {
     }
 
 
-    @SneakyThrows
-    public Object getOrderStatusIsPayment(){
-        UserTable user = tokenService.getUserByToken();
-        checkRoleIsStore(user);
-        StoreTable store = storeService.findByUserId(user);
-        return store;
-    }
-
-
 
     @SneakyThrows
     public Object register(StoreRegisterRequest request){

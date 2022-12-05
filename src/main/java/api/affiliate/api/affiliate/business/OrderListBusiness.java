@@ -43,6 +43,7 @@ public class OrderListBusiness {
         return orderResponses;
     }
 
+
     public List<OrderResponse> getOrderStatusWaitPayment() {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsAdmin(user);
@@ -54,6 +55,35 @@ public class OrderListBusiness {
         }
         return orderResponses;
     }
+
+
+    public List<OrderResponse> getOrderStatusWaitPaymentByStore() {
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsStore(user);
+        List<OrderListTable> orderList = orderService.getOrderStatus("wait payment");
+        List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
+        for (OrderResponse order : orderResponses) {
+            List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
+            order.setDetail(details);
+        }
+        return orderResponses;
+    }
+
+
+    public List<OrderResponse> getOrderStatusSuccess() {
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsStore(user);
+        StoreTable store = storeService.findByUserId2(user);
+        List<OrderListTable> orderList = orderService.getOrderStatus(store.getStoreId(), "success");
+        List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
+        for (OrderResponse order : orderResponses) {
+            List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
+            order.setDetail(details);
+        }
+        return orderResponses;
+    }
+
+
 
 
     public OrderResponse getDetailByIdAndStore(Integer id) {

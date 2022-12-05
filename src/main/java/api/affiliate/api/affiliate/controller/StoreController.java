@@ -7,6 +7,7 @@ import api.affiliate.api.affiliate.entity.StoreTable;
 import api.affiliate.api.affiliate.entity.WithdrawTable;
 import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.model.Response;
+import api.affiliate.api.affiliate.model.order.OrderResponse;
 import api.affiliate.api.affiliate.model.store.StoreRegisterRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,6 @@ public class StoreController {
 
     private final StoreBisiness storeBisiness;
     private final OrderListBusiness orderListBusiness;
-
     private  final WithdrawBusiness withdrawBusiness;
 
 
@@ -47,6 +47,13 @@ public class StoreController {
     }
 
 
+    @GetMapping("/get-order-status-success")
+    public Object getOrderStatusIsSuccess(){
+        Object store = orderListBusiness.getOrderStatusSuccess();
+        return ResponseEntity.ok(store);
+    }
+
+    
     @GetMapping("/get-my-total-price")
     public ResponseEntity<Object> getMyTotalPriceByOrderStatusSuccess(){
         Object order = orderListBusiness.getTotalPriceByOrderStatusSuccess();
@@ -58,6 +65,13 @@ public class StoreController {
     public ResponseEntity<Object> getAllOrderStatusWithDrawSuccess(){
         Object withdraw = orderListBusiness.getAllOrderStatusWithDrawSuccessByStore();
         return ResponseEntity.ok(withdraw);
+    }
+
+
+    @GetMapping("/get-all-order-by-store")
+    public ResponseEntity<List<OrderResponse>> getAllOrder(){
+        List<OrderResponse> order = orderListBusiness.getOrderStatusWaitPaymentByStore();
+        return ResponseEntity.ok(order);
     }
 
 
