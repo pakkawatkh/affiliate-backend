@@ -7,6 +7,7 @@ import api.affiliate.api.affiliate.mapper.OrderListMapper;
 import api.affiliate.api.affiliate.mapper.UserMapper;
 import api.affiliate.api.affiliate.mapper.WithdrawMapper;
 import api.affiliate.api.affiliate.model.order.OrderResponse;
+import api.affiliate.api.affiliate.model.store.StoreRequest;
 import api.affiliate.api.affiliate.model.user.UserProfileResponse;
 import api.affiliate.api.affiliate.model.withdraw.WithdrawResponse;
 import api.affiliate.api.affiliate.service.*;
@@ -147,7 +148,8 @@ public class AdminBusiness {
         List<WithdrawResponse> responses = withdrawMapper.toWithdrawResponse(withdraw);
         for (WithdrawResponse wd : responses) {
             StoreTable storeTable = storeService.findByStoreId(wd.getStoreId());
-            wd.setStore(storeTable);
+            StoreRequest store = withdrawMapper.toStoreRequest(storeTable);
+            wd.setStore(store);
             UserTable userTable = userService.findById(storeTable.getUserId());
             wd.setUser(userTable);
         }
@@ -161,7 +163,8 @@ public class AdminBusiness {
         List<WithdrawResponse> responses = withdrawMapper.toWithdrawResponse(withdraw);
         for (WithdrawResponse wd : responses) {
             StoreTable storeTable = storeService.findByStoreId(wd.getStoreId());
-            wd.setStore(storeTable);
+            StoreRequest store = withdrawMapper.toStoreRequest(storeTable);
+            wd.setStore(store);
             UserTable userTable = userService.findById(storeTable.getUserId());
             wd.setUser(userTable);
         }

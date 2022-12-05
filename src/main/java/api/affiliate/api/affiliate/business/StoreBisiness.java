@@ -64,7 +64,8 @@ public class StoreBisiness {
 
 
 
-    public Object register(StoreRegisterRequest request) throws BaseException {
+    @SneakyThrows
+    public Object register(StoreRegisterRequest request){
         UserTable user = tokenService.getUserByToken();
         UserTable.Role role = user.getRole();
         if (role.equals(UserTable.Role.ADMIN)||role.equals(UserTable.Role.ST_AF)) {

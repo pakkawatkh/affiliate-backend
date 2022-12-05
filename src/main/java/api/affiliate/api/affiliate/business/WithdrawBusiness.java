@@ -37,7 +37,8 @@ public class WithdrawBusiness {
         WithdrawTable withdraw = withdrawService.findById(withdrawId);
         WithdrawResponse responses = withdrawMapper.toWithdrawResponse(withdraw);
         StoreTable storeTable = storeService.findByStoreId(withdraw.getStoreId());
-        responses.setStore(storeTable);
+        StoreRequest store = withdrawMapper.toStoreRequest(storeTable);
+        responses.setStore(store);
         UserTable userTable = userService.findById(storeTable.getUserId());
         responses.setUser(userTable);
         return responses;

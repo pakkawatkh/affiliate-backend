@@ -39,6 +39,4 @@ public class OrderResponse {
     private Integer storeId;
 
     private List<OrderDetailTable> detail;
-
-    private List<WithdrawTable> withdraw;
 }

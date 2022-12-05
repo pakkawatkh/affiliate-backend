@@ -30,7 +30,8 @@ public class StoreService {
         return store;
     }
 
-    public void register(String user, String store, String bankNameAccount, String bankName, String bankNumber) throws StoreException {
+    @SneakyThrows
+    public void register(String user, String store, String bankNameAccount, String bankName, String bankNumber){
         StoreTable st = new StoreTable();
         st.setUserId(user);
         st.setStore(store);
@@ -92,8 +93,6 @@ public class StoreService {
         }
         return store.get();
     }
-
-
 
     @SneakyThrows
     public StoreTable findByUserId2(UserTable user) {
