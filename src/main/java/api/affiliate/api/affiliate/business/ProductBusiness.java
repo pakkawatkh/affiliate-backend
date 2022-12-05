@@ -84,16 +84,14 @@ public class ProductBusiness {
 
 
 
-    public ProductTable findByProductById(Integer productId) throws BaseException{
+    public ProductTable findByProductById(Integer productId) {
         ProductTable product = productService.findByProductId(productId);
-        System.out.println(product);
        return product;
     }
 
 
-    public List<ProductTable> getProductSearch(String productName) throws BaseException{
+    public List<ProductTable> getProductSearch(String productName) {
         List<ProductTable> product = productService.findByProductSearch(productName);
-        System.out.println(product);
         return product;
     }
 

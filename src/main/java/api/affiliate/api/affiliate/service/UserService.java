@@ -1,5 +1,6 @@
 package api.affiliate.api.affiliate.service;
 
+import api.affiliate.api.affiliate.entity.StoreTable;
 import api.affiliate.api.affiliate.entity.UserTable;
 import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.UserException;
@@ -114,9 +115,7 @@ public class UserService {
         user.setImage(img);
         try {
             userRepository.save(user);
-            System.out.println("try");
         } catch (Exception e) {
-            System.out.println("catch");
             throw UserException.userNameNull();
         }
     }

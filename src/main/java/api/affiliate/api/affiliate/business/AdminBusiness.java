@@ -5,8 +5,10 @@ import api.affiliate.api.affiliate.exception.OrderException;
 import api.affiliate.api.affiliate.exception.UserException;
 import api.affiliate.api.affiliate.mapper.OrderListMapper;
 import api.affiliate.api.affiliate.mapper.UserMapper;
+import api.affiliate.api.affiliate.mapper.WithdrawMapper;
 import api.affiliate.api.affiliate.model.order.OrderResponse;
 import api.affiliate.api.affiliate.model.user.UserProfileResponse;
+import api.affiliate.api.affiliate.model.withdraw.WithdrawResponse;
 import api.affiliate.api.affiliate.service.*;
 import api.affiliate.api.affiliate.service.token.TokenService;
 import lombok.AllArgsConstructor;
@@ -29,7 +31,8 @@ public class AdminBusiness {
     private final UserMapper userMapper;
     private final AffiliateService affiliateService;
     private final WithdrawService withdrawService;
-
+    private final WithdrawMapper withdrawMapper;
+    private final UserService userService;
 
 //    public List<UserTable> findAllUser(){
 //        UserTable user = tokenService.getUserByToken();
@@ -137,21 +140,33 @@ public class AdminBusiness {
     }
 
 
-    public List<WithdrawTable> getAllOrderStatusWithDrawMoney() {
+    public List<WithdrawResponse> getAllOrderStatusWithDrawMoney() {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsAdmin(user);
-        List<WithdrawTable> order = withdrawService.getWithdrawStatus("withdraw money");
-        return order;
+        List<WithdrawTable> withdraw = withdrawService.getWithdrawStatus("withdraw money");
+        List<WithdrawResponse> responses = withdrawMapper.toWithdrawResponse(withdraw);
+        for (WithdrawResponse wd : responses) {
+            StoreTable storeTable = storeService.findByStoreId(wd.getStoreId());
+            wd.setStoreTable(storeTable);
+            UserTable userTable = userService.findById(storeTable.getUserId());
+            wd.setUserTable(userTable);
+        }
+        return responses;
     }
 
-    public List<WithdrawTable> getAllOrderStatusWithDrawSuccess() {
+    public List<WithdrawResponse> getAllOrderStatusWithDrawSuccess() {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsAdmin(user);
-        List<WithdrawTable> order = withdrawService.getWithdrawStatus("withdraw success");
-        return order;
+        List<WithdrawTable> withdraw = withdrawService.getWithdrawStatus("withdraw success");
+        List<WithdrawResponse> responses = withdrawMapper.toWithdrawResponse(withdraw);
+        for (WithdrawResponse wd : responses) {
+            StoreTable storeTable = storeService.findByStoreId(wd.getStoreId());
+            wd.setStoreTable(storeTable);
+            UserTable userTable = userService.findById(storeTable.getUserId());
+            wd.setUserTable(userTable);
+        }
+        return responses;
     }
-
-
 
 
     @SneakyThrows

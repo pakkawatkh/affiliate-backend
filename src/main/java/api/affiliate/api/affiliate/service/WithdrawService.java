@@ -1,8 +1,7 @@
 package api.affiliate.api.affiliate.service;
 
-import api.affiliate.api.affiliate.entity.OrderListTable;
+import api.affiliate.api.affiliate.entity.StoreTable;
 import api.affiliate.api.affiliate.entity.WithdrawTable;
-import api.affiliate.api.affiliate.exception.OrderException;
 import api.affiliate.api.affiliate.exception.WithdrawException;
 import api.affiliate.api.affiliate.repository.WithdrawRepository;
 import lombok.AllArgsConstructor;
@@ -21,10 +20,17 @@ public class WithdrawService {
     public final WithdrawRepository withdrawRepository;
 
 
+    @SneakyThrows
     public WithdrawTable findById(Integer withdrawId){
         Optional<WithdrawTable> withdraw = withdrawRepository.findById(withdrawId);
+        if (withdraw == null){
+            throw WithdrawException.withdrawNull();
+        }
         return withdraw.get();
     }
+
+
+
 
 
     public List<WithdrawTable> getWithdrawStatus(Integer storeId, String status) {

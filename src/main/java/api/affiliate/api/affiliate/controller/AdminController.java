@@ -2,6 +2,7 @@ package api.affiliate.api.affiliate.controller;
 
 import api.affiliate.api.affiliate.business.AdminBusiness;
 import api.affiliate.api.affiliate.business.OrderListBusiness;
+import api.affiliate.api.affiliate.business.WithdrawBusiness;
 import api.affiliate.api.affiliate.entity.UserTable;
 import api.affiliate.api.affiliate.model.order.OrderResponse;
 import api.affiliate.api.affiliate.model.user.UserProfileResponse;
@@ -20,6 +21,7 @@ public class AdminController {
 
     private final AdminBusiness adminBusiness;
     private final OrderListBusiness orderBusiness;
+    private final WithdrawBusiness withdrawBusiness;
 
 
 
@@ -80,6 +82,12 @@ public class AdminController {
     public ResponseEntity<Object> getAllOrderStatusWithDrawSuccess(){
         Object order = adminBusiness.getAllOrderStatusWithDrawSuccess();
         return ResponseEntity.ok(order);
+    }
+
+    @GetMapping("/get-withdraw-by-id/{id}")
+    public ResponseEntity<Object> getWithdrawById(@PathVariable Integer id) {
+        Object withdraw = withdrawBusiness.findByWithdrawById(id);
+        return ResponseEntity.ok(withdraw);
     }
 
 

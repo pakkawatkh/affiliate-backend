@@ -64,29 +64,27 @@ public class StoreService {
         store.setStatus(false);
         try {
             storeRepository.save(store);
-        } catch (
-                Exception e) {
+        } catch (Exception e) {
             StoreException.storeRequestInvalid();
         }
 
     }
 
 
-    public StoreTable findByUserId(UserTable user){
+    public StoreTable findByUserId(UserTable user) {
         Optional<StoreTable> store = storeRepository.findByUserId(user.getUserId());
         return store.get();
     }
 
 
-    public StoreTable findByUserId(String userId){
+    public StoreTable findByUserId(String userId) {
         Optional<StoreTable> store = storeRepository.findByUserId(userId);
         return store.get();
     }
 
 
-
     @SneakyThrows
-    public StoreTable findByStoreId(Integer storeId){
+    public StoreTable findByStoreId(Integer storeId) {
         Optional<StoreTable> store = storeRepository.findById(storeId);
         if (store.isEmpty()) {
             throw StoreException.storeIdNull();
@@ -96,11 +94,29 @@ public class StoreService {
 
 
     @SneakyThrows
-    public StoreTable findByUserId2(UserTable user){
+    public StoreTable findByUserId2(UserTable user) {
         Optional<StoreTable> store = storeRepository.findByUserId(user.getUserId());
         if (store.isEmpty()) {
             throw StoreException.storeNameNull();
         }
         return store.get();
     }
+
+
+    @SneakyThrows
+    public StoreTable getWithdrawIdAndStoreId(Integer withdrawId, Integer storeId){
+        Optional<StoreTable> withdraw = storeRepository.getWithdrawIdAndStoreId(withdrawId, storeId);
+        return withdraw.get();
+    }
+
+
+    @SneakyThrows
+    public StoreTable getStoreIdAndUserId(Integer storeId, String userId){
+        Optional<StoreTable> withdraw = storeRepository.getStoreIdAndUserId(storeId, userId);
+//        if (withdraw.isEmpty()){
+//            throw WithdrawException.withdrawNull();
+//        }
+        return withdraw.get();
+    }
+
 }

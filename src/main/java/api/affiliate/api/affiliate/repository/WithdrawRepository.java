@@ -36,4 +36,7 @@ public interface WithdrawRepository extends JpaRepository<WithdrawTable, Integer
     List<WithdrawTable> getWithdrawStatus(@Param("store_id") Integer storeId, @Param("status") String status);
 
 
+
+
+
 }

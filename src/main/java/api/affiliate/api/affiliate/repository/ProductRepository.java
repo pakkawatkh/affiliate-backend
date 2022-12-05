@@ -19,7 +19,6 @@ public interface ProductRepository extends JpaRepository<ProductTable, Integer> 
 
     List<ProductTable> findAllByStatusIsTrue();
 
-
     List<ProductTable> findByStatusIsTrueAndStoreId(Integer storeId);
 
     Optional<ProductTable> findProductByStoreId(Integer storeId);

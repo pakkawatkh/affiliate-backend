@@ -1,6 +1,7 @@
 package api.affiliate.api.affiliate.model.order;
 
 import api.affiliate.api.affiliate.entity.OrderDetailTable;
+import api.affiliate.api.affiliate.entity.WithdrawTable;
 import lombok.Data;
 
 import java.util.Date;
@@ -38,4 +39,6 @@ public class OrderResponse {
     private Integer storeId;
 
     private List<OrderDetailTable> detail;
+
+    private List<WithdrawTable> withdraw;
 }
