@@ -74,7 +74,7 @@ public class StoreBisiness {
     }
 
 
-    public  Object updateStore(StoreRegisterRequest request) throws BaseException {
+    public  Object updateStore(StoreRegisterRequest request) {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsStore(user);
         StoreTable store = storeService.findByUserId2(user);
@@ -84,7 +84,7 @@ public class StoreBisiness {
     }
 
 
-    public Object updateStatusStore() throws BaseException{
+    public Object updateStatusStore(){
         UserTable user = tokenService.getUserByToken();
         checkRoleIsStore(user);
         StoreTable store = storeService.findByUserId2(user);

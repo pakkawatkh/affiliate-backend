@@ -20,15 +20,28 @@ public class OrderListController {
     public final OrderListBusiness orderBusiness;
 
 
-//    @GetMapping("/getMyOrder")
-//    public ResponseEntity<List<OrderResponse>> getMyOrder(){
-//        List<OrderResponse> order = orderBusiness.getOrderByStoreId();
-//        return ResponseEntity.ok(order);
-//    }
-
-    @GetMapping("/getMyOrder")
+    @GetMapping("/get-my-order-status-payment")
     public ResponseEntity<List<OrderResponse>> getMyOrder(){
         List<OrderResponse> order = orderBusiness.getOrderStatusPayment();
+        return ResponseEntity.ok(order);
+    }
+
+
+    @GetMapping("/get-my-order-status-success")
+    public ResponseEntity<List<OrderResponse>> getMyOrderStatusIsSuccess(){
+        List<OrderResponse> order = orderBusiness.getOrderStatusSuccess();
+        return ResponseEntity.ok(order);
+    }
+
+    @GetMapping("/get-my-order-status-is-true")
+    public ResponseEntity<List<OrderResponse>> getMyOrderStatusIsTrue(){
+        List<OrderResponse> order = orderBusiness.getOrderStatusIsTrue();
+        return ResponseEntity.ok(order);
+    }
+
+    @GetMapping("/get-my-order-deliver-is-true")
+    public ResponseEntity<List<OrderResponse>> getMyOrderDeliverIsTrue(){
+        List<OrderResponse> order = orderBusiness.getOrderDeliverStatusIsTrue();
         return ResponseEntity.ok(order);
     }
 
@@ -62,12 +75,17 @@ public class OrderListController {
     }
 
 
+    @PutMapping("/update-order-false/{id}")
+    public ResponseEntity<Object> updateOrderStatusIsFalse(@PathVariable Integer id) {
+        Object update = orderBusiness.updateOrderStatusIsFalse(id);
+        return ResponseEntity.ok(update);
+    }
 
-//    @PutMapping("/update-order-payment/{id}")
-//    public ResponseEntity<Object> updateOrderStatusIsPayment(@PathVariable Integer id) throws BaseException {
-//        Object update = orderBusiness.updateOrderStatusIsPayment(id);
-//        return ResponseEntity.ok(update);
-//    }
 
+    @PutMapping("/update-order-deliver-status-is-true/{id}")
+    public ResponseEntity<Object> updateOrderDeliverStatus(@PathVariable Integer id) {
+        Object update = orderBusiness.updateOrderDeliverStatus(id);
+        return ResponseEntity.ok(update);
+    }
 
 }

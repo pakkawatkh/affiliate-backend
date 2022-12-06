@@ -34,7 +34,7 @@ public class UserController {
 
     @PutMapping("/update-profile")
     public ResponseEntity<Object> updateProfile(@RequestParam(value = "file", required = false) MultipartFile file,
-                                                @RequestParam(value = "profile") Object profile) throws BaseException {
+                                                @RequestParam(value = "profile") Object profile) {
         Object update = userBusiness.updateProfile(file, profile);
         return ResponseEntity.ok(update);
     }

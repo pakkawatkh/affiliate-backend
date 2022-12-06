@@ -19,6 +19,9 @@ public class WithdrawTable {
     @Column(name = "date", nullable = false)
     private Date date = new Date();
 
+    @Column()
+    private Date dateStWithdrawSuccess;
+
     @Column(name = "image")
     private String image = null;
 
@@ -27,6 +30,7 @@ public class WithdrawTable {
 
     @Column(name = "status", nullable = false)
     private String status;
+
 
     @Column(name = "fk_store_id", nullable = false)
     private Integer storeId;

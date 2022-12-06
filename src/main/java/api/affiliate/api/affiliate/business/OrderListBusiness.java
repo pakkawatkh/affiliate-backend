@@ -6,6 +6,7 @@ import api.affiliate.api.affiliate.exception.UserException;
 import api.affiliate.api.affiliate.mapper.OrderListMapper;
 import api.affiliate.api.affiliate.model.Response;
 import api.affiliate.api.affiliate.model.order.OrderResponse;
+import api.affiliate.api.affiliate.model.order.OrderTrackingRequest;
 import api.affiliate.api.affiliate.service.*;
 import api.affiliate.api.affiliate.service.token.TokenService;
 import lombok.AllArgsConstructor;
@@ -30,11 +31,44 @@ public class OrderListBusiness {
     private final WithdrawService withdrawService;
 
 
+    @SneakyThrows
     public List<OrderResponse> getOrderStatusPayment() {
         UserTable user = tokenService.getUserByToken();
-        checkRoleIsStore(user);
+        UserTable user1 = userService.findById(user.getUserId());
+        if (user != user1){
+            throw UserException.roleUserNotAllowed();
+        }
         StoreTable store = storeService.findByUserId2(user);
         List<OrderListTable> orderList = orderService.getOrderStatus(store.getStoreId(), "payment");
+        List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
+        for (OrderResponse order : orderResponses) {
+            List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
+            order.setDetail(details);
+        }
+        return orderResponses;
+    }
+
+
+    public List<OrderResponse> getOrderDeliverStatusIsTrue() {
+        UserTable user = tokenService.getUserByToken();
+        List<OrderListTable> orderList = orderService.getOrderDeliverStatusIsTrue();
+        List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
+        int index = 0;
+        for (OrderResponse order : orderResponses) {
+            List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
+            order.setDetail(details);
+            String i = orderList.get(index).getTrackingNumber();
+            order.setTrackingNumber(i);
+            index++;
+        }
+        return orderResponses;
+    }
+
+
+    public List<OrderResponse> getOrderStatusIsTrue() {
+        UserTable user = tokenService.getUserByToken();
+        StoreTable store = storeService.findByUserId2(user);
+        List<OrderListTable> orderList = orderService.getOrderStatus(store.getStoreId(), "true");
         List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
         for (OrderResponse order : orderResponses) {
             List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
@@ -72,18 +106,19 @@ public class OrderListBusiness {
 
     public List<OrderResponse> getOrderStatusSuccess() {
         UserTable user = tokenService.getUserByToken();
-        checkRoleIsStore(user);
         StoreTable store = storeService.findByUserId2(user);
         List<OrderListTable> orderList = orderService.getOrderStatus(store.getStoreId(), "success");
         List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
+        int index = 0;
         for (OrderResponse order : orderResponses) {
+            String i = orderList.get(index).getTrackingNumber();
             List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
             order.setDetail(details);
+            order.setTrackingNumber(i);
+            index++;
         }
         return orderResponses;
     }
-
-
 
 
     public OrderResponse getDetailByIdAndStore(Integer id) {
@@ -131,13 +166,6 @@ public class OrderListBusiness {
     }
 
 
-//    public List<WithdrawTable> getAllOrderStatusWithDrawSuccessByStore() {
-//        UserTable user = tokenService.getUserByToken();
-//        checkRoleIsStore(user);
-//        List<WithdrawTable> order = withdrawService.getWithdrawStatus("withdraw success");
-//        return order;
-//    }
-
     public List<WithdrawTable> getAllOrderStatusWithDrawSuccessByStore() {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsStore(user);
@@ -145,7 +173,6 @@ public class OrderListBusiness {
         List<WithdrawTable> withdraw = withdrawService.getWithdrawStatus(store.getStoreId(), "withdraw success");
         return withdraw;
     }
-
 
 
     @SneakyThrows
@@ -167,30 +194,35 @@ public class OrderListBusiness {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsAdmin(user);
         OrderListTable order = orderService.findByOrderId(orderId);
-        System.out.println("ORDER " + order);
         orderService.updateOrderStatusIsPayment(order);
         return new Response().success("update order status payment");
     }
 
 
-    public Object updateOrderStatusIsSuccess(Integer orderId) {
+    public Object updateOrderStatusIsSuccess(Integer orderId, OrderTrackingRequest request) {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsStore(user);
         OrderListTable order = orderService.findByOrderId(orderId);
-        System.out.println("ORDER " + order);
-        orderService.updateOrderStatusIsSuccess(order);
+        request.valid();
+        orderService.updateOrderStatusIsSuccess(order, request);
         return new Response().success("update order status success");
     }
 
 
-//    public Object updateOrderStatusIsWithDrawMoney() {
-//        UserTable user = tokenService.getUserByToken();
-//        checkRoleIsStore(user);
-//        StoreTable store = storeService.findByUserId2(user);
-//        System.out.println(store);
-//        orderService.updateOrderStatusIsWithDrawMoney(store.getStoreId());
-//        return new Response().success("update order status withdraw money");
-//    }
+    public Object updateOrderStatusIsFalse(Integer orderId) {
+        UserTable user = tokenService.getUserByToken();
+        OrderListTable order = orderService.findByOrderId(orderId);
+        orderService.updateOrderStatusIsFalse(order);
+        return new Response().success("update order status false");
+    }
+
+
+    public Object updateOrderDeliverStatus(Integer orderId) {
+        UserTable user = tokenService.getUserByToken();
+        OrderListTable order = orderService.findByOrderId(orderId);
+        orderService.updateOrderDeliverStatus(order);
+        return new Response().success("update order deliver is true");
+    }
 
 
     public Object updateOrderStatusIsWithDrawSuccessAndAddSlip(MultipartFile file, Integer withdrawId) {

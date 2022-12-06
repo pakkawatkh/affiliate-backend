@@ -2,6 +2,7 @@ package api.affiliate.api.affiliate.service;
 
 import api.affiliate.api.affiliate.entity.OrderListTable;
 import api.affiliate.api.affiliate.exception.OrderException;
+import api.affiliate.api.affiliate.model.order.OrderTrackingRequest;
 import api.affiliate.api.affiliate.repository.OrderListRepository;
 import lombok.SneakyThrows;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,8 +36,12 @@ public class OrderListService {
         return order;
     }
 
+    @SneakyThrows
     public OrderListTable findByOrderId(Integer orderId) {
         Optional<OrderListTable> order = orderListRepository.findByOrderListId(orderId);
+        if (order.isEmpty()){
+            throw OrderException.orderNull();
+        }
         return order.get();
     }
 
@@ -98,6 +103,11 @@ public class OrderListService {
         return order;
     }
 
+    public List<OrderListTable> getOrderDeliverStatusIsTrue() {
+        List<OrderListTable> order = orderListRepository.getOrderDeliverStatusIsTrue();
+        return order;
+    }
+
     @SneakyThrows
     public OrderListTable getOrderListDetailByIdAndStore(Integer id, Integer storeId) {
         OrderListTable orderList = orderListRepository.getOrderListDetailByIdAndStore(storeId, id);
@@ -146,7 +156,7 @@ public class OrderListService {
     @SneakyThrows
     public void updateOrderStatusIsPayment(OrderListTable order) {
         order.setStatus("payment");
-        order.setDate(new Date());
+        order.setDateStPayment(new Date());
         try {
             orderListRepository.save(order);
         } catch (Exception e) {
@@ -156,9 +166,33 @@ public class OrderListService {
 
 
     @SneakyThrows
-    public void updateOrderStatusIsSuccess(OrderListTable order) {
+    public void updateOrderStatusIsSuccess(OrderListTable order, OrderTrackingRequest request) {
         order.setStatus("success");
-        order.setDate(new Date());
+        order.setDateStSuccess(new Date());
+        order.setTrackingNumber(request.getTrackingNumber());
+        try {
+            orderListRepository.save(order);
+        } catch (Exception e) {
+            throw OrderException.orderNull();
+        }
+    }
+
+
+
+    @SneakyThrows
+    public void updateOrderStatusIsFalse(OrderListTable order) {
+        order.setStatus("false");
+        try {
+            orderListRepository.save(order);
+        } catch (Exception e) {
+            throw OrderException.orderNull();
+        }
+    }
+
+
+    @SneakyThrows
+    public void updateOrderDeliverStatus(OrderListTable order) {
+        order.setDlvStatus(true);
         try {
             orderListRepository.save(order);
         } catch (Exception e) {

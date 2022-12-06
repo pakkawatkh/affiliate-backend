@@ -9,7 +9,6 @@ import lombok.Data;
 public class OrderCreateRequest {
 
     private String productName;
-
     private String  productPrice;
 
     private String productDetail;

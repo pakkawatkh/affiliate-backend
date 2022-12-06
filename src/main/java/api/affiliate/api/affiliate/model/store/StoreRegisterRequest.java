@@ -4,6 +4,7 @@ import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.StoreException;
 
 import lombok.Data;
+import lombok.SneakyThrows;
 
 @Data
 public class StoreRegisterRequest {
@@ -16,7 +17,8 @@ public class StoreRegisterRequest {
 
     private  String bankNumber;
 
-    public void valid() throws BaseException {
+    @SneakyThrows
+    public void valid() {
         if (store == null) {
             throw StoreException.storeRequestInvalid();
         }

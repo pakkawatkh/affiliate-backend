@@ -20,6 +20,7 @@ public interface OrderListRepository extends JpaRepository<OrderListTable, Integ
 
     Optional<OrderListTable> findByOrderListId(Integer orderId);
 
+
     @Query(value = """
             select distinct ol.* from order_list ol
                 inner join order_detail od on ol.order_list_id = od.fk_order_list_id
@@ -78,43 +79,24 @@ public interface OrderListRepository extends JpaRepository<OrderListTable, Integ
     long countByOrderStatusSuccess(@Param("store_id") Integer storeId);
 
 
-
     boolean existsByStatusAndStoreId(String status, Integer storeId);
-
-
-    //    @Modifying
-//    @Transactional
-//    @Query(value = """
-//            UPDATE OrderListTable as o
-//                SET o.status = 'withdraw money'
-//                WHERE o.status like 'success'
-//                and o.storeId = :store_id
-//             """)
-//    void updateOrderStatusIsWithDrawMoney(@Param("store_id") Integer storeId);
 
 
     @Modifying
     @Transactional
     @Query(value = """
-        UPDATE OrderListTable as ol
-            SET ol.status = 'withdraw money' , ol.withdrawId =:withdraw_id
-            WHERE ol.status = 'success' and ol.storeId =:store_id
-        """)
+            UPDATE OrderListTable as ol
+                SET ol.status = 'withdraw money' , ol.withdrawId =:withdraw_id
+                WHERE ol.status = 'success' and ol.storeId =:store_id
+            """)
     void updateOrderStatusIsWithDrawMoney(@Param("withdraw_id") Integer withdrawId, @Param("store_id") Integer storeId);
 
 
-//    @Query("""
-//            select MAX(o.orderListId) from OrderListTable as o
-//            where o.userId =: userId
-//            """)
-//    OrderListTable getOrderListMaxIdByUser(@Param("order_list_id") Integer orderListId,
-//                                           @Param("fk_user_id") String userId);
-
-
-//    @Query("""
-//            select MAX(o.orderListId) from OrderListTable as o
-//            """)
-//    OrderListTable getOrderListMaxId(@Param("order_list_id") Integer orderListId);
-
+    @Query(value = """
+            select * from order_list o
+                where o.dlv_status = true
+                and o.status = 'success'
+             """, nativeQuery = true)
+    List<OrderListTable> getOrderDeliverStatusIsTrue();
 
 }

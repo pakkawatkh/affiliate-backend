@@ -3,11 +3,13 @@ package api.affiliate.api.affiliate.controller;
 import api.affiliate.api.affiliate.business.OrderListBusiness;
 import api.affiliate.api.affiliate.business.StoreBisiness;
 import api.affiliate.api.affiliate.business.WithdrawBusiness;
+import api.affiliate.api.affiliate.entity.OrderListTable;
 import api.affiliate.api.affiliate.entity.StoreTable;
 import api.affiliate.api.affiliate.entity.WithdrawTable;
 import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.model.Response;
 import api.affiliate.api.affiliate.model.order.OrderResponse;
+import api.affiliate.api.affiliate.model.order.OrderTrackingRequest;
 import api.affiliate.api.affiliate.model.store.StoreRegisterRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -77,8 +79,7 @@ public class StoreController {
 
     //    POST
     @PostMapping("/store-register")
-    public ResponseEntity<Object> register(@RequestBody StoreRegisterRequest request) throws BaseException {
-        System.out.println(request);
+    public ResponseEntity<Object> register(@RequestBody StoreRegisterRequest request) {
         Object register = storeBisiness.register(request);
         return ResponseEntity.ok(register);
     }
@@ -86,22 +87,23 @@ public class StoreController {
 
     //    PUT
     @PutMapping("/store-update")
-    public ResponseEntity<Object> updateStore(@RequestBody StoreRegisterRequest request) throws BaseException {
+    public ResponseEntity<Object> updateStore(@RequestBody StoreRegisterRequest request) {
         Object update = storeBisiness.updateStore(request);
         return ResponseEntity.ok(update);
 
     }
 
     @PutMapping("/delete-myStore")
-    public Object updateStatusStore() throws BaseException {
+    public Object updateStatusStore() {
         Object store = storeBisiness.updateStatusStore();
         return ResponseEntity.ok(store);
     }
 
 
     @PutMapping("/update-order-success/{id}")
-    public ResponseEntity<Object> updateOrderStatusIsSuccess(@PathVariable Integer id) throws BaseException {
-        Object update = orderListBusiness.updateOrderStatusIsSuccess(id);
+    public ResponseEntity<Object> updateOrderStatusIsSuccess(@PathVariable Integer id,
+                                                             @RequestBody OrderTrackingRequest request) {
+        Object update = orderListBusiness.updateOrderStatusIsSuccess(id, request);
         return ResponseEntity.ok(update);
     }
 

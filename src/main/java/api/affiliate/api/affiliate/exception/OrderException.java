@@ -19,6 +19,10 @@ public class OrderException extends BaseException {
         return new OrderException("ไม่อนุญาต");
     }
 
+    public static OrderException trackingNull() {
+        return new OrderException("กรุณากรอกเลขพัสดุ");
+    }
+
 
 
 }

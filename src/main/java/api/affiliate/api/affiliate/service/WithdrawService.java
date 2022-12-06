@@ -23,7 +23,7 @@ public class WithdrawService {
     @SneakyThrows
     public WithdrawTable findById(Integer withdrawId){
         Optional<WithdrawTable> withdraw = withdrawRepository.findById(withdrawId);
-        if (withdraw == null){
+        if (withdraw.isEmpty()){
             throw WithdrawException.withdrawNull();
         }
         return withdraw.get();
@@ -73,7 +73,7 @@ public class WithdrawService {
     @SneakyThrows
     public void  updateOrderStatusIsWithDrawSuccess(WithdrawTable withdraw, String img) {
         withdraw.setImage(img);
-        withdraw.setDate(new Date());
+        withdraw.setDateStWithdrawSuccess(new Date());
         withdraw.setStatus("withdraw success");
         try {
             withdrawRepository.save(withdraw);

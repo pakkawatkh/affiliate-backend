@@ -8,9 +8,11 @@ import api.affiliate.api.affiliate.model.store.StoreRegisterRequest;
 import api.affiliate.api.affiliate.model.user.UserRegisterRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 
 public class MapObject {
-    public UserRegisterRequest toRegister(Object result) throws BaseException {
+    @SneakyThrows
+    public UserRegisterRequest toRegister(Object result){
         ObjectMapper mapper = new ObjectMapper();
         UserRegisterRequest map;
         try {

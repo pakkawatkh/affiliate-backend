@@ -102,8 +102,9 @@ public class UserService {
     }
 
 
+    @SneakyThrows
     public void updateProfile(UserTable user, String fullName, String email, String tel, String address, String sub
-            , String district, String province, Integer postalCode, String img) throws UserException {
+            , String district, String province, Integer postalCode, String img) {
         user.setFullName(fullName);
         user.setEmail(email);
         user.setTel(tel);

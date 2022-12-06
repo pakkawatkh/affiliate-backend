@@ -97,7 +97,7 @@ public class UserBusiness {
     }
 
 
-    public Object updateProfile(MultipartFile file, Object profile) throws BaseException {
+    public Object updateProfile(MultipartFile file, Object profile) {
         UserTable user = tokenService.getUserByToken();
         MapObject object = new MapObject();
         UserRegisterRequest request = object.toRegister(profile);

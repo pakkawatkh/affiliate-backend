@@ -62,7 +62,7 @@ public class StoreService {
     }
 
 
-    public void updateStatusStore(StoreTable store) throws BaseException {
+    public void updateStatusStore(StoreTable store) {
         store.setStatus(false);
         try {
             storeRepository.save(store);
