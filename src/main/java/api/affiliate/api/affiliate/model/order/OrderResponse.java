@@ -40,5 +40,7 @@ public class OrderResponse {
 
     private Integer storeId;
 
+    private String store;
+
     private List<OrderDetailTable> detail;
 }

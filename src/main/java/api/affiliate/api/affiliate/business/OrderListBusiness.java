@@ -34,6 +34,20 @@ public class OrderListBusiness {
     @SneakyThrows
     public List<OrderResponse> getOrderStatusPayment() {
         UserTable user = tokenService.getUserByToken();
+        List<OrderListTable> orderList = orderService.getOrderStatusByUser(user.getUserId(), "payment");
+        List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
+        for (OrderResponse order : orderResponses) {
+            List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
+            order.setDetail(details);
+            StoreTable store = storeService.findByStoreId(order.getStoreId());
+            order.setStore(store.getStore());
+        }
+        return orderResponses;
+    }
+
+    @SneakyThrows
+    public List<OrderResponse> getOrderStatusPaymentByStore() {
+        UserTable user = tokenService.getUserByToken();
         UserTable user1 = userService.findById(user.getUserId());
         if (user != user1){
             throw UserException.roleUserNotAllowed();
@@ -41,6 +55,7 @@ public class OrderListBusiness {
         StoreTable store = storeService.findByUserId2(user);
         List<OrderListTable> orderList = orderService.getOrderStatus(store.getStoreId(), "payment");
         List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
+        System.out.println(orderList);
         for (OrderResponse order : orderResponses) {
             List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
             order.setDetail(details);
@@ -107,7 +122,7 @@ public class OrderListBusiness {
     public List<OrderResponse> getOrderStatusSuccess() {
         UserTable user = tokenService.getUserByToken();
         StoreTable store = storeService.findByUserId2(user);
-        List<OrderListTable> orderList = orderService.getOrderStatus(store.getStoreId(), "success");
+        List<OrderListTable> orderList = orderService.getOrderDeliverIsFalse(store.getStoreId());
         List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
         int index = 0;
         for (OrderResponse order : orderResponses) {

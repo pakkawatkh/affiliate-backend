@@ -44,7 +44,7 @@ public class StoreController {
 
     @GetMapping("/get-order-status-payment")
     public Object getOrderStatusIsPayment(){
-        Object store = orderListBusiness.getOrderStatusPayment();
+        Object store = orderListBusiness.getOrderStatusPaymentByStore();
         return ResponseEntity.ok(store);
     }
 
@@ -70,7 +70,7 @@ public class StoreController {
     }
 
 
-    @GetMapping("/get-all-order-by-store")
+    @GetMapping("/get-all-order-status-wait-payment-by-store")
     public ResponseEntity<List<OrderResponse>> getAllOrder(){
         List<OrderResponse> order = orderListBusiness.getOrderStatusWaitPaymentByStore();
         return ResponseEntity.ok(order);

@@ -24,6 +24,9 @@ public class OrderListTable {
     @Column()
     private Date dateStSuccess;
 
+    @Column()
+    private Boolean dlvStatus = false;
+
     @Column(name = "image")
     private String image;
 
@@ -31,13 +34,7 @@ public class OrderListTable {
     private String status = "true";
 
     @Column()
-    private Boolean dlvStatus;
-
-    @Column()
     private String trackingNumber;
-
-    @Column(name = "fk_user_id", nullable = false)
-    private String userId;
 
     @Column(name = "full_name", nullable = false)
     private String fullName;
@@ -62,6 +59,9 @@ public class OrderListTable {
 
     @Column(name = "totalPrice")
     private Integer totalPrice;
+
+    @Column(name = "fk_user_id", nullable = false)
+    private String userId;
 
     @Column(name = "fk_store_id", nullable = false)
     private Integer storeId;

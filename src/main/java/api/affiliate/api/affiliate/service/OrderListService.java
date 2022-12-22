@@ -98,6 +98,16 @@ public class OrderListService {
         return order;
     }
 
+    public List<OrderListTable> getOrderStatusByUser(String userId, String status) {
+        List<OrderListTable> order = orderListRepository.getOrderStatusByUser(userId, status);
+        return order;
+    }
+
+    public List<OrderListTable> getOrderDeliverIsFalse(Integer storeId) {
+        List<OrderListTable> order = orderListRepository.getOrderDeliverIsFalse(storeId);
+        return order;
+    }
+
     public List<OrderListTable> getOrderStatus(String status) {
         List<OrderListTable> order = orderListRepository.getOrderStatus(status);
         return order;
@@ -145,6 +155,9 @@ public class OrderListService {
         order.setImage(img);
         order.setDate(new Date());
         order.setStatus("wait payment");
+        if (img.isEmpty()){
+            order.setStatus("true");
+        }
         try {
             orderListRepository.save(order);
         } catch (Exception e) {
