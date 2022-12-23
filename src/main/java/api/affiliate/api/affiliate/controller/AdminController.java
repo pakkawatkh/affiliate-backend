@@ -59,7 +59,7 @@ public class AdminController {
 
     @GetMapping("/get-all-order")
     public ResponseEntity<List<OrderResponse>> getAllOrder(){
-        List<OrderResponse> order = orderBusiness.getOrderStatusWaitPayment();
+        List<OrderResponse> order = orderBusiness.getOrderStatusWaitPaymentByAdmin();
         return ResponseEntity.ok(order);
     }
 

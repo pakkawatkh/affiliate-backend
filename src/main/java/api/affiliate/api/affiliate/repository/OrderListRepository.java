@@ -74,13 +74,21 @@ public interface OrderListRepository extends JpaRepository<OrderListTable, Integ
 
     @Query(value = """
             select distinct ol.* from order_list ol
+                where ol.fk_user_id =:user_id 
+                and (ol.status = 'success')
+                and (ol.dlv_status = false)
+             """, nativeQuery = true)
+    List<OrderListTable> getOrderDeliverIsFalse(@Param("user_id") String userId);
+
+    @Query(value = """
+            select distinct ol.* from order_list ol
                 inner join order_detail od on ol.order_list_id = od.fk_order_list_id
                 inner join product p on p.product_id = od.fk_product_id
                 where p.fk_store_id =:store_id 
                 and (ol.status = 'success')
                 and (ol.dlv_status = false)
              """, nativeQuery = true)
-    List<OrderListTable> getOrderDeliverIsFalse(@Param("store_id") Integer storeId);
+    List<OrderListTable> getOrderDeliverIsFalseByStore(@Param("store_id") Integer storeId);
 
 
     @Query(value = """

@@ -104,6 +104,9 @@ public class AdminBusiness {
         for (OrderResponse order : orderResponses) {
             List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
             order.setDetail(details);
+            StoreTable store = storeService.findByStoreId(order.getStoreId());
+            order.setStore(store.getStore());
+
         }
         return orderResponses;
     }
@@ -114,11 +117,12 @@ public class AdminBusiness {
         checkRoleIsAdmin(user);
         StoreTable store = storeService.findByStoreId(id);
         List<OrderListTable> orderList = orderListService.getOrderByStoreId(store.getStoreId());
-        System.out.println(orderList);
         List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
         for (OrderResponse order : orderResponses) {
             List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
             order.setDetail(details);
+            StoreTable st = storeService.findByStoreId(order.getStoreId());
+            order.setStore(st.getStore());
         }
         return orderResponses;
     }

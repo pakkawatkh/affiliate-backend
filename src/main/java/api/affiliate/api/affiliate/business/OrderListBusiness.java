@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -48,10 +49,10 @@ public class OrderListBusiness {
     @SneakyThrows
     public List<OrderResponse> getOrderStatusPaymentByStore() {
         UserTable user = tokenService.getUserByToken();
-        UserTable user1 = userService.findById(user.getUserId());
-        if (user != user1){
-            throw UserException.roleUserNotAllowed();
-        }
+//        UserTable user1 = userService.findById(user.getUserId());
+//        if (user != user1){
+//            throw UserException.roleUserNotAllowed();
+//        }
         StoreTable store = storeService.findByUserId2(user);
         List<OrderListTable> orderList = orderService.getOrderStatus(store.getStoreId(), "payment");
         List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
@@ -59,6 +60,8 @@ public class OrderListBusiness {
         for (OrderResponse order : orderResponses) {
             List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
             order.setDetail(details);
+            StoreTable st = storeService.findByStoreId(order.getStoreId());
+            order.setStore(st.getStore());
         }
         return orderResponses;
     }
@@ -114,14 +117,16 @@ public class OrderListBusiness {
     }
 
 
-    public List<OrderResponse> getOrderStatusWaitPayment() {
+    public List<OrderResponse> getOrderStatusWaitPaymentByAdmin() {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsAdmin(user);
-        List<OrderListTable> orderList = orderService.getOrderStatus("wait payment");
+        List<OrderListTable> orderList = orderService.getOrderStatus("wait payment").stream().filter(x -> x.getImage() != null).collect(Collectors.toList());
         List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
         for (OrderResponse order : orderResponses) {
             List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
             order.setDetail(details);
+            StoreTable st = storeService.findByStoreId(order.getStoreId());
+            order.setStore(st.getStore());
         }
         return orderResponses;
     }
@@ -130,7 +135,7 @@ public class OrderListBusiness {
     public List<OrderResponse> getOrderStatusWaitPaymentByStore() {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsStore(user);
-        List<OrderListTable> orderList = orderService.getOrderStatus("wait payment");
+        List<OrderListTable> orderList = orderService.getOrderStatus("wait payment").stream().filter(x -> x.getImage() != null).collect(Collectors.toList());
         List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
         for (OrderResponse order : orderResponses) {
             List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
@@ -144,8 +149,7 @@ public class OrderListBusiness {
 
     public List<OrderResponse> getOrderStatusSuccess() {
         UserTable user = tokenService.getUserByToken();
-        StoreTable store = storeService.findByUserId2(user);
-        List<OrderListTable> orderList = orderService.getOrderDeliverIsFalse(store.getStoreId());
+        List<OrderListTable> orderList = orderService.getOrderDeliverIsFalse(user.getUserId());
         List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
         int index = 0;
         for (OrderResponse order : orderResponses) {
@@ -167,7 +171,7 @@ public class OrderListBusiness {
     public List<OrderResponse> getOrderStatusSuccessByStore() {
         UserTable user = tokenService.getUserByToken();
         StoreTable store = storeService.findByUserId2(user);
-        List<OrderListTable> orderList = orderService.getOrderDeliverIsFalse(store.getStoreId());
+        List<OrderListTable> orderList = orderService.getOrderDeliverIsFalseByStore(store.getStoreId());
         List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
         int index = 0;
         for (OrderResponse order : orderResponses) {

@@ -103,8 +103,13 @@ public class OrderListService {
         return order;
     }
 
-    public List<OrderListTable> getOrderDeliverIsFalse(Integer storeId) {
-        List<OrderListTable> order = orderListRepository.getOrderDeliverIsFalse(storeId);
+    public List<OrderListTable> getOrderDeliverIsFalse(String userId) {
+        List<OrderListTable> order = orderListRepository.getOrderDeliverIsFalse(userId);
+        return order;
+    }
+
+    public List<OrderListTable> getOrderDeliverIsFalseByStore(Integer storeId) {
+        List<OrderListTable> order = orderListRepository.getOrderDeliverIsFalseByStore(storeId);
         return order;
     }
 

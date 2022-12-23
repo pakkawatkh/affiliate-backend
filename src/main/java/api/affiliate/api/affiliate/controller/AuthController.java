@@ -67,7 +67,7 @@ class AuthProductController {
     }
 
     @GetMapping("/getProductById/{id}")
-    public ResponseEntity<Object> getProductById(@PathVariable Integer id) throws BaseException {
+    public ResponseEntity<Object> getProductById(@PathVariable Integer id){
         Object product = productBusiness.findByProductById(id);
         return ResponseEntity.ok(product);
     }
@@ -87,7 +87,7 @@ class AuthProductController {
     }
 
     @GetMapping("/product-search")
-    public ResponseEntity<Object> getProductSearch(@RequestParam(name = "keyword") String keyword) throws BaseException {
+    public ResponseEntity<Object> getProductSearch(@RequestParam(name = "keyword") String keyword) {
         List<ProductTable> product = productBusiness.getProductSearch(keyword);
         return ResponseEntity.ok(product);
     }
@@ -108,7 +108,7 @@ class AuthAdminController {
 
 //    GET
     @GetMapping("/getAll-user-admin")
-    public List<UserTable> getAllUser() throws BaseException {
+    public List<UserTable> getAllUser(){
         List<UserTable> user = userBusiness.findAllUser();
         return user;
     }

@@ -42,7 +42,7 @@ public class StoreController {
     }
 
 
-    @GetMapping("/get-order-status-payment")
+    @GetMapping("/get-order-status-payment-by-store")
     public Object getOrderStatusIsPayment(){
         Object store = orderListBusiness.getOrderStatusPaymentByStore();
         return ResponseEntity.ok(store);
