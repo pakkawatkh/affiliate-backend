@@ -52,6 +52,7 @@ public interface OrderListRepository extends JpaRepository<OrderListTable, Integ
              """, nativeQuery = true)
     List<OrderListTable> getOrderStatus(@Param("status") String status);
 
+
     @Query(value = """
             select distinct ol.*
                 from order_list ol
@@ -114,7 +115,9 @@ public interface OrderListRepository extends JpaRepository<OrderListTable, Integ
     @Query(value = """
             select * from order_list o
                 where o.dlv_status = true
+                and (o.status = 'success' or o.status = 'withdraw money')
+                and o.fk_user_id =:user_id
              """, nativeQuery = true)
-    List<OrderListTable> getOrderDeliverStatusIsTrue();
+    List<OrderListTable> getOrderDeliverStatusIsTrue(@Param("user_id") String userId);
 
 }

@@ -18,6 +18,8 @@ public class OrderResponse {
 
     private String status;
 
+    private Boolean dlvStatus;
+
     private String trackingNumber;
 
     private String userId;

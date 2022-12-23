@@ -113,8 +113,10 @@ public class OrderListService {
         return order;
     }
 
-    public List<OrderListTable> getOrderDeliverStatusIsTrue() {
-        List<OrderListTable> order = orderListRepository.getOrderDeliverStatusIsTrue();
+
+
+    public List<OrderListTable> getOrderDeliverStatusIsTrue(String userId) {
+        List<OrderListTable> order = orderListRepository.getOrderDeliverStatusIsTrue(userId);
         return order;
     }
 

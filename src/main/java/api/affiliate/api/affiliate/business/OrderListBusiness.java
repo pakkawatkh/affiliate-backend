@@ -66,7 +66,7 @@ public class OrderListBusiness {
 
     public List<OrderResponse> getOrderDeliverStatusIsTrue() {
         UserTable user = tokenService.getUserByToken();
-        List<OrderListTable> orderList = orderService.getOrderDeliverStatusIsTrue();
+        List<OrderListTable> orderList = orderService.getOrderDeliverStatusIsTrue(user.getUserId());
         List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
         int index = 0;
         for (OrderResponse order : orderResponses) {
@@ -75,6 +75,10 @@ public class OrderListBusiness {
             String i = orderList.get(index).getTrackingNumber();
             order.setTrackingNumber(i);
             index++;
+            StoreTable store = storeService.findByStoreId(order.getStoreId());
+            order.setStore(store.getStore());
+            OrderListTable order1 = orderService.findByOrderId(order.getOrderListId());
+            order.setDlvStatus(order1.getDlvStatus());
         }
         return orderResponses;
     }
@@ -82,12 +86,29 @@ public class OrderListBusiness {
 
     public List<OrderResponse> getOrderStatusIsTrue() {
         UserTable user = tokenService.getUserByToken();
+        List<OrderListTable> orderList = orderService.getOrderStatusByUser(user.getUserId(),"true");
+        List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
+        for (OrderResponse order : orderResponses) {
+            List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
+            order.setDetail(details);
+            StoreTable st = storeService.findByStoreId(order.getStoreId());
+            order.setStore(st.getStore());
+        }
+        return orderResponses;
+    }
+
+
+
+    public List<OrderResponse> getOrderStatusIsTrueByStore() {
+        UserTable user = tokenService.getUserByToken();
         StoreTable store = storeService.findByUserId2(user);
         List<OrderListTable> orderList = orderService.getOrderStatus(store.getStoreId(), "true");
         List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
         for (OrderResponse order : orderResponses) {
             List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
             order.setDetail(details);
+            StoreTable st = storeService.findByStoreId(order.getStoreId());
+            order.setStore(st.getStore());
         }
         return orderResponses;
     }
@@ -114,12 +135,36 @@ public class OrderListBusiness {
         for (OrderResponse order : orderResponses) {
             List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
             order.setDetail(details);
+            StoreTable st = storeService.findByStoreId(order.getStoreId());
+            order.setStore(st.getStore());
         }
         return orderResponses;
     }
 
 
     public List<OrderResponse> getOrderStatusSuccess() {
+        UserTable user = tokenService.getUserByToken();
+        StoreTable store = storeService.findByUserId2(user);
+        List<OrderListTable> orderList = orderService.getOrderDeliverIsFalse(store.getStoreId());
+        List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
+        int index = 0;
+        for (OrderResponse order : orderResponses) {
+            String i = orderList.get(index).getTrackingNumber();
+            List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
+            order.setDetail(details);
+            order.setTrackingNumber(i);
+            index++;
+            StoreTable st = storeService.findByStoreId(order.getStoreId());
+            order.setStore(st.getStore());
+            OrderListTable ol = orderService.findByOrderId(order.getOrderListId());
+            order.setDlvStatus(ol.getDlvStatus());
+        }
+        return orderResponses;
+    }
+
+
+
+    public List<OrderResponse> getOrderStatusSuccessByStore() {
         UserTable user = tokenService.getUserByToken();
         StoreTable store = storeService.findByUserId2(user);
         List<OrderListTable> orderList = orderService.getOrderDeliverIsFalse(store.getStoreId());

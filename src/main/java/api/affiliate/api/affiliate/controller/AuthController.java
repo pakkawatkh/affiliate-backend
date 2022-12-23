@@ -6,7 +6,6 @@ import api.affiliate.api.affiliate.business.UserBusiness;
 import api.affiliate.api.affiliate.entity.ProductTable;
 import api.affiliate.api.affiliate.entity.UserTable;
 import api.affiliate.api.affiliate.exception.BaseException;
-import api.affiliate.api.affiliate.exception.ProductException;
 import api.affiliate.api.affiliate.model.user.UserLoginRequest;
 import api.affiliate.api.affiliate.model.user.UserRegisterRequest;
 import org.springframework.http.ResponseEntity;
@@ -60,9 +59,11 @@ class AuthProductController {
     }
 
     @GetMapping("/getAll-product")
-    public List<ProductTable> getAllProduct(){
-        List<ProductTable> product = productBusiness.findAllProduct();
-        return product;
+    public ResponseEntity<List<ProductTable>> getAllProduct(){
+//        List<ProductTable> product = productBusiness.findAllProduct();
+//        return product;
+        List<ProductTable> product = productBusiness.findAllByStatusIsTrue();
+        return ResponseEntity.ok(product);
     }
 
     @GetMapping("/getProductById/{id}")
