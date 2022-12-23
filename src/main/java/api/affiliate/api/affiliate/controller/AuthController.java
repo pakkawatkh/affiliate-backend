@@ -58,13 +58,13 @@ class AuthProductController {
         this.productBusiness = productBusiness;
     }
 
-    @GetMapping("/getAll-product")
-    public ResponseEntity<List<ProductTable>> getAllProduct(){
-//        List<ProductTable> product = productBusiness.findAllProduct();
-//        return product;
-        List<ProductTable> product = productBusiness.findAllByStatusIsTrue();
-        return ResponseEntity.ok(product);
-    }
+//    @GetMapping("/getAll-product")
+//    public ResponseEntity<List<ProductTable>> getAllProduct(){
+////        List<ProductTable> product = productBusiness.findAllProduct();
+////        return product;
+//        List<ProductTable> product = productBusiness.findAllByStatusIsTrue();
+//        return ResponseEntity.ok(product);
+//    }
 
     @GetMapping("/getProductById/{id}")
     public ResponseEntity<Object> getProductById(@PathVariable Integer id) throws BaseException {
