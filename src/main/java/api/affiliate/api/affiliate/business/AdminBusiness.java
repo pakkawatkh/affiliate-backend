@@ -44,6 +44,14 @@ public class AdminBusiness {
 //    }
 
 
+    public Object findMyProfileByAdmin() {
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsAdmin(user);
+        Object user1 = userService.findById(user.getUserId());
+        return user1;
+    }
+
+
     public List<UserTable> findAllUser() {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsAdmin(user);

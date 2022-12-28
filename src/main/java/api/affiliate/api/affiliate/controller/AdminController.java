@@ -2,6 +2,7 @@ package api.affiliate.api.affiliate.controller;
 
 import api.affiliate.api.affiliate.business.AdminBusiness;
 import api.affiliate.api.affiliate.business.OrderListBusiness;
+import api.affiliate.api.affiliate.business.UserBusiness;
 import api.affiliate.api.affiliate.business.WithdrawBusiness;
 import api.affiliate.api.affiliate.entity.UserTable;
 import api.affiliate.api.affiliate.model.order.OrderResponse;
@@ -22,11 +23,18 @@ public class AdminController {
     private final AdminBusiness adminBusiness;
     private final OrderListBusiness orderBusiness;
     private final WithdrawBusiness withdrawBusiness;
-
+    public final UserBusiness userBusiness;
 
 
 
     //   GET
+    @GetMapping("/get-my-profile-by-admin")
+    public Object getMyProfileByAdmin() {
+        Object user = adminBusiness.findMyProfileByAdmin();
+        return user;
+    }
+
+
     @GetMapping("/get-all-user")
     public List<UserTable> getAllUser() {
         List<UserTable> user = adminBusiness.findAllUser();
@@ -57,7 +65,7 @@ public class AdminController {
         return user;
     }
 
-    @GetMapping("/get-all-order")
+    @GetMapping("/get-all-order-by-admin")
     public ResponseEntity<List<OrderResponse>> getAllOrder(){
         List<OrderResponse> order = orderBusiness.getOrderStatusWaitPaymentByAdmin();
         return ResponseEntity.ok(order);
@@ -104,6 +112,14 @@ public class AdminController {
     public ResponseEntity<Object> updateOrderStatusIsWithDrawSuccessAndAddSlip(@PathVariable Integer id,
                                           @RequestParam(value = "file", required = false) MultipartFile file){
         Object update = orderBusiness.updateOrderStatusIsWithDrawSuccessAndAddSlip(file, id);
+        return ResponseEntity.ok(update);
+    }
+
+
+    @PutMapping("/update-profile-by-admin")
+    public ResponseEntity<Object> updateProfile(@RequestParam(value = "file", required = false) MultipartFile file,
+                                                @RequestParam(value = "profile") Object profile) {
+        Object update = userBusiness.updateProfile(file, profile);
         return ResponseEntity.ok(update);
     }
 
