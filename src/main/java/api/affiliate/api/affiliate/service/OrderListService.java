@@ -125,6 +125,12 @@ public class OrderListService {
         return order;
     }
 
+
+    public List<OrderListTable> getOrderDeliverStatusIsTrueByStore(Integer storeId) {
+        List<OrderListTable> order = orderListRepository.getOrderDeliverStatusIsTrueByStore(storeId);
+        return order;
+    }
+
     @SneakyThrows
     public OrderListTable getOrderListDetailByIdAndStore(Integer id, Integer storeId) {
         OrderListTable orderList = orderListRepository.getOrderListDetailByIdAndStore(storeId, id);

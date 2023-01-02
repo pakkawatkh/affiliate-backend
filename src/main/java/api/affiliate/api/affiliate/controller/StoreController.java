@@ -77,6 +77,13 @@ public class StoreController {
     }
 
 
+    @GetMapping("/get-my-order-deliver-is-true-by-store")
+    public ResponseEntity<List<OrderResponse>> getOrderDeliverStatusIsTrueByStore(){
+        List<OrderResponse> order = orderListBusiness.getOrderDeliverStatusIsTrueByStore();
+        return ResponseEntity.ok(order);
+    }
+
+
     //    POST
     @PostMapping("/store-register")
     public ResponseEntity<Object> register(@RequestBody StoreRegisterRequest request) {

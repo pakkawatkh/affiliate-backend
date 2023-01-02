@@ -87,6 +87,28 @@ public class OrderListBusiness {
     }
 
 
+    public List<OrderResponse> getOrderDeliverStatusIsTrueByStore() {
+        UserTable user = tokenService.getUserByToken();
+        checkRoleIsStore(user);
+        StoreTable st = storeService.findByUserId2(user);
+        List<OrderListTable> orderList = orderService.getOrderDeliverStatusIsTrueByStore(st.getStoreId());
+        List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
+        int index = 0;
+        for (OrderResponse order : orderResponses) {
+            List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
+            order.setDetail(details);
+            String i = orderList.get(index).getTrackingNumber();
+            order.setTrackingNumber(i);
+            index++;
+            StoreTable store = storeService.findByStoreId(order.getStoreId());
+            order.setStore(store.getStore());
+            OrderListTable order1 = orderService.findByOrderId(order.getOrderListId());
+            order.setDlvStatus(order1.getDlvStatus());
+        }
+        return orderResponses;
+    }
+
+
     public List<OrderResponse> getOrderStatusIsTrue() {
         UserTable user = tokenService.getUserByToken();
         List<OrderListTable> orderList = orderService.getOrderStatusByUser(user.getUserId(),"true");
