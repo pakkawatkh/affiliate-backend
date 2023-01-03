@@ -49,9 +49,9 @@ public class StoreController {
     }
 
 
-    @GetMapping("/get-order-status-success")
+    @GetMapping("/get-order-status-success-by-store")
     public Object getOrderStatusIsSuccess(){
-        Object store = orderListBusiness.getOrderStatusSuccess();
+        Object store = orderListBusiness.getOrderStatusSuccessByStore();
         return ResponseEntity.ok(store);
     }
 
