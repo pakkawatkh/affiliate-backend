@@ -53,8 +53,8 @@ public class AdminBusiness {
 
     public Object getDetailAdmin() {
         UserTable user = tokenService.getUserByToken();
-        Object user1 = userService.findById(user.getUserId());
-        return user1;
+        List<UserTable> admin = adminService.getAllRole(UserTable.Role.ADMIN);
+        return admin;
     }
 
 
