@@ -1,5 +1,6 @@
 package api.affiliate.api.affiliate.controller;
 
+import api.affiliate.api.affiliate.business.AdminBusiness;
 import api.affiliate.api.affiliate.business.OrderListBusiness;
 import api.affiliate.api.affiliate.entity.OrderListTable;
 import api.affiliate.api.affiliate.exception.BaseException;
@@ -17,7 +18,8 @@ import java.util.List;
 @RequestMapping("/order-list")
 public class OrderListController {
 
-    public final OrderListBusiness orderBusiness;
+    private final OrderListBusiness orderBusiness;
+    private final AdminBusiness adminBusiness;
 
 
     @GetMapping("/get-my-order-status-payment")
@@ -64,6 +66,13 @@ public class OrderListController {
         List<OrderResponse> order = orderBusiness.getMyOrderList();
         return ResponseEntity.ok(order);
     }
+
+    @GetMapping("/get-detail-admin")
+    public Object getDetailAdmin(){
+        Object user = adminBusiness.getDetailAdmin();
+        return user;
+    }
+
 
 
 

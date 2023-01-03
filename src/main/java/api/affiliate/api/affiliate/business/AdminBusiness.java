@@ -51,6 +51,12 @@ public class AdminBusiness {
         return user1;
     }
 
+    public Object getDetailAdmin() {
+        UserTable user = tokenService.getUserByToken();
+        Object user1 = userService.findById(user.getUserId());
+        return user1;
+    }
+
 
     public List<UserTable> findAllUser() {
         UserTable user = tokenService.getUserByToken();
