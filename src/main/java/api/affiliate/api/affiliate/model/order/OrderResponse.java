@@ -14,6 +14,10 @@ public class OrderResponse {
 
     private Date date;
 
+    private Date dateStPayment;
+
+    private Date dateStSuccess;
+
     private String image;
 
     private String status;

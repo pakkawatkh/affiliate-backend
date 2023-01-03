@@ -65,7 +65,7 @@ public class AdminController {
         return user;
     }
 
-    @GetMapping("/get-all-order-by-admin")
+    @GetMapping("/get-all-order")
     public ResponseEntity<List<OrderResponse>> getAllOrder(){
         List<OrderResponse> order = orderBusiness.getOrderStatusWaitPaymentByAdmin();
         return ResponseEntity.ok(order);

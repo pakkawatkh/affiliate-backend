@@ -42,6 +42,8 @@ public class OrderListBusiness {
             order.setDetail(details);
             StoreTable store = storeService.findByStoreId(order.getStoreId());
             order.setStore(store.getStore());
+            OrderListTable orl = orderService.findByOrderId(order.getOrderListId());
+            order.setDateStPayment(orl.getDateStPayment());
         }
         return orderResponses;
     }
@@ -56,12 +58,13 @@ public class OrderListBusiness {
         StoreTable store = storeService.findByUserId2(user);
         List<OrderListTable> orderList = orderService.getOrderStatus(store.getStoreId(), "payment");
         List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
-        System.out.println(orderList);
         for (OrderResponse order : orderResponses) {
             List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
             order.setDetail(details);
             StoreTable st = storeService.findByStoreId(order.getStoreId());
             order.setStore(st.getStore());
+            OrderListTable orl = orderService.findByOrderId(order.getOrderListId());
+            order.setDateStPayment(orl.getDateStPayment());
         }
         return orderResponses;
     }
@@ -184,6 +187,9 @@ public class OrderListBusiness {
             order.setStore(st.getStore());
             OrderListTable ol = orderService.findByOrderId(order.getOrderListId());
             order.setDlvStatus(ol.getDlvStatus());
+            OrderListTable orl = orderService.findByOrderId(order.getOrderListId());
+            order.setDateStPayment(orl.getDateStPayment());
+            order.setDateStSuccess(orl.getDateStSuccess());
         }
         return orderResponses;
     }
