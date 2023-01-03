@@ -94,6 +94,7 @@ public interface OrderListRepository extends JpaRepository<OrderListTable, Integ
     @Query(value = """
             select sum(ol.total_price) from order_list ol
                 where ol.status like 'success'
+                and ol.dlv_status = false
                 and ol.fk_store_id = :store_id
             """, nativeQuery = true)
     Integer getTotalPriceByOrderStatusSuccess(@Param("store_id") Integer storeId);
