@@ -153,13 +153,18 @@ public class OrderListService {
 
 
     public Integer getTotalPriceByOrderStatusSuccess(Integer storeId) {
-        boolean exists = orderListRepository.existsByStatusAndStoreId("success", storeId);
+        boolean exists = orderListRepository.existsByStatusAndStoreIdAndDlvStatusIsTrue("success", storeId);
         if (exists) {
             int count = orderListRepository.getTotalPriceByOrderStatusSuccess(storeId);
             return count;
         } else {
             return 0;
         }
+    }
+
+    public  List<OrderListTable> getOrderSuccessByStoreId(Integer storeId) {
+        List<OrderListTable> order = orderListRepository.getOrderSuccessByStoreId(storeId);
+        return order;
     }
 
 

@@ -20,12 +20,10 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
 
+    public final UserBusiness userBusiness;
     private final AdminBusiness adminBusiness;
     private final OrderListBusiness orderBusiness;
     private final WithdrawBusiness withdrawBusiness;
-    public final UserBusiness userBusiness;
-
-
 
     //   GET
     @GetMapping("/get-my-profile-by-admin")
@@ -60,34 +58,34 @@ public class AdminController {
     }
 
     @GetMapping("/get-order-by-store-id/{id}")
-    public List<OrderResponse> getOrderStoreById(@PathVariable Integer id){
+    public List<OrderResponse> getOrderStoreById(@PathVariable Integer id) {
         List<OrderResponse> user = adminBusiness.getOrderByStoreId(id);
         return user;
     }
 
     @GetMapping("/get-all-order-by-admin")
-    public ResponseEntity<List<OrderResponse>> getAllOrder(){
+    public ResponseEntity<List<OrderResponse>> getAllOrder() {
         List<OrderResponse> order = orderBusiness.getOrderStatusWaitPaymentByAdmin();
         return ResponseEntity.ok(order);
     }
 
 
     @GetMapping("/get-total-order-by-store/{id}")
-    public ResponseEntity<Object> getTotalPriceOrderByStore(@PathVariable Integer id){
+    public ResponseEntity<Object> getTotalPriceOrderByStore(@PathVariable Integer id) {
         Object order = adminBusiness.getTotalPriceOrderByStore(id);
         return ResponseEntity.ok(order);
     }
 
 
     @GetMapping("/get-all-order-status-withdraw-money")
-    public ResponseEntity<Object> getAllOrderStatusWithDrawMoney(){
+    public ResponseEntity<Object> getAllOrderStatusWithDrawMoney() {
         Object order = adminBusiness.getAllOrderStatusWithDrawMoney();
         return ResponseEntity.ok(order);
     }
 
 
     @GetMapping("/get-all-order-status-withdraw-success")
-    public ResponseEntity<Object> getAllOrderStatusWithDrawSuccess(){
+    public ResponseEntity<Object> getAllOrderStatusWithDrawSuccess() {
         Object order = adminBusiness.getAllOrderStatusWithDrawSuccess();
         return ResponseEntity.ok(order);
     }
@@ -99,18 +97,17 @@ public class AdminController {
     }
 
 
-//    PUT
+    //    PUT
     @PutMapping("/update-order-payment/{id}")
-    public ResponseEntity<Object> updateOrderStatusIsPayment(@PathVariable Integer id){
+    public ResponseEntity<Object> updateOrderStatusIsPayment(@PathVariable Integer id) {
         Object update = orderBusiness.updateOrderStatusIsPayment(id);
         return ResponseEntity.ok(update);
     }
 
 
-
     @PutMapping("/update-order-withdraw-success-and-add-slip/{id}")
     public ResponseEntity<Object> updateOrderStatusIsWithDrawSuccessAndAddSlip(@PathVariable Integer id,
-                                          @RequestParam(value = "file", required = false) MultipartFile file){
+                                                                               @RequestParam(value = "file", required = false) MultipartFile file) {
         Object update = orderBusiness.updateOrderStatusIsWithDrawSuccessAndAddSlip(file, id);
         return ResponseEntity.ok(update);
     }
@@ -124,9 +121,11 @@ public class AdminController {
     }
 
 
-
-
-
+    @PostMapping("/create-percent")
+    public ResponseEntity<Object> createPercent(@RequestParam(value = "percent") Float percent) {
+        Object update = adminBusiness.createPercent(percent);
+        return ResponseEntity.ok(update);
+    }
 
 
 }

@@ -1,13 +1,11 @@
 package api.affiliate.api.affiliate.controller;
 
+import api.affiliate.api.affiliate.business.AffiliateBusiness;
 import api.affiliate.api.affiliate.business.OrderListBusiness;
 import api.affiliate.api.affiliate.business.StoreBisiness;
 import api.affiliate.api.affiliate.business.WithdrawBusiness;
-import api.affiliate.api.affiliate.entity.OrderListTable;
 import api.affiliate.api.affiliate.entity.StoreTable;
-import api.affiliate.api.affiliate.entity.WithdrawTable;
-import api.affiliate.api.affiliate.exception.BaseException;
-import api.affiliate.api.affiliate.model.Response;
+import api.affiliate.api.affiliate.model.link.DetailLinkResponse;
 import api.affiliate.api.affiliate.model.order.OrderResponse;
 import api.affiliate.api.affiliate.model.order.OrderTrackingRequest;
 import api.affiliate.api.affiliate.model.store.StoreRegisterRequest;
@@ -24,7 +22,9 @@ public class StoreController {
 
     private final StoreBisiness storeBisiness;
     private final OrderListBusiness orderListBusiness;
-    private  final WithdrawBusiness withdrawBusiness;
+    private final WithdrawBusiness withdrawBusiness;
+
+    private final AffiliateBusiness affiliateBusiness;
 
 
     //    GET
@@ -36,51 +36,65 @@ public class StoreController {
 
 
     @GetMapping("/getMyProfile-store")
-    public Object getMyProfileStore(){
+    public Object getMyProfileStore() {
         Object store = storeBisiness.getMyProfileStore();
         return ResponseEntity.ok(store);
     }
 
 
     @GetMapping("/get-order-status-payment-by-store")
-    public Object getOrderStatusIsPayment(){
+    public Object getOrderStatusIsPayment() {
         Object store = orderListBusiness.getOrderStatusPaymentByStore();
         return ResponseEntity.ok(store);
     }
 
 
     @GetMapping("/get-order-status-success-by-store")
-    public Object getOrderStatusIsSuccess(){
+    public Object getOrderStatusIsSuccess() {
         Object store = orderListBusiness.getOrderStatusSuccessByStore();
         return ResponseEntity.ok(store);
     }
 
-    
+
+    @GetMapping("/get-order-share-success-by-store")
+    public Object getOrderStatusIsSuccessAndDlvIsTrue() {
+        Object store = orderListBusiness.getOrderStatusSuccessByStore();
+        return ResponseEntity.ok(store);
+    }
+
+
     @GetMapping("/get-my-total-price")
-    public ResponseEntity<Object> getMyTotalPriceByOrderStatusSuccess(){
+    public ResponseEntity<Object> getMyTotalPriceByOrderStatusSuccess() {
         Object order = orderListBusiness.getTotalPriceByOrderStatusSuccess();
         return ResponseEntity.ok(order);
     }
 
 
     @GetMapping("/get-all-order-status-withdraw-success-by-store")
-    public ResponseEntity<Object> getAllOrderStatusWithDrawSuccess(){
+    public ResponseEntity<Object> getAllOrderStatusWithDrawSuccess() {
         Object withdraw = orderListBusiness.getAllOrderStatusWithDrawSuccessByStore();
         return ResponseEntity.ok(withdraw);
     }
 
 
     @GetMapping("/get-all-order-status-wait-payment-by-store")
-    public ResponseEntity<List<OrderResponse>> getAllOrder(){
+    public ResponseEntity<List<OrderResponse>> getAllOrder() {
         List<OrderResponse> order = orderListBusiness.getOrderStatusWaitPaymentByStore();
         return ResponseEntity.ok(order);
     }
 
 
     @GetMapping("/get-my-order-deliver-is-true-by-store")
-    public ResponseEntity<List<OrderResponse>> getOrderDeliverStatusIsTrueByStore(){
+    public ResponseEntity<List<OrderResponse>> getOrderDeliverStatusIsTrueByStore() {
         List<OrderResponse> order = orderListBusiness.getOrderDeliverStatusIsTrueByStore();
         return ResponseEntity.ok(order);
+    }
+
+
+    @GetMapping("/get-share-link-success-by-store/{id}")
+    public ResponseEntity<DetailLinkResponse> getWithdrawById(@PathVariable Integer id) {
+        DetailLinkResponse link = affiliateBusiness.getShareLinkSuccessByStore(id);
+        return ResponseEntity.ok(link);
     }
 
 
@@ -116,7 +130,7 @@ public class StoreController {
 
 
     @PutMapping("/update-order-withdraw-money")
-    public ResponseEntity<Object> updateOrderStatusIsWithDrawMoney(){
+    public ResponseEntity<Object> updateOrderStatusIsWithDrawMoney() {
         Object update = withdrawBusiness.createWithdrawByOrder();
         return ResponseEntity.ok(update);
     }

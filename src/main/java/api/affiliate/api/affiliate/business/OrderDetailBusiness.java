@@ -7,6 +7,7 @@ import api.affiliate.api.affiliate.model.order.OrderRequest;
 import api.affiliate.api.affiliate.model.product.ProductRequest;
 import api.affiliate.api.affiliate.service.*;
 import api.affiliate.api.affiliate.service.token.TokenService;
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
@@ -14,28 +15,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class OrderDetailBusiness {
 
     public final OrderListService orderService;
+
     public final UserService userService;
     private final StoreService storeService;
     private final OrderDetailService orderDetailService;
     private final TokenService tokenService;
     private final ProductService productService;
-    private final FileService fileService;
 
-
-    public OrderDetailBusiness(OrderListService orderService, UserService userService, StoreService storeService,
-                               OrderDetailService orderDetailService, TokenService tokenService, ProductService
-                                       productService, FileService fileService) {
-        this.orderService = orderService;
-        this.userService = userService;
-        this.storeService = storeService;
-        this.orderDetailService = orderDetailService;
-        this.tokenService = tokenService;
-        this.productService = productService;
-        this.fileService = fileService;
-    }
 
 
     @SneakyThrows
@@ -64,7 +54,8 @@ public class OrderDetailBusiness {
                 Integer price = pd.getProductPrice();
                 Integer total = amount * price;
                 OrderDetailTable detail = orderDetailService.addProductIsOrder(pd.getProductId(),
-                        pd.getProductName(), pd.getProductPrice(), product.getAmount(), total, orderList.getOrderListId());
+                        pd.getProductName(), pd.getProductPrice(), product.getAmount(), total,
+                        orderList.getOrderListId(), product.getLinkId());
                 orderDetail.add(detail);
             }
         } catch (Exception e) {

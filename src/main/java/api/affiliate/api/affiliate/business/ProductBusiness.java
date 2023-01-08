@@ -98,9 +98,6 @@ public class ProductBusiness {
 
 
 
-
-
-
     public Object createProduct(MultipartFile file, Object product) throws BaseException {
         UserTable user = tokenService.getUserByToken();
         checkRoleIsStore(user);
@@ -109,7 +106,7 @@ public class ProductBusiness {
         ProductCreateRequest request = object.toCreateProduct(product);
         request.valid();
         String img = fileService.saveImg(file, "/uploads/products");
-        productService.createProduct(store.getStoreId(), request.getProductName(), request.getProductDetail(), request.getProductPrice(), img);
+        productService.createProduct(store.getStoreId(), request.getProductName(), request.getProductDetail(), request.getProductPrice(), img, request.getPriceForShare());
         return new Response().success("create product success");
 
     }

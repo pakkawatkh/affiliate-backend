@@ -27,24 +27,14 @@ public interface ProductRepository extends JpaRepository<ProductTable, Integer> 
 
     Optional<ProductTable> findByProductIdAndStoreId(Integer productId, Integer storeId);
 
-    boolean existsByProductName(String productName);
+
+
+    boolean existsByProductNameAndStoreId(String productName, Integer storeId);
 
     @Query(value = """
             select * from product p 
             where p.product_name like :product_name
              """, nativeQuery = true)
     List<ProductTable> getProductSearch(@Param("product_name") String productName);
-
-
-    /*
-     *   findBy
-     *       Status*
-     *             And
-     *                   StoreId*
-     *                           (boolean Status(true) ,Integer storeId(6) )
-     *
-     *
-     * */
-//    List<ProductTable> findByStatusAndStoreId(boolean status,Integer storeId);
 
 }

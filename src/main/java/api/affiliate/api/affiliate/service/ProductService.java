@@ -5,6 +5,7 @@ import api.affiliate.api.affiliate.entity.StoreTable;
 import api.affiliate.api.affiliate.exception.BaseException;
 import api.affiliate.api.affiliate.exception.ProductException;
 import api.affiliate.api.affiliate.repository.ProductRepository;
+import lombok.SneakyThrows;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
@@ -61,8 +62,12 @@ public class ProductService {
     }
 
 
+    @SneakyThrows
     public ProductTable findByProductId(Integer productId) {
         Optional <ProductTable> product = productRepository.findByProductId(productId);
+        if (product.isEmpty()){
+            throw ProductException.productNull();
+        }
         return product.get();
     }
 
@@ -79,14 +84,16 @@ public class ProductService {
 
 
 
-    public void createProduct(Integer store, String productName, String productDetail, Integer productPrice, String img) throws BaseException{
+    @SneakyThrows
+    public void createProduct(Integer store, String productName, String productDetail, Integer productPrice, String img, Float priceForShare) {
         ProductTable product = new ProductTable();
         product.setStoreId(store);
         product.setProductName(productName);
         product.setProductDetail(productDetail);
         product.setProductPrice(productPrice);
         product.setImage(img);
-        if (productRepository.existsByProductName(product.getProductName())){
+        product.setPriceForShare(priceForShare);
+        if (productRepository.existsByProductNameAndStoreId(product.getProductName(), store)){
             throw ProductException.createProductNameDuplicated();
         }
         try {

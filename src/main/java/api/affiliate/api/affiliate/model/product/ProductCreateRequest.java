@@ -13,6 +13,8 @@ public class ProductCreateRequest {
 
     private String productDetail;
 
+    private Float priceForShare;
+
     public void valid() throws BaseException {
         if (productName == null || productPrice == null) {
             throw ProductException.productRequestInvalid();

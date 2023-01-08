@@ -30,25 +30,34 @@ public class AffiliateController {
 
     //    POST
     @PostMapping("/affiliate-register")
-    public ResponseEntity<Object> register(@RequestBody AffiliateRegisterRequest request) throws BaseException {
+    public ResponseEntity<Object> register(@RequestBody AffiliateRegisterRequest request) {
         Object register = affiliateBusiness.register(request);
         return ResponseEntity.ok(register);
     }
 
+    @PostMapping("/affiliate-share-product/{id}")
+    public ResponseEntity<Object> shareProduct(@PathVariable Integer id) {
+        Object affiliate = affiliateBusiness.shareProduct(id);
+        return ResponseEntity.ok(affiliate);
+    }
+
+
+
 
     //    PUT
     @PutMapping("/affiliate-update")
-    public ResponseEntity<Object> updateProfile(@RequestBody AffiliateRegisterRequest request) throws BaseException{
+    public ResponseEntity<Object> updateProfile(@RequestBody AffiliateRegisterRequest request) {
         Object update = affiliateBusiness.updateProfile(request);
         return ResponseEntity.ok(update);
     }
 
 
     @PutMapping("/delete-myAffiliate")
-    public ResponseEntity<Object> updateMyStatusAffiliate() throws BaseException {
+    public ResponseEntity<Object> updateMyStatusAffiliate() {
         Object affiliate = affiliateBusiness.updateMyStatusAffiliate();
         return ResponseEntity.ok(affiliate);
     }
+
 
 
 

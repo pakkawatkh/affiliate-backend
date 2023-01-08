@@ -1,5 +1,6 @@
 package api.affiliate.api.affiliate.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -30,8 +31,12 @@ public class OrderDetailTable {
     @Column(name = "product_total", nullable = false)
     private Integer  productTotal;
 
+    @JsonIgnore
     @Column(name = "fk_order_list_id", nullable = false)
     private Integer orderListId;
+
+    @Column(name = "fk_link_id", nullable = true)
+    private String linkId;
 
 //nullable = false ห้ามว่าง
 }

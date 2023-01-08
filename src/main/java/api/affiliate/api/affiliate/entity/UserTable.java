@@ -27,7 +27,7 @@ public class UserTable {
     @Column(name = "user_name", nullable = false, unique = true, length = 120)
     private String userName;
 
-    @JsonIgnore
+
     @Column(name = "password", nullable = false, length = 120)
     private String passWord;
 

@@ -32,12 +32,6 @@ public class OrderDetailController {
     }
 
 
-//    @GetMapping("/getAllByStoreId")
-//    public ResponseEntity<Object> findAllByStoreId() throws BaseException {
-//        List<OrderDetailTable> order = orderDetailBusiness.findAllByStoreId();
-//        return ResponseEntity.ok(order);
-//    }
-
 
     @PostMapping("/addProducts")
     public ResponseEntity<Object> addProduct(@RequestBody OrderRequest order){

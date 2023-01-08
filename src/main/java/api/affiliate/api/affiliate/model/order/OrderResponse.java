@@ -1,5 +1,6 @@
 package api.affiliate.api.affiliate.model.order;
 
+import api.affiliate.api.affiliate.entity.LinkTable;
 import api.affiliate.api.affiliate.entity.OrderDetailTable;
 import api.affiliate.api.affiliate.entity.WithdrawTable;
 import lombok.Data;
@@ -49,4 +50,6 @@ public class OrderResponse {
     private String store;
 
     private List<OrderDetailTable> detail;
+
+
 }

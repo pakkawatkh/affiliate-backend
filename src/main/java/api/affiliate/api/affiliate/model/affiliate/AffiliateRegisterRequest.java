@@ -10,6 +10,6 @@ public class AffiliateRegisterRequest {
 
     private String bankName;
 
-    private  String bankNumber;
+    private String bankNumber;
 
 }

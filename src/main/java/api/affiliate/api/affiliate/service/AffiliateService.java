@@ -71,14 +71,22 @@ public class AffiliateService {
 
 
 
+    @SneakyThrows
     public AffiliateTable findByUser(UserTable user){
         Optional<AffiliateTable> affiliate = affiliateRepository.findByUserId(user.getUserId());
+        if (affiliate.isEmpty()){
+            throw AffiliateException.affiliateNameNull();
+        }
        return affiliate.get();
     }
 
 
+    @SneakyThrows
     public AffiliateTable findByUserId(String userId){
         Optional<AffiliateTable> affiliate = affiliateRepository.findByUserId(userId);
+        if (affiliate.isEmpty()){
+            throw AffiliateException.affiliateNameNull();
+        }
         return affiliate.get();
     }
 

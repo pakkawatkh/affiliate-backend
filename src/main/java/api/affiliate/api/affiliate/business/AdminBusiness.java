@@ -6,10 +6,12 @@ import api.affiliate.api.affiliate.exception.UserException;
 import api.affiliate.api.affiliate.mapper.OrderListMapper;
 import api.affiliate.api.affiliate.mapper.UserMapper;
 import api.affiliate.api.affiliate.mapper.WithdrawMapper;
+import api.affiliate.api.affiliate.model.Response;
 import api.affiliate.api.affiliate.model.order.OrderResponse;
 import api.affiliate.api.affiliate.model.store.StoreRequest;
 import api.affiliate.api.affiliate.model.user.UserProfileResponse;
 import api.affiliate.api.affiliate.model.withdraw.WithdrawResponse;
+import api.affiliate.api.affiliate.repository.SystemRepository;
 import api.affiliate.api.affiliate.service.*;
 import api.affiliate.api.affiliate.service.token.TokenService;
 import lombok.AllArgsConstructor;
@@ -34,6 +36,7 @@ public class AdminBusiness {
     private final WithdrawService withdrawService;
     private final WithdrawMapper withdrawMapper;
     private final UserService userService;
+    private final SystemRepository systemRepository;
 
 //    public List<UserTable> findAllUser(){
 //        UserTable user = tokenService.getUserByToken();
@@ -188,6 +191,23 @@ public class AdminBusiness {
         }
         return responses;
     }
+
+    public Object createPercent(Float percent){
+        SystemTable st = new SystemTable();
+        st.setPercent(percent);
+
+        try {
+            systemRepository.updateStatus();
+            systemRepository.save(st);
+            return new Response().success("success");
+        }catch (Exception e){
+            // TODO: throw
+        }
+        return null;
+    }
+
+
+
 
 
     @SneakyThrows

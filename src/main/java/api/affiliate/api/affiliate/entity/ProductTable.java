@@ -16,11 +16,14 @@ public class ProductTable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer productId;
 
-    @Column(name = "product_name", nullable = false, unique = true, length = 120)
+    @Column(name = "product_name", nullable = false, length = 120)
     private String productName;
 
     @Column(name = "product_price", nullable = false, length = 10)
     private Integer  productPrice;
+
+    @Column(name = "price_for_share", nullable = false, length = 10)
+    private Float  priceForShare;
 
     @Column(name = "product_detail", nullable = false, length = 5000)
     private String productDetail;
@@ -36,6 +39,8 @@ public class ProductTable {
 
     @Column(name = "image")
     private String image;
+
+
 
     @Column(name = "fk_store_id", nullable = false)
     private Integer storeId;

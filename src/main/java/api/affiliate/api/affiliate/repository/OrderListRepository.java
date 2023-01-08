@@ -1,6 +1,7 @@
 package api.affiliate.api.affiliate.repository;
 
 import api.affiliate.api.affiliate.entity.OrderListTable;
+import api.affiliate.api.affiliate.model.store.TotalPriceResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -64,11 +65,11 @@ public interface OrderListRepository extends JpaRepository<OrderListTable, Integ
 
     @Query(value = """
             select distinct ol.* from order_list ol
-                inner join order_detail od on ol.order_list_id = od.fk_order_list_id
-                inner join product p on p.product_id = od.fk_product_id
-                where p.fk_store_id =:store_id 
-                and (ol.status like :status)
-             """, nativeQuery = true)
+               inner join order_detail od on ol.order_list_id = od.fk_order_list_id
+               inner join product p on p.product_id = od.fk_product_id
+               where p.fk_store_id =:store_id 
+               and (ol.status like :status)
+            """, nativeQuery = true)
     List<OrderListTable> getOrderStatus(@Param("store_id") Integer storeId, @Param("status") String status);
 
     @Query(value = """
@@ -96,6 +97,22 @@ public interface OrderListRepository extends JpaRepository<OrderListTable, Integ
             """, nativeQuery = true)
     Integer getTotalPriceByOrderStatusSuccess(@Param("store_id") Integer storeId);
 
+    @Query(value = """
+            select new api.affiliate.api.affiliate.model.store.TotalPriceResponse( sum(ol.totalPrice)) from OrderListTable as ol
+                where ol.status like 'success'
+                and ol.dlvStatus = true
+                and ol.storeId = :store_id
+            """)
+    TotalPriceResponse getTotalPriceByCommission();
+
+    @Query(value = """
+            select ol.* from order_list ol
+                where ol.status like 'success'
+                and ol.dlv_status = true
+                and ol.fk_store_id = :store_id
+            """, nativeQuery = true)
+    List<OrderListTable> getOrderSuccessByStoreId(@Param("store_id") Integer storeId);
+
 
     @Query(value = """
             select count(*) from order_list ol
@@ -105,7 +122,7 @@ public interface OrderListRepository extends JpaRepository<OrderListTable, Integ
     long countByOrderStatusSuccess(@Param("store_id") Integer storeId);
 
 
-    boolean existsByStatusAndStoreId(String status, Integer storeId);
+    boolean existsByStatusAndStoreIdAndDlvStatusIsTrue(String status, Integer storeId);
 
 
     @Modifying
@@ -125,7 +142,6 @@ public interface OrderListRepository extends JpaRepository<OrderListTable, Integ
                 and o.fk_user_id =:user_id
              """, nativeQuery = true)
     List<OrderListTable> getOrderDeliverStatusIsTrue(@Param("user_id") String userId);
-
 
 
     @Query(value = """

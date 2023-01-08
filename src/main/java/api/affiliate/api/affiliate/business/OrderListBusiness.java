@@ -9,6 +9,7 @@ import api.affiliate.api.affiliate.model.order.OrderResponse;
 import api.affiliate.api.affiliate.model.order.OrderTrackingRequest;
 import api.affiliate.api.affiliate.service.*;
 import api.affiliate.api.affiliate.service.token.TokenService;
+import jdk.dynalink.linker.LinkerServices;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,9 @@ public class OrderListBusiness {
     private final OrderListMapper orderListMapper;
     private final WithdrawService withdrawService;
 
+    private final LinkService linkService;
+
+
 
     @SneakyThrows
     public List<OrderResponse> getOrderStatusPayment() {
@@ -51,10 +55,6 @@ public class OrderListBusiness {
     @SneakyThrows
     public List<OrderResponse> getOrderStatusPaymentByStore() {
         UserTable user = tokenService.getUserByToken();
-//        UserTable user1 = userService.findById(user.getUserId());
-//        if (user != user1){
-//            throw UserException.roleUserNotAllowed();
-//        }
         StoreTable store = storeService.findByUserId2(user);
         List<OrderListTable> orderList = orderService.getOrderStatus(store.getStoreId(), "payment");
         List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
@@ -207,6 +207,24 @@ public class OrderListBusiness {
             List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
             order.setDetail(details);
             order.setTrackingNumber(i);
+//            List<OrderDetailTable> details1 = ;
+//            List<LinkTable> share = linkService.findByLinkId(details.)
+            index++;
+        }
+        return orderResponses;
+    }
+
+    public List<OrderResponse> getOrderStatusSuccessAndDlvIsTrueByStore() {
+        UserTable user = tokenService.getUserByToken();
+        StoreTable store = storeService.findByUserId2(user);
+        List<OrderListTable> orderList = orderService.getOrderSuccessByStoreId(store.getStoreId());
+        List<OrderResponse> orderResponses = orderListMapper.toOrderResponse(orderList);
+        int index = 0;
+        for (OrderResponse order : orderResponses) {
+            String i = orderList.get(index).getTrackingNumber();
+            List<OrderDetailTable> details = orderDetailService.findAllByOrderListId(order.getOrderListId());
+            order.setDetail(details);
+            order.setTrackingNumber(i);
             index++;
         }
         return orderResponses;
@@ -256,6 +274,13 @@ public class OrderListBusiness {
         int orderList = orderService.getTotalPriceByOrderStatusSuccess(store.getStoreId());
         return new Response().ok("", "total_price", orderList);
     }
+
+
+//    public List<OrderListTable> getOrderSuccessByStore(Integer storeId){
+//        UserTable user = tokenService.getUserByToken();
+//        checkRoleIsStore(user);
+//        StoreTable store = storeService.findByUserId2(user);
+//    }
 
 
     public List<WithdrawTable> getAllOrderStatusWithDrawSuccessByStore() {

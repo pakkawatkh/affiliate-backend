@@ -17,15 +17,10 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetailTable, I
     @Override
     List<OrderDetailTable> findAll();
 
-//    List<OrderDetailTable> findAllByStoreId(Integer storeId);
-
     void deleteByOrderListId(Integer orderListId);
 
     List<OrderDetailTable> findAllByOrderListId(Integer orderListId);
 
-    //
-//    @Query(value = """
-//            select max(order_detail_id) from order_detail od
-//             """, nativeQuery = true)
-//    Optional<OrderDetailTable> getOrderIdMax();
+    List<OrderDetailTable> findByOrderDetailId(OrderDetailTable detailId);
+
 }
